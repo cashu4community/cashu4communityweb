@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashu for Community Sovereignty</title>
+    <meta name="description" content="Infraestructura de pagos privada y resistente a la censura para comunidades bajo presión autoritaria usando Cashu, Lightning Network y herramientas soberanas">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <span class="project-name">Cashu4CS</span>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#home" class="nav-link">Inicio</a></li>
+                    <li><a href="#problem" class="nav-link">Problemas</a></li>
+                    <li><a href="#solution" class="nav-link">Infraestructura</a></li>
+                    <li><a href="#impact" class="nav-link">Impacto</a></li>
+                    <li><a href="#communities" class="nav-link">Comunidades</a></li>
+                    <li><a href="#timeline" class="nav-link">Hoja de Ruta</a></li>
+                    <li><a href="#faq" class="nav-link">FAQ</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇪🇸</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-container">
+                <h1 class="hero-title">
+                    <span class="highlight">Cashu</span><br>
+                    para<br>
+                    <span style="white-space: nowrap;">Soberanía Comunitaria</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Sistemas de pago privados y resistentes a la censura para comunidades bajo regímenes autoritarios.
+                </p>
+                <div class="hero-focus">
+                    <span class="focus-badge"><img src="images/icons/1.1.png" alt="Resistencia" class="focus-icon"> Resistencia</span>
+                    <span class="focus-badge"><img src="images/icons/2.0.png" alt="Privacidad" class="focus-icon"> Privacidad</span>
+                    <span class="focus-badge"><img src="images/icons/3.0.png" alt="Offline" class="focus-icon"> Offline</span>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" data-target="10">0</span>
+                        <span class="stat-label">Comunidades Objetivo</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-target="12">0</span>
+                        <span class="stat-label">Meses de Proyecto</span>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <a href="comunidades.html" class="btn btn-primary">Aplicar como Comunidad</a>
+                    <a href="stack.html" class="btn btn-secondary">Ver Stack Técnico</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section id="problem" class="problem">
+            <div class="container">
+                <h2 class="section-title">Problemas</h2>
+                <div class="problem-grid">
+                    <div class="problem-item problem-surveillance">
+                        <h3>Vigilancia Financiera</h3>
+                        <p>En regímenes autoritarios de América Latina y más allá, las comunidades enfrentan vigilancia financiera, censura y acceso restringido a sistemas de pago globales.</p>
+                    </div>
+                    <div class="problem-item problem-infrastructure">
+                        <h3>Infraestructura Inestable</h3>
+                        <p>Las soluciones tradicionales de Bitcoin fallan debido a conectividad poco confiable, inestabilidad eléctrica y la necesidad de protección de privacidad contra la vigilancia estatal.</p>
+                    </div>
+                    <div class="problem-item problem-mints">
+                        <h3>Falta de Mints Cashu</h3>
+                        <p>Prácticamente no existen mints de Cashu para servir a comunidades reales bajo presión autoritaria, limitando el acceso a herramientas de soberanía financiera.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section id="solution" class="solution">
+            <div class="container">
+                <h2 class="section-title">Infraestructura Soberana</h2>
+                <h3 class="solution-subtitle">Nuestra Solución</h3>
+                <div class="solution-content">
+                    <div class="solution-text">
+                    </div>
+                </div>
+                
+                <!-- Stack Carousel -->
+                <div class="stack-carousel">
+                    <div class="carousel-container">
+                        <div class="carousel-track" id="carousel-track">
+                            <div class="carousel-item">
+                                <a href="https://lightning.engineering/api-docs/api/lnd/" target="_blank" rel="noopener noreferrer">
+                                    <img src="images/projects/LND transparente.png" alt="Lightning Network">
+                                </a>
+                                <p>Nodos neutrinos administrados por cada comunidad para máxima autonomía</p>
+                            </div>
+                            <div class="carousel-item">
+                                <a href="https://lnbits.com/" target="_blank" rel="noopener noreferrer">
+                                    <img src="images/projects/logo.svg" alt="LNbits">
+                                </a>
+                                <p>Cada comunidad tendrá su propia instancia LNbits personalizada y soberana</p>
+                            </div>
+                            <div class="carousel-item">
+                                <a href="https://cashu.space/" target="_blank" rel="noopener noreferrer">
+                                    <img src="images/projects/cashu.jpg" alt="Nutshell">
+                                </a>
+                                <p>Mints Cashu con implementación Nutshell para transacciones privadas, seguras y resistentes a censura</p>
+                            </div>
+                            <div class="carousel-item">
+                                <a href="https://app.lachispa.me/" target="_blank" rel="noopener noreferrer">
+                                    <img src="images/projects/chispabordesredondos.png" alt="LaChispa">
+                                </a>
+                                <p>Acceso móvil optimizado a LNbits desde cualquier dispositivo utilizando LaChispa</p>
+                            </div>
+                            <div class="carousel-item">
+                                <a href="https://orchard.space/" target="_blank" rel="noopener noreferrer">
+                                    <img src="images/projects/orchard-logo.svg" alt="Orchard">
+                                </a>
+                                <p>Administración intuitiva del mint con herramientas de gestión completas utilizando Orchard</p>
+                            </div>
+                        </div>
+                        <div class="carousel-nav">
+                            <button class="carousel-btn carousel-btn-prev" id="prev-btn">‹</button>
+                            <button class="carousel-btn carousel-btn-next" id="next-btn">›</button>
+                        </div>
+                        <div class="carousel-dots" id="carousel-dots">
+                            <span class="dot active" data-slide="0"></span>
+                            <span class="dot" data-slide="1"></span>
+                            <span class="dot" data-slide="2"></span>
+                            <span class="dot" data-slide="3"></span>
+                            <span class="dot" data-slide="4"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impact Section -->
+        <section id="impact" class="impact">
+            <div class="container">
+                <h2 class="section-title">Impacto Esperado</h2>
+                <div class="impact-grid-four">
+                    <div class="impact-item impact-resistance">
+                        <div class="impact-icon-section">
+                            <img src="images/icons/7.0.png" alt="Resistencia" class="impact-icon">
+                        </div>
+                        <div class="impact-text-section">
+                            <h3>Resistencia a la Censura</h3>
+                            <p>Sistemas de pago que mantienen funcionalidad durante restricciones gubernamentales o apagones de internet.</p>
+                        </div>
+                    </div>
+                    <div class="impact-item impact-privacy">
+                        <div class="impact-icon-section">
+                            <img src="images/icons/8.0.png" alt="Privacidad" class="impact-icon">
+                        </div>
+                        <div class="impact-text-section">
+                            <h3>Privacidad Financiera</h3>
+                            <p>Protección de datos financieros para activistas y miembros comunitarios contra vigilancia estatal.</p>
+                        </div>
+                    </div>
+                    <div class="impact-item impact-global">
+                        <div class="impact-icon-section">
+                            <img src="images/icons/9.0.png" alt="Global" class="impact-icon">
+                        </div>
+                        <div class="impact-text-section">
+                            <h3>Enfoque África & LATAM</h3>
+                            <p>Priorizando regiones donde la libertad financiera está más amenazada por gobiernos autoritarios.</p>
+                        </div>
+                    </div>
+                    <div class="impact-item impact-model">
+                        <div class="impact-icon-section">
+                            <img src="images/icons/10.0.png" alt="Modelo" class="impact-icon">
+                        </div>
+                        <div class="impact-text-section">
+                            <h3>Modelo Replicable</h3>
+                            <p>Documentación abierta para que cualquier comunidad pueda implementar su propio sistema soberano.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Communities Section -->
+        <section id="communities" class="communities">
+            <div class="container">
+                <div class="cta-content">
+                    <h1 class="hero-title">
+                        Comunidades<br>
+                        Próximamente
+                    </h1>
+                    <p class="hero-subtitle">Las 10 comunidades serán seleccionadas durante el proceso de aplicación.</p>
+                    <p class="hero-subtitle"><strong>Fecha límite de aplicación: 15 de diciembre 2025</strong></p>
+                    <a href="comunidades.html" class="btn btn-primary btn-large">¡Aplica ya!</a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Timeline Section -->
+        <section id="timeline" class="timeline">
+            <div class="container">
+                <h2 class="section-title">Cronograma del Proyecto</h2>
+                <div class="timeline-horizontal">
+                    <div class="timeline-track">
+                        <div class="timeline-phase phase-current">
+                            <div class="phase-icon"></div>
+                            <div class="phase-content">
+                                <h3>Preparación</h3>
+                                <span class="phase-date">Nov 2025</span>
+                                <p>Selección comunidades y setup inicial</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-phase phase-pending">
+                            <div class="phase-icon"></div>
+                            <div class="phase-content">
+                                <h3 class="title-small">Infraestructura</h3>
+                                <span class="phase-date">Dic 2025</span>
+                                <p>Despliegue nodos y testing</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-phase phase-pending">
+                            <div class="phase-icon"></div>
+                            <div class="phase-content">
+                                <h3 class="title-small">Implementación</h3>
+                                <span class="phase-date">Ene-Feb 2026</span>
+                                <p>Despliegue y capacitación</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-phase phase-pending">
+                            <div class="phase-icon"></div>
+                            <div class="phase-content">
+                                <h3>Educación</h3>
+                                <span class="phase-date">Mar-Abr 2026</span>
+                                <p>Manuales y autonomía</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-phase phase-pending">
+                            <div class="phase-icon"></div>
+                            <div class="phase-content">
+                                <h3>Código Abierto</h3>
+                                <span class="phase-date">May 2026</span>
+                                <p>Documentación pública</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-phase phase-pending">
+                            <div class="phase-icon"></div>
+                            <div class="phase-content">
+                                <h3>Evaluación</h3>
+                                <span class="phase-date">Jun 2026</span>
+                                <p>Análisis de impacto</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-phase phase-pending">
+                            <div class="phase-icon"></div>
+                            <div class="phase-content">
+                                <h3>Soporte</h3>
+                                <span class="phase-date">Jul-Oct 2026</span>
+                                <p>Independencia total</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-line progress-10"></div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- FAQ Section -->
+        <section id="faq" class="faq">
+            <div class="container">
+                <h2 class="section-title">Preguntas Frecuentes</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>¿Qué es Cashu y por qué es diferente?</h3>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Cashu es un protocolo ecash que permite transacciones Bitcoin completamente privadas y offline. A diferencia de Bitcoin on-chain, Cashu no deja rastros en blockchain y puede funcionar sin conexión a internet.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>¿Cómo Cashu protege contra la censura gubernamental?</h3>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Los mints Cashu son imposibles de censurar porque operan de manera distribuida y las transacciones no requieren validación externa. Los gobiernos no pueden rastrear ni bloquear pagos individuales.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>¿Qué requisitos debe tener mi comunidad para aplicar?</h3>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Necesitas una comunidad activa donde se esté construyendo o exista una economía circular Bitcoin existente y líderes comprometidos. Estar bajo presión autoritaria es un plus que priorizamos, especialmente donde la privacidad financiera es crítica.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>¿Qué soporte técnico incluye el proyecto?</h3>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Incluye infraestructura completa (nodo Lightning, LNbits, mint Nutshell), capacitación para 5+ líderes por comunidad, documentación detallada y soporte durante 12 meses hacia la independencia total.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>¿Es realmente seguro para activistas?</h3>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Sí. Cashu proporciona privacidad perfecta a nivel de protocolo. Ni el mint ni observadores externos pueden rastrear quién paga a quién o por cuánto. Es matemáticamente imposible de comprometer.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>¿Qué pasa si se corta internet en mi región?</h3>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Los tokens Cashu pueden transferirse completamente offline usando códigos QR, USB, o incluso papel. Cuando la conectividad se restaure, las transacciones se sincronizan automáticamente.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>¿En qué se diferencia Cashu de Bitcoin (Onchain) tradicional?</h3>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Bitcoin tradicional requiere conexión constante, deja trazas rastreables en blockchain. Cashu permite transacciones completamente offline, ofrece privacidad total con ecash y funciona con mints independientes.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>¿Cashu revela información sobre mis transacciones?</h3>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>No. Las transacciones en Cashu están diseñadas para la privacidad total: no revelan identidades, cantidades ni patrones de gasto. Ni siquiera el mint puede ver esta información gracias a las técnicas criptográficas de ecash.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>¿Por qué es imposible de bloquear por gobiernos?</h3>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Cashu es resistente a censura porque funciona de manera distribuida a través de mints independientes. Los gobiernos no pueden bloquear transacciones individuales ya que estas pueden ejecutarse offline y son criptográficamente privadas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Header CTA Section -->
+        <section class="header-cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>¿Tu comunidad enfrenta presión autoritaria?</h2>
+                    <p>Únete a las 10 comunidades que recibirán infraestructura privada y resistente a la censura para proteger su soberanía financiera</p>
+                    <a href="comunidades.html" class="btn btn-primary btn-large">Aplicar para Resistir</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Proyecto</h4>
+                    <ul>
+                        <li><a href="#solution">Infraestructura</a></li>
+                        <li><a href="#timeline">Hoja de Ruta</a></li>
+                        <li><a href="documentacion.html">Documentación</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Comunidad</h4>
+                    <ul>
+                        <li><a href="#communities">Aplicar</a></li>
+                        <li><a href="#" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="#" target="_blank">X</a></li>
+                        <li><a href="#" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Patrocinador</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Código abierto bajo licencia MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
