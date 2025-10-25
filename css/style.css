@@ -1204,25 +1204,28 @@ body {
 
 .timeline-horizontal {
     position: relative;
-    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
     padding: 40px 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .timeline-track {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-start;
-    gap: 15px;
+    gap: 20px;
     position: relative;
     z-index: 2;
+    padding: 0 20px;
 }
 
 .timeline-line {
     position: absolute;
     top: 60px;
-    left: 100px;
-    right: -100px;
+    left: 0%;
+    right: 0%;
     height: 6px;
     background: var(--timeline-pending);
     border-radius: 3px;

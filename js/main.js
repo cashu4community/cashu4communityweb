@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
         option.addEventListener('click', function() {
             const selectedFlag = this.querySelector('.flag').textContent;
             const selectedText = this.querySelector('.lang-text').textContent;
+            const newLang = this.dataset.lang;
             
             // Actualizar la bandera seleccionada
             selectedLanguage.querySelector('.flag').textContent = selectedFlag;
@@ -42,8 +43,9 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedLanguage.classList.remove('active');
             languageDropdown.classList.remove('active');
             
-            // Aquí puedes agregar la lógica para cambiar el idioma
-            console.log('Idioma seleccionado:', this.dataset.lang);
+            // Cambiar idioma
+            changeLanguage(newLang);
+            console.log('Idioma seleccionado:', newLang);
         });
     });
 
@@ -425,6 +427,55 @@ document.addEventListener('DOMContentLoaded', function() {
             item.classList.toggle('active');
         });
     });
+});
+
+// Función para cambiar idioma
+function changeLanguage(lang) {
+    // Guardar idioma seleccionado en localStorage
+    localStorage.setItem('selectedLanguage', lang);
+    
+    // Obtener todos los elementos con atributos de idioma
+    const elementsWithLang = document.querySelectorAll('[data-lang-es], [data-lang-en]');
+    
+    elementsWithLang.forEach(element => {
+        const translation = element.getAttribute(`data-lang-${lang}`);
+        if (translation) {
+            element.textContent = translation;
+        }
+    });
+    
+    // Actualizar el título del hero con formato HTML
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle && lang === 'en') {
+        heroTitle.innerHTML = `
+            <span class="highlight">Cashu</span><br>
+            for<br>
+            <span style="white-space: nowrap;">Community Sovereignty</span>
+        `;
+    } else if (heroTitle && lang === 'es') {
+        heroTitle.innerHTML = `
+            <span class="highlight">Cashu</span><br>
+            para<br>
+            <span style="white-space: nowrap;">Soberanía Comunitaria</span>
+        `;
+    }
+    
+    console.log(`Idioma cambiado a: ${lang}`);
+}
+
+// Cargar idioma guardado al iniciar
+document.addEventListener('DOMContentLoaded', function() {
+    const savedLang = localStorage.getItem('selectedLanguage') || 'es';
+    const selectedLanguage = document.getElementById('selected-language');
+    
+    // Establecer bandera según idioma guardado
+    if (savedLang === 'en') {
+        selectedLanguage.querySelector('.flag').textContent = '🇬🇧';
+        changeLanguage('en');
+    } else {
+        selectedLanguage.querySelector('.flag').textContent = '🇪🇸';
+        changeLanguage('es');
+    }
 });
 
 // Debug: Log cuando el script se carga
