@@ -259,6 +259,32 @@ body {
         4px 4px 8px rgba(0, 0, 0, 0.3);
     letter-spacing: 1px;
     text-align: center;
+    position: relative;
+}
+
+/* Cursor parpadeante para efecto de escritura */
+.hero-title:not(.typing-complete)::after {
+    content: '|';
+    color: var(--bitcoin-orange);
+    animation: blink 1s infinite;
+    font-weight: 300;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Animación final cuando termina la escritura */
+.hero-title.typing-complete {
+    animation: titleComplete 0.5s ease-out;
+}
+
+@keyframes titleComplete {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
 }
 
 .highlight {
@@ -294,8 +320,9 @@ body {
 .focus-badge {
     display: inline-flex;
     align-items: center;
+    justify-content: flex-start;
     gap: 16px;
-    padding: 16px 28px;
+    padding: 16px 20px;
     background: rgba(247, 147, 26, 0.1);
     border: 1px solid var(--bitcoin-orange);
     border-radius: 30px;
@@ -303,6 +330,11 @@ body {
     font-size: 1.4rem;
     font-weight: 600;
     transition: all 0.3s ease;
+    min-width: 280px;
+    width: 280px;
+    height: 120px;
+    text-align: left;
+    box-sizing: border-box;
 }
 
 .focus-icon {
@@ -314,6 +346,11 @@ body {
     border-radius: 12px;
     padding: 8px;
     border: 1px solid rgba(247, 147, 26, 0.3);
+    flex-shrink: 0;
+    margin: 0;
+    box-sizing: border-box;
+    object-fit: contain;
+    object-position: center;
 }
 
 /* Bordes redondos para todos los íconos de focus badges */
@@ -321,6 +358,34 @@ body {
 .focus-badge:nth-child(2) .focus-icon,
 .focus-badge:nth-child(3) .focus-icon {
     border-radius: 50%;
+}
+
+/* Alineación perfecta de los iconos focus */
+.focus-badge {
+    position: relative;
+}
+
+.focus-badge .focus-icon {
+    position: relative;
+    left: 0;
+    top: 0;
+    display: block;
+}
+
+/* Asegurar que todos los iconos tengan exactamente la misma posición */
+.focus-badge:nth-child(1) .focus-icon {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.focus-badge:nth-child(2) .focus-icon {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.focus-badge:nth-child(3) .focus-icon {
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .focus-badge:hover {
@@ -625,6 +690,8 @@ body {
     box-shadow: 
         0 0 30px rgba(0, 0, 0, 0.5),
         inset 0 0 50px rgba(255, 255, 255, 0.1);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .carousel-track {
@@ -743,6 +810,11 @@ body {
     border-radius: 15px;
     flex-shrink: 0;
     cursor: pointer;
+}
+
+/* Icono de Cashu con marco redondo */
+.carousel-item:nth-child(3) img {
+    border-radius: 50%;
 }
 
 /* Icono de LaChispa con bordes muy redondeados para eliminar bordes negros */
@@ -1678,10 +1750,12 @@ body {
 }
 
 .sponsor {
-    text-align: center;
+    text-align: left;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    flex-direction: column;
 }
 
 .sponsor p {
@@ -1691,8 +1765,11 @@ body {
 }
 
 .sponsor-link {
-    display: inline-block;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
     text-decoration: none;
+    width: auto;
 }
 
 .sponsor-logo {
@@ -1713,20 +1790,681 @@ body {
     font-size: 0.9rem;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Small mobile devices (320px - 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .nav-container {
+        padding: 0.8rem 15px;
+        gap: 1rem;
+    }
+
+    .project-name {
+        font-size: 1.2rem;
+    }
+
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 65px;
+        flex-direction: column;
+        background-color: rgba(26, 26, 26, 0.98);
+        backdrop-filter: blur(15px);
+        width: 100%;
+        height: calc(100vh - 65px);
+        text-align: center;
+        transition: left 0.3s ease;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        padding: 2rem 0;
+        border-top: 1px solid var(--border-color);
+        z-index: 999;
+        overflow-y: auto;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-menu li {
+        margin: 1rem 0;
+    }
+
+    .nav-link {
+        font-size: 1.1rem;
+        padding: 0.8rem 1rem;
+        display: block;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+        background: rgba(247, 147, 26, 0.1);
+        color: var(--bitcoin-orange);
+    }
+
+    .nav-toggle {
+        display: flex;
+        order: 3;
+    }
+
+    .language-selector {
+        order: 2;
+        margin-left: auto;
+        margin-right: 1rem;
+    }
+
+    .nav-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .nav-toggle.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .nav-toggle.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Hero optimizations for small screens */
+    .hero {
+        padding: 100px 0 60px;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        line-height: 1.1;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+        padding: 0 10px;
+    }
+
+    .hero-focus {
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .focus-badge {
+        padding: 12px 15px;
+        font-size: 1rem;
+        flex-direction: row;
+        gap: 10px;
+        min-width: 240px;
+        width: 240px;
+        height: 80px;
+        justify-content: flex-start;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .focus-icon {
+        width: 40px;
+        height: 40px;
+        padding: 6px;
+        flex-shrink: 0;
+        margin: 0;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 200px;
+    }
+
+    .btn-large {
+        padding: 12px 30px;
+        font-size: 1rem;
+        min-width: 220px;
+    }
+
+    /* Section titles */
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        padding: 0 10px;
+    }
+
+    /* Problem section mobile */
+    .problem {
+        padding: 40px 0 60px 0;
+    }
+
+    .problem-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .problem-item {
+        padding: 2rem 1.5rem;
+        min-height: 220px;
+    }
+
+    .problem-item h3 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+
+    .problem-item p {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    /* Carousel mobile optimizations */
+    .carousel-container {
+        border-radius: 15px;
+        border-width: 2px;
+    }
+
+    .carousel-item {
+        flex-direction: column;
+        padding: 1rem 0.6rem;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .carousel-item img {
+        width: 120px;
+        height: 120px;
+        margin: 0;
+    }
+
+    .carousel-item p {
+        font-size: 1.1rem;
+        max-width: 100%;
+        flex: none;
+    }
+
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1.3rem;
+    }
+
+    .carousel-nav {
+        padding: 0 0.5rem;
+    }
+
+    /* Impact section mobile */
+    .impact {
+        padding: 60px 15px;
+    }
+
+    .impact-grid-four {
+        gap: 30px;
+        width: 100%;
+        padding: 0;
+    }
+
+    .impact-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 25px 20px;
+        min-height: auto;
+    }
+
+    .impact-icon-section {
+        flex: none;
+        width: 100%;
+        margin-bottom: 20px;
+        margin-right: 0;
+    }
+
+    .impact-icon {
+        width: 200px;
+        height: 200px;
+    }
+
+    .impact-text-section {
+        width: 100%;
+        padding-right: 0;
+    }
+
+    .impact-text-section h3 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+
+    .impact-text-section p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    /* Timeline mobile */
+    .timeline {
+        padding: 40px 0;
+    }
+
+    .timeline-horizontal {
+        padding: 20px 10px;
+    }
+
+    .timeline-track {
+        flex-direction: column;
+        gap: 25px;
+        align-items: center;
+    }
+
+    .timeline-line {
+        display: none;
+    }
+
+    .timeline-phase {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .phase-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+
+    .phase-content {
+        height: 130px;
+        padding: 15px 12px;
+    }
+
+    .phase-content h3 {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+
+    .phase-date {
+        font-size: 0.75rem;
+        margin-bottom: 6px;
+    }
+
+    .phase-content p {
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+
+    /* FAQ mobile */
+    .faq {
+        padding: 60px 0;
+    }
+
+    .faq-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        max-width: 100%;
+    }
+
+    .faq-question {
+        padding: 1.2rem;
+    }
+
+    .faq-question h3 {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+
+    .faq-item.active .faq-answer {
+        max-height: 300px;
+        padding: 0 1.2rem 1.2rem;
+    }
+
+    .faq-answer p {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    /* Footer mobile */
+    .footer {
+        padding: 40px 0 20px;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    .footer-section h4 {
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .footer-section ul li {
+        margin-bottom: 0.4rem;
+    }
+
+    .sponsor-logo {
+        height: 50px;
+    }
+}
+
+/* Carousel responsive improvements */
+@media (max-width: 1200px) {
+    .carousel-item {
+        padding: 1.8rem;
+        gap: 1.5rem;
+    }
+    
+    .carousel-item img {
+        width: 240px;
+        height: 240px;
+        max-width: 40%;
+        min-width: 180px;
+    }
+    
+    .carousel-item p {
+        font-size: 1.2rem;
+        max-width: 350px;
+        flex: 0 0 350px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .carousel-item {
+        padding: 1.6rem;
+        gap: 1.3rem;
+    }
+    
+    .carousel-item img {
+        width: 220px;
+        height: 220px;
+        max-width: 42%;
+        min-width: 170px;
+    }
+    
+    .carousel-item p {
+        font-size: 1.15rem;
+        max-width: 350px;
+        flex: 0 0 350px;
+    }
+}
+
+@media (max-width: 900px) {
+    .carousel-container {
+        max-width: 100%;
+        margin: 0 10px;
+    }
+    
+    .carousel-item {
+        padding: 1.5rem;
+        gap: 1.2rem;
+        min-height: 280px;
+    }
+    
+    .carousel-item img {
+        width: 200px;
+        height: 200px;
+        max-width: 45%;
+        min-width: 160px;
+    }
+    
+    .carousel-item p {
+        font-size: 1.1rem;
+        max-width: 300px;
+        flex: 0 0 300px;
+    }
+}
+
+/* Regla especial para asegurar visibilidad en pantallas estrechas */
+@media (max-width: 800px) {
+    .carousel-item {
+        gap: 1rem;
+        padding: 1.2rem;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .carousel-item img {
+        width: 180px;
+        height: 180px;
+        margin: 0;
+    }
+    
+    /* Logos específicos más pequeños en móvil estándar */
+    .carousel-item:nth-child(1) img { /* LND */
+        width: 80px;
+        height: 80px;
+    }
+    
+    .carousel-item:nth-child(3) img { /* Cashu - redondo como Orchard */
+        width: 170px;
+        height: 170px;
+        border-radius: 50%;
+    }
+    
+    .carousel-item:nth-child(3) { /* Cashu - reducir espacio entre logo y texto */
+        gap: 0.6rem;
+    }
+    
+    .carousel-item:nth-child(4) img { /* LaChispa - más grande con bordes redondeados */
+        width: 175px;
+        height: 175px;
+        border-radius: 80px;
+    }
+    
+    .carousel-item:nth-child(4) { /* LaChispa - reducir espacio entre logo y texto */
+        gap: 0.5rem;
+    }
+    
+    .carousel-item p {
+        font-size: 1rem;
+        flex: none;
+        max-width: 100%;
+        line-height: 1.4;
+        padding: 0.8rem;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        backdrop-filter: blur(5px);
+    }
+    
+    /* Reposicionar flechas para pantallas estrechas */
+    .carousel-nav {
+        padding: 0 0.2rem;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.6rem;
+        background: rgba(247, 147, 26, 0.95);
+    }
+}
+
+/* Pantallas extremadamente estrechas */
+@media (max-width: 600px) {
+    .carousel-container {
+        margin: 0 5px;
+        border-radius: 15px;
+    }
+    
+    .carousel-item {
+        flex-direction: column !important;
+        gap: 1rem;
+        padding: 1rem 0.6rem;
+        text-align: center;
+        justify-content: center;
+        min-height: auto;
+    }
+    
+    .carousel-item img {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+        order: 1;
+    }
+    
+    /* Logos específicos más pequeños en móvil */
+    .carousel-item:nth-child(1) img { /* LND */
+        width: 100px;
+        height: 100px;
+    }
+    
+    .carousel-item:nth-child(3) img { /* Cashu - redondo como Orchard */
+        width: 190px;
+        height: 190px;
+        border-radius: 50%;
+    }
+    
+    .carousel-item:nth-child(3) { /* Cashu - reducir espacio entre logo y texto */
+        gap: 0.7rem;
+    }
+    
+    .carousel-item:nth-child(4) img { /* LaChispa - más grande con bordes redondeados */
+        width: 195px;
+        height: 195px;
+        border-radius: 80px;
+    }
+    
+    .carousel-item:nth-child(4) { /* LaChispa - reducir espacio entre logo y texto */
+        gap: 0.6rem;
+    }
+    
+    .carousel-item p {
+        font-size: 1.1rem;
+        max-width: 100%;
+        flex: none;
+        order: 2;
+        margin: 0 auto;
+        text-align: center;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 10px;
+        backdrop-filter: blur(8px);
+        line-height: 1.5;
+    }
+    
+    /* Forzar layout vertical para todas las slides */
+    .carousel-item:nth-child(even),
+    .carousel-item:nth-child(odd) {
+        flex-direction: column !important;
+        text-align: center;
+    }
+    
+    /* Flechas más pequeñas para pantallas muy estrechas */
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1.4rem;
+    }
+    
+    .carousel-nav {
+        padding: 0 0.1rem;
+    }
+}
+
+/* Pantallas ultra estrechas (móviles muy pequeños) */
+@media (max-width: 400px) {
+    .carousel-item {
+        padding: 0.6rem 0.4rem;
+        gap: 0.6rem;
+    }
+    
+    .carousel-item img {
+        width: 160px;
+        height: 160px;
+    }
+    
+    /* Logos específicos aún más pequeños en pantallas ultra estrechas */
+    .carousel-item:nth-child(1) img { /* LND */
+        width: 70px;
+        height: 70px;
+    }
+    
+    .carousel-item:nth-child(3) img { /* Cashu - redondo como Orchard */
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+    }
+    
+    .carousel-item:nth-child(3) { /* Cashu - reducir espacio entre logo y texto */
+        gap: 0.5rem;
+    }
+    
+    .carousel-item:nth-child(4) img { /* LaChispa - más grande con bordes redondeados */
+        width: 155px;
+        height: 155px;
+        border-radius: 80px;
+    }
+    
+    .carousel-item:nth-child(4) { /* LaChispa - reducir espacio entre logo y texto */
+        gap: 0.4rem;
+    }
+    
+    .carousel-item p {
+        font-size: 1rem;
+        padding: 0.8rem;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    
+    .carousel-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1.2rem;
+    }
+}
+
+/* Mobile and tablet focus badges - stack vertically */
+@media (max-width: 1024px) {
+    .hero-focus {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .focus-badge {
+        width: 100%;
+        max-width: 350px;
+        min-width: 300px;
+        justify-content: flex-start;
+    }
+
+    /* Problem grid should also stack vertically to match focus badges */
+    .problem-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}
+
+/* Medium mobile devices (481px - 768px) */
+@media (max-width: 768px) and (min-width: 481px) {
     .nav-menu {
         position: fixed;
         left: -100%;
         top: 70px;
         flex-direction: column;
-        background-color: var(--dark-bg);
+        background-color: rgba(26, 26, 26, 0.98);
+        backdrop-filter: blur(15px);
         width: 100%;
         text-align: center;
-        transition: 0.3s;
-        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        transition: left 0.3s ease;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.3);
         padding: 2rem 0;
         border-top: 1px solid var(--border-color);
+        z-index: 999;
     }
 
     .nav-menu.active {
@@ -1750,7 +2488,7 @@ body {
     }
 
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
 
     .hero-stats {
@@ -1764,20 +2502,21 @@ body {
     }
 
     .carousel-item {
-        padding: 2rem 1rem;
-    }
-
-    .carousel-item::before {
-        opacity: 0.1;
-    }
-
-    .carousel-item:hover::before {
-        opacity: 0.2;
+        flex-direction: column;
+        padding: 2rem 1.5rem;
+        gap: 2rem;
+        text-align: center;
     }
 
     .carousel-item img {
-        width: 90px;
-        height: 90px;
+        width: 150px;
+        height: 150px;
+        margin: 0;
+    }
+
+    .carousel-item p {
+        max-width: 100%;
+        flex: none;
     }
 
     .carousel-btn {
@@ -1797,106 +2536,295 @@ body {
         grid-template-columns: 1fr;
     }
 
-    /* Timeline Mobile - Horizontal Responsive */
     .timeline-horizontal {
         padding: 20px 10px;
     }
-    
+
     .timeline-track {
         flex-direction: column;
         gap: 30px;
         align-items: center;
     }
-    
+
     .timeline-line {
         display: none;
     }
-    
+
     .timeline-phase {
         width: 100%;
-        max-width: 320px;
+        max-width: 350px;
     }
-    
+
     .phase-icon {
         width: 50px;
         height: 50px;
         font-size: 1.2rem;
     }
-    
+
     .phase-content {
         height: 140px;
         padding: 18px 15px;
     }
-    
+
     .phase-content h3 {
         font-size: 1rem;
     }
-    
+
     .phase-date {
         font-size: 0.8rem;
     }
-    
+
     .phase-content p {
         font-size: 0.85rem;
     }
 }
 
-/* Timeline Tablet */
-@media (max-width: 1024px) {
+/* Tablet responsive (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .container {
+        max-width: 100%;
+        padding: 0 30px;
+    }
+
+    .nav-container {
+        padding: 1rem 30px;
+    }
+
+    /* Hero section tablet */
+    .hero {
+        padding: 110px 0 70px;
+    }
+
+    .hero-title {
+        font-size: 3.8rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .hero-focus {
+        gap: 0.8rem;
+    }
+
+    .focus-badge {
+        padding: 14px 18px;
+        font-size: 1.2rem;
+        min-width: 260px;
+        width: 260px;
+        height: 100px;
+        justify-content: flex-start;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .focus-icon {
+        width: 60px;
+        height: 60px;
+        flex-shrink: 0;
+        margin: 0;
+    }
+
+    /* Problem section tablet - keep single column for consistency with focus badges */
+    .problem-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .problem-item {
+        padding: 2.5rem 2rem;
+        min-height: 250px;
+    }
+
+    /* Solution carousel tablet */
+    .carousel-item {
+        padding: 2.5rem 3rem;
+        gap: 3rem;
+    }
+
+    .carousel-item img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .carousel-item p {
+        font-size: 1.2rem;
+        max-width: 300px;
+    }
+
+    /* Impact section tablet */
+    .impact {
+        padding: 70px 20px;
+    }
+
+    .impact-grid-four {
+        gap: 50px;
+        padding: 0 20px;
+    }
+
+    .impact-icon-section {
+        flex: 0 0 300px;
+        margin-right: 40px;
+    }
+
+    .impact-icon {
+        width: 300px;
+        height: 300px;
+    }
+
+    .impact-text-section h3 {
+        font-size: 32px;
+    }
+
+    .impact-text-section p {
+        font-size: 18px;
+    }
+
+    /* Timeline tablet */
     .timeline-track {
         gap: 15px;
     }
-    
+
     .phase-icon {
         width: 50px;
         height: 50px;
         font-size: 1.3rem;
     }
-    
+
     .phase-content {
         padding: 18px 12px;
         height: 140px;
     }
-    
+
     .phase-content h3 {
         font-size: 1rem;
     }
-    
+
     .phase-date {
         font-size: 0.8rem;
     }
-    
+
     .phase-content p {
         font-size: 0.85rem;
     }
 
-    .footer-content {
+    /* FAQ tablet */
+    .faq-grid {
         grid-template-columns: 1fr;
-        text-align: center;
+        max-width: 800px;
+    }
+
+    /* Footer tablet */
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
     }
 }
 
-@media (max-width: 480px) {
+/* Large tablet and small desktop (1025px - 1200px) */
+@media (max-width: 1200px) and (min-width: 1025px) {
+    .container {
+        max-width: 1100px;
+        padding: 0 40px;
+    }
+
     .hero-title {
-        font-size: 2rem;
+        font-size: 4.2rem;
     }
 
     .section-title {
-        font-size: 2rem;
+        font-size: 3.2rem;
+    }
+
+    .problem-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .impact-icon-section {
+        flex: 0 0 350px;
+        margin-right: 50px;
+    }
+
+    .impact-icon {
+        width: 350px;
+        height: 350px;
+    }
+
+    .timeline-track {
+        gap: 18px;
+    }
+
+    .timeline-phase {
+        min-width: 170px;
+        max-width: 190px;
+    }
+}
+
+/* Extra responsive utilities */
+@media (max-width: 360px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
     }
 
     .hero-subtitle {
+        font-size: 0.95rem;
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+
+    .nav-container {
+        padding: 0.8rem 10px;
+    }
+
+    .project-name {
         font-size: 1.1rem;
     }
 
-    .btn {
-        padding: 10px 20px;
+    .focus-badge {
+        padding: 10px 12px;
         font-size: 0.9rem;
+        min-width: 200px;
+        width: 200px;
+        height: 70px;
+        justify-content: flex-start;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .focus-icon {
+        width: 35px;
+        height: 35px;
+        flex-shrink: 0;
+        margin: 0;
+    }
+
+    .problem-item {
+        padding: 1.8rem 1.2rem;
+    }
+
+    .impact-icon {
+        width: 180px;
+        height: 180px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        min-width: 180px;
     }
 
     .btn-large {
-        padding: 12px 30px;
-        font-size: 1rem;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 200px;
     }
 }
 
@@ -1919,4 +2847,154 @@ body {
 /* Scroll suave */
 html {
     scroll-behavior: smooth;
+}
+
+/* Mobile-first improvements */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+/* Better touch targets for mobile */
+@media (max-width: 768px) {
+    .btn, .nav-link, .faq-question, .carousel-btn, .dot, .language-option {
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .nav-link {
+        padding: 12px 16px;
+    }
+    
+    .carousel-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .dot {
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .dot::before {
+        content: '';
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--border-color);
+        transition: background 0.3s ease;
+    }
+    
+    .dot.active::before,
+    .dot:hover::before {
+        background: var(--bitcoin-orange);
+    }
+}
+
+/* Improved focus states for accessibility */
+.btn:focus,
+.nav-link:focus,
+.carousel-btn:focus,
+.dot:focus,
+.faq-question:focus,
+.language-option:focus {
+    outline: 2px solid var(--bitcoin-orange);
+    outline-offset: 2px;
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--bitcoin-orange);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Performance optimizations */
+.carousel-item,
+.problem-item,
+.impact-item,
+.faq-item {
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .hero {
+        transform: none !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --bitcoin-orange: #ff8800;
+        --cashu-purple: #8855ff;
+        --light-text: #ffffff;
+        --dark-bg: #000000;
+        --card-bg: #1a1a1a;
+        --border-color: #666666;
+    }
+}
+
+/* Print styles */
+@media print {
+    .header,
+    .nav-toggle,
+    .carousel-nav,
+    .carousel-dots,
+    .btn {
+        display: none;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .hero,
+    .solution,
+    .communities,
+    .header-cta {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .section-title,
+    .hero-title {
+        color: black !important;
+        text-shadow: none !important;
+    }
 }
