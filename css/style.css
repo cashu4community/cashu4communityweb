@@ -62,13 +62,25 @@ body {
 .nav-logo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     margin-right: auto;
+    padding: 5px 0;
 }
 
 .logo {
     height: 40px;
     width: auto;
+}
+
+.hero-logo {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.hero-logo-image {
+    height: 480px;
+    width: auto;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
 .project-name {
