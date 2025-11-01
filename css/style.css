@@ -80,6 +80,7 @@ body {
 .hero-logo-image {
     height: 480px;
     width: auto;
+    max-width: 90%;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
@@ -1943,6 +1944,12 @@ body {
         gap: 1rem;
     }
 
+    /* Logo responsive para móvil pequeño */
+    .hero-logo-image {
+        height: 280px;
+        max-width: 85%;
+    }
+
     .btn {
         padding: 10px 20px;
         font-size: 0.9rem;
@@ -2513,6 +2520,12 @@ body {
         align-items: center;
     }
 
+    /* Logo responsive para tablet */
+    .hero-logo-image {
+        height: 350px;
+        max-width: 80%;
+    }
+
     .carousel-item {
         flex-direction: column;
         padding: 2rem 1.5rem;
@@ -2613,6 +2626,12 @@ body {
 
     .hero-subtitle {
         font-size: 1.2rem;
+    }
+
+    /* Logo responsive para tablet grande */
+    .hero-logo-image {
+        height: 400px;
+        max-width: 75%;
     }
 
     .hero-focus {
@@ -2837,6 +2856,12 @@ body {
         padding: 10px 20px;
         font-size: 0.9rem;
         min-width: 200px;
+    }
+
+    /* Logo responsive para pantallas muy pequeñas */
+    .hero-logo-image {
+        height: 220px;
+        max-width: 90%;
     }
 }
 
