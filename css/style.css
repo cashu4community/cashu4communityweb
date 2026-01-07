@@ -1269,17 +1269,167 @@ body {
 
 /* Communities Section */
 .communities {
-    padding: 60px 0;
+    padding: 80px 0;
     background: linear-gradient(135deg, var(--cashu-purple), var(--bitcoin-orange));
     text-align: center;
 }
 
-.communities .hero-title {
-    color: #ffffff !important;
+.communities .section-title {
+    color: #ffffff;
 }
 
-.communities .hero-subtitle {
-    color: #000000 !important;
+.communities-subtitle {
+    font-size: 1.2rem;
+    color: #000000;
+    margin-bottom: 3rem;
+    text-align: center;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.communities-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.community-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.community-card {
+    background: var(--darker-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.community-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--bitcoin-orange), var(--cashu-purple));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.community-card:hover::before {
+    transform: scaleX(1);
+}
+
+.community-card:hover {
+    border-color: var(--bitcoin-orange);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(247, 147, 26, 0.2);
+}
+
+.community-logo {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.community-card:hover .community-logo {
+    border-color: var(--bitcoin-orange);
+    transform: scale(1.05);
+}
+
+.community-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.community-name {
+    font-size: 0.88rem;
+    color: var(--light-text);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.community-country {
+    font-size: 1rem;
+    color: var(--gray-text);
+    margin-bottom: 0;
+}
+
+/* Locked Slots - Game Style */
+.community-locked {
+    background: rgba(26, 26, 26, 0.5);
+    border: 2px dashed var(--border-color);
+    cursor: default;
+    opacity: 0.6;
+}
+
+.community-locked:hover {
+    transform: none;
+    border-color: var(--border-color);
+    box-shadow: none;
+}
+
+.community-locked::before {
+    display: none;
+}
+
+.locked-slot {
+    background: var(--darker-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.lock-icon {
+    font-size: 3rem;
+    opacity: 0.3;
+    filter: grayscale(100%);
+}
+
+.community-locked .community-name {
+    color: var(--gray-text);
+    font-weight: 400;
+}
+
+.community-card-argentina .community-name {
+    font-size: 0.67rem;
+}
+
+.community-card-argentina .community-country {
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.community-card-satoshi .community-name {
+    font-size: 0.65rem;
+}
+
+.community-card-satoshi .community-country {
+    font-size: 0.71rem;
+    margin-bottom: 0;
+}
+
+.community-locked .community-country {
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
 }
 
 
@@ -2074,6 +2224,48 @@ body {
         line-height: 1.6;
     }
 
+    /* Communities mobile */
+    .communities {
+        padding: 60px 0;
+    }
+
+    .communities-subtitle {
+        font-size: 1rem;
+        padding: 0 15px;
+        margin-bottom: 2rem;
+    }
+
+    .communities-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 15px;
+    }
+
+    .community-card {
+        padding: 1.5rem 1rem;
+        max-width: 300px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .community-logo {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 1rem;
+    }
+
+    .community-name {
+        font-size: 0.93rem;
+    }
+
+    .community-country {
+        font-size: 0.9rem;
+    }
+
+    .lock-icon {
+        font-size: 2.5rem;
+    }
+
     /* Timeline mobile */
     .timeline {
         padding: 40px 0;
@@ -2602,6 +2794,22 @@ body {
     .phase-content p {
         font-size: 0.85rem;
     }
+
+    /* Communities tablet */
+    .communities-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.8rem;
+        padding: 0 20px;
+    }
+
+    .community-card {
+        padding: 1.8rem 1.2rem;
+    }
+
+    .community-logo {
+        width: 110px;
+        height: 110px;
+    }
 }
 
 /* Tablet responsive (769px - 1024px) */
@@ -2747,6 +2955,12 @@ body {
         max-width: 800px;
     }
 
+    /* Communities tablet */
+    .communities-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+
     /* Footer tablet */
     .footer-content {
         grid-template-columns: repeat(2, 1fr);
@@ -2790,6 +3004,12 @@ body {
     .timeline-phase {
         min-width: 170px;
         max-width: 190px;
+    }
+
+    /* Communities 1200px */
+    .communities-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
     }
 }
 
@@ -3033,5 +3253,359 @@ html {
     .hero-title {
         color: black !important;
         text-shadow: none !important;
+    }
+}
+
+/* ============================================
+   COMMUNITY PAGES STYLES
+   ============================================ */
+
+/* Community Hero Section */
+.community-hero {
+    padding: 120px 0 80px;
+    background: var(--darker-bg);
+    text-align: center;
+}
+
+.community-hero-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.community-hero-logo {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 2rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--bitcoin-orange);
+    box-shadow: 0 10px 40px rgba(247, 147, 26, 0.3);
+}
+
+.community-hero-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.community-hero-name {
+    font-size: 3rem;
+    color: var(--light-text);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.community-hero-location {
+    font-size: 1.5rem;
+    color: var(--gray-text);
+    margin-bottom: 1.5rem;
+}
+
+/* Community Contact Links */
+.community-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.community-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--darker-bg);
+    border: 2px solid var(--border-color);
+    color: var(--gray-text);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.community-link:hover {
+    border-color: var(--bitcoin-orange);
+    color: var(--bitcoin-orange);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(247, 147, 26, 0.2);
+}
+
+.community-link svg {
+    width: 20px;
+    height: 20px;
+}
+
+.community-link-nostr {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.community-icon-img {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+}
+
+/* Infrastructure Section */
+.community-infrastructure {
+    padding: 80px 0 60px;
+    background: linear-gradient(135deg, var(--cashu-purple), var(--bitcoin-orange));
+}
+
+.community-infrastructure .section-title {
+    color: #ffffff;
+}
+
+.back-to-communities {
+    text-align: center;
+    margin-top: 4rem;
+}
+
+.back-to-communities .btn {
+    background: var(--cashu-purple);
+    border: 2px solid var(--cashu-purple);
+    color: var(--light-text);
+}
+
+.back-to-communities .btn:hover {
+    background: var(--bitcoin-orange);
+    border-color: var(--bitcoin-orange);
+    color: var(--darker-bg);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(247, 147, 26, 0.4);
+}
+
+.infrastructure-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.infrastructure-card {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.infrastructure-title {
+    font-size: 1.3rem;
+    color: var(--light-text);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.infrastructure-lock-icon {
+    font-size: 3.5rem;
+    opacity: 0.3;
+    filter: grayscale(100%);
+    margin-bottom: 1.5rem;
+}
+
+.infrastructure-status-text {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+}
+
+.infrastructure-locked {
+    background: rgba(15, 15, 15, 0.7);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    opacity: 0.7;
+    cursor: default;
+}
+
+.infrastructure-locked .infrastructure-title {
+    color: var(--gray-text);
+    font-weight: 400;
+}
+
+.infrastructure-locked:hover {
+    transform: none;
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: none;
+}
+
+/* Infrastructure Card - Active State */
+.infrastructure-card:not(.infrastructure-locked) {
+    border-color: rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+}
+
+.infrastructure-card:not(.infrastructure-locked):hover {
+    border-color: rgba(247, 147, 26, 0.6);
+    transform: translateY(-5px);
+    box-shadow: 0 0 30px rgba(247, 147, 26, 0.4), 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.infrastructure-active-badge {
+    display: none;
+}
+
+.infrastructure-service-icon {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.infrastructure-service-icon svg {
+    color: var(--bitcoin-orange);
+    filter: drop-shadow(0 0 10px rgba(247, 147, 26, 0.4));
+    transition: all 0.3s ease;
+}
+
+.infrastructure-card:hover .infrastructure-service-icon svg {
+    filter: drop-shadow(0 0 20px rgba(247, 147, 26, 0.6));
+    transform: scale(1.1);
+}
+
+.infrastructure-url {
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.infrastructure-url a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--bitcoin-orange);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    background: rgba(247, 147, 26, 0.1);
+    border: 1px solid rgba(247, 147, 26, 0.3);
+}
+
+.infrastructure-url a:hover {
+    color: #fff;
+    background: rgba(247, 147, 26, 0.2);
+    border-color: var(--bitcoin-orange);
+    transform: translateY(-2px);
+}
+
+.btn-visit {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.7rem 1.8rem;
+    background: var(--bitcoin-orange);
+    color: var(--darker-bg);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.btn-visit:hover {
+    background: var(--cashu-purple);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(123, 63, 242, 0.3);
+}
+
+/* Responsive - Community Pages */
+@media (max-width: 768px) {
+    .community-hero {
+        padding: 100px 0 60px;
+    }
+
+    .community-hero-logo {
+        width: 150px;
+        height: 150px;
+    }
+
+    .community-hero-name {
+        font-size: 2rem;
+    }
+
+    .community-hero-location {
+        font-size: 1.2rem;
+    }
+
+    .community-links {
+        gap: 0.8rem;
+    }
+
+    .community-link {
+        width: 36px;
+        height: 36px;
+    }
+
+    .infrastructure-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .infrastructure-card {
+        min-height: auto;
+    }
+
+    .back-to-communities {
+        margin-top: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .community-hero-logo {
+        width: 120px;
+        height: 120px;
+    }
+
+    .community-hero-name {
+        font-size: 1.8rem;
+    }
+
+    .community-hero-location {
+        font-size: 1.1rem;
+    }
+
+    .community-links {
+        gap: 0.6rem;
+    }
+
+    .community-link {
+        width: 34px;
+        height: 34px;
+    }
+
+    .community-link svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .infrastructure-title {
+        font-size: 1.2rem;
+    }
+
+    .infrastructure-lock-icon {
+        font-size: 3rem;
+    }
+
+    .infrastructure-card {
+        min-height: 240px;
+        padding: 2rem 1.5rem;
+    }
+
+    .back-to-communities {
+        margin-top: 2.5rem;
     }
 }
