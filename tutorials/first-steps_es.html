@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primeros Pasos | Cashu4Community</title>
+    <meta name="description" content="Tutorial: Preparación del entorno y configuración inicial de la infraestructura Cashu4Community">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Inicio</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problemas</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infraestructura</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impacto</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Comunidades</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Hoja de Ruta</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_es.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutoriales</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇪🇸</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Primeros Pasos</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <h2>Preparación del Entorno</h2>
+                <p>Para garantizar un despliegue estable, se requieren los siguientes elementos:</p>
+                <ul>
+                    <li><strong>Sistema Operativo:</strong> Servidor VPS con una distribución Linux (preferiblemente Debian o Ubuntu).</li>
+                    <li><strong>Software Base:</strong> Docker y Docker Compose instalados.</li>
+                    <li><strong>Red:</strong> Un nombre de dominio apuntando a la IP del servidor para la gestión de certificados y acceso externo.</li>
+                    <li><strong>Conocimientos Requeridos:</strong> Manejo básico de terminal Linux y administración de contenedores.</li>
+                </ul>
+
+                <h3>Instalación de los requisitos</h3>
+                <p>Ejecute los siguientes comandos para instalar las dependencias necesarias y clonar el repositorio del proyecto:</p>
+<pre><code># Instalación de Docker y Docker Compose desde los repositorios oficiales
+sudo apt update && sudo apt upgrade
+sudo apt install -y docker.io docker-compose
+
+# Configuración de permisos (No es necesario para la cuenta root)
+sudo usermod -aG docker $(whoami)
+
+# Clonación del repositorio de despliegue
+git clone https://github.com/cashu4community/cashu4cs-deploy.git
+cd cashu4cs-deploy</code></pre>
+
+                <h2>Configuración de la Infraestructura</h2>
+                <p>El despliegue se automatiza mediante el script <code>config_env.sh</code>, el cual gestiona de forma interactiva las variables de entorno y los parámetros de seguridad.</p>
+
+                <h3>Ejecución del Asistente de Configuración</h3>
+                <p>Inicie el script para generar el entorno:</p>
+<pre><code>./config_env.sh</code></pre>
+
+<pre><code>=== Domain Configuration ===
+
+Getting public IP...
+IP obtained: 72.61.27.142
+
+LND Node Alias Configuration
+
+Enter your LND node alias: Cashu4Community
+
+Do you want to add an extra domain for LND management? (y/N):
+
+Generating keys...
+
+==========================================
+  CONFIGURATION PREVIEW
+==========================================
+  LND alias=Cashu4CS
+  EXTERNAL_IP=72.61.27.142
+  TLSEXTRADOMAIN=lnd
+  POSTGRES_PASSWORD=331c3b377e0a29eb0d946b607dc313c4
+  LIT_PASSWORD=88d0206291e23d4c56ac7f293ad19d7b
+  LNDWALLET_PASSWD=b4a7d595160162b207411dca986f06a9
+  lnbits:     AUTH_SECRET_KEY=12ff5985076ce516692264938240564ecc2c54b083a3f3811346d5b85d9a7008
+  cashu:      MINT_PRIVATE_KEY=3d5bbc9143d1c8d22b1588c7d88e8069c0a008dd579c5a0b699259a8e8e83bee
+  orchard:    SETUP_KEY=667f6fb870d3e022207e99e966ff6f88
+==========================================
+Press any key to save configuration...
+==========================================
+  SAVING CONFIGURATION
+==========================================
+
+- Backing up configuration files...
+  [OK] Backups created in backup/
+
+- Updating environment variables...
+  [OK] Root .env updated
+  [OK] LNBITS: AUTH_SECRET_KEY
+  [OK] CASHU: MINT_PRIVATE_KEY
+  [OK] ORCHARD: SETUP_KEY
+  [OK] LNBITS: LNBITS_DATABASE_URL (password)
+
+- Generating certificates...
+  [OK] Certificates generated
+
+==========================================
+  CONFIGURATION SAVED SUCCESSFULLY
+==========================================</code></pre>
+
+                <p><strong>Funciones principales del script:</strong></p>
+                <ul>
+                    <li><strong>Detección de IP:</strong> Identifica la IP pública del VPS para configurar el parámetro <code>externalip</code> en LND.</li>
+                    <li><strong>Identidad del Nodo:</strong> Solicita un <em>alias</em> para su nodo Lightning, facilitando su identificación en exploradores de red.</li>
+                    <li><strong>Gestión de Dominios:</strong> Permite definir subdominios adicionales para la conexión remota vía RPC o REST API.</li>
+                    <li><strong>Generación de Credenciales:</strong> Crea automáticamente claves robustas para la billetera LND, PostgreSQL, LNbits, el Mint de Cashu (<code>MINT_PRIVATE_KEY</code>) y Orchard.</li>
+                    <li><strong>Persistencia y Seguridad:</strong> Genera respaldos (backups) automáticos de los archivos de configuración existentes antes de aplicar cambios.</li>
+                    <li><strong>Criptografía:</strong> Genera los certificados TLS necesarios para la comunicación segura entre los servicios.</li>
+                </ul>
+
+                <h2>Gestión de los Servicios</h2>
+                <p>Se incluyen scripts especializados para facilitar la administración de la pila tecnológica, ideales para usuarios que prefieren flujos de trabajo simplificados.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Script</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>./start.sh</code></td>
+                            <td>Inicia la infraestructura completa; descarga las imágenes en la primera ejecución.</td>
+                        </tr>
+                        <tr>
+                            <td><code>./stop.sh</code></td>
+                            <td>Detiene todos los servicios de forma controlada.</td>
+                        </tr>
+                        <tr>
+                            <td><code>./recreate.sh [servicio]</code></td>
+                            <td>Reconstruye un contenedor específico tras realizar cambios en su configuración.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Servicios Desplegados</h3>
+                <p>La infraestructura se compone de los siguientes servicios interconectados:</p>
+                <ul>
+                    <li><strong>Financieros:</strong> <code>lnd</code>, <code>cashu</code> (Mint), <code>lnbits</code>.</li>
+                    <li><strong>Gestion y Red:</strong> <code>lit</code> (Lightning Terminal), <code>npm</code> (Proxy Manager), <code>tor</code>, <code>orchard</code>.</li>
+                    <li><strong>Persistencia:</strong> <code>db</code> (PostgreSQL), <code>redis</code>.</li>
+                </ul>
+
+                <div class="tutorial-nav">
+                    <a href="../tutorials_es.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Índice" data-lang-en="Index">Índice</span>
+                        <span class="nav-title" data-lang-es="← Tutoriales" data-lang-en="← Tutorials">← Tutoriales</span>
+                    </a>
+                    <a href="lightning-network-daemon_es.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Siguiente</span>
+                        <span class="nav-title">Lightning Network Daemon →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Proyecto</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infraestructura</a></li>
+                        <li><a href="../index.html#timeline">Hoja de Ruta</a></li>
+                        <li><a href="../tutorials_es.html">Tutoriales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Comunidad</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Aplicar</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Patrocinador</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Código abierto bajo licencia MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

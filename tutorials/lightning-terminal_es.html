@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightning Terminal (LIT) | Cashu4Community</title>
+    <meta name="description" content="Tutorial: Gestión del nodo con Lightning Terminal">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Inicio</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problemas</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infraestructura</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impacto</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Comunidades</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Hoja de Ruta</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_es.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutoriales</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇪🇸</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Gestiona tu nodo con Lightning Terminal (LIT)</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <p>Lightning Terminal es una interfaz gráfica y herramienta de gestión para la red Lightning Network de Bitcoin. Desarrollada por Lightning Labs, permite a los nodos operar canales de pago de forma más eficiente mediante funciones avanzadas como <strong>Pool</strong> (mercado de liquidez), <strong>Loop</strong> (intercambio on/off-chain) y <strong>Faraday</strong> (análisis de riesgos). Facilita la compra y venta de liquidez entrante, la gestión de canales y la obtención de recomendaciones para mejorar la rentabilidad del nodo.</p>
+
+                <p>Accedemos a la web <code>https://lit.cashu4community.xyz</code></p>
+
+                <img src="img/lit-login-page.png" alt="Lightning Terminal Login">
+
+                <p>Aquí accederemos con la contraseña que fue generada en el proceso de configuración de la infraestructura mediante el script <code>config_env.sh</code>.</p>
+
+                <div class="tutorial-tip">
+                    Si no anoto la contraseña puede encontrarla en el archivo <code>lit.conf</code>, exactamente en la clave <code>uipassword</code> ubicado en <code>/cashu4cs-deploy/app-data/lit/</code>
+                </div>
+
+                <h2>Página de Inicio</h2>
+                <p>Lo primero que veremos es la página de inicio, que nos muestra varias opciones para conectarnos directo al nodo y enlace al canal de YouTube.</p>
+                <img src="img/lit-home-page.png" alt="Lightning Terminal Home">
+
+                <h2>Página de Ajustes</h2>
+                <p>En los ajustes podemos realizar varias acciones:</p>
+                <img src="img/lit-settings.png" alt="Lightning Terminal Settings">
+
+                <ul>
+                    <li>Cambiar la unidad de Bitcoin (Satoshis, Bits y Bitcoin)</li>
+                    <li>Seleccionar modo en que van a funcionar los canales (Optimizados para recibir, enviar o enrutar)</li>
+                    <li>Cambiar los exploradores (mempool.space para bitcoin onchain y terminal.lightning.engineering para lightning)</li>
+                    <li>Muestra la clave pública del nodo</li>
+                    <li>Alias</li>
+                    <li>Muestra el URI</li>
+                </ul>
+
+                <div class="tutorial-tip">
+                    El URI del nodo está compuesto por la clave pública del nodo @ ip pública : puerto 9735. Si está habilitado el servicio Tor: clave pública @ dirección onion : puerto 9735. Estos datos nos servirán para abrir canales.
+                </div>
+
+                <h2>Página de Loop</h2>
+                <p>El servicio Loop te permite mover bitcoin entre la red Lightning y la blockchain de Bitcoin de manera no custodial (sin entregar el control de tus fondos a un tercero), similar a los llamados submarine swaps.</p>
+                <img src="img/lit-loop-page1.png" alt="Lightning Terminal Loop">
+
+                <h3>Loop Out: Convertir Liquidez de Salida en Entrante</h3>
+                <p>Esta operación te permite enviar fondos desde tu nodo Lightning hacia una dirección on-chain (en la blockchain de Bitcoin).</p>
+                <ul>
+                    <li><strong>Problema que soluciona:</strong> Si tienes un canal con mucho saldo para enviar (saliente) pero necesitas capacidad para recibir pagos, un Loop Out te ayuda a balancearlo.</li>
+                    <li><strong>Ejemplo práctico:</strong> Como comerciante que recibe muchos pagos, puedes usar Loop Out para mover tus ganancias de Lightning a una wallet fria en Bitcoin sin cerrar tus canales.</li>
+                </ul>
+
+                <h3>Loop In: Recargar tu Saldo para Enviar</h3>
+                <p>Esta operación te permite tomar bitcoin desde tu wallet on-chain y convertirlo en liquidez off-chain dentro de tus canales Lightning.</p>
+                <ul>
+                    <li><strong>Problema que soluciona:</strong> Si te has quedado sin saldo para enviar pagos (porque has gastado mucho), puedes "refill" (rellenar) tus canales.</li>
+                    <li><strong>Ventaja adicional:</strong> Con las versiones recientes, puedes financiar un Loop In con meses de antelación usando direcciones reutilizables, aprovechando momentos de tarifas de red bajas.</li>
+                </ul>
+
+                <div class="tutorial-nav">
+                    <a href="nginx-proxy-manager_es.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Anterior</span>
+                        <span class="nav-title">← Nginx Proxy Manager</span>
+                    </a>
+                    <a href="lnbits-wallet_es.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Siguiente</span>
+                        <span class="nav-title">LNbits →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Proyecto</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infraestructura</a></li>
+                        <li><a href="../index.html#timeline">Hoja de Ruta</a></li>
+                        <li><a href="../tutorials_es.html">Tutoriales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Comunidad</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Aplicar</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Patrocinador</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Código abierto bajo licencia MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

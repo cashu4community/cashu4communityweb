@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mint de Cashu (Nutshell) | Cashu4Community</title>
+    <meta name="description" content="Tutorial: Configuración del Mint de Cashu con Nutshell">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Inicio</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problemas</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infraestructura</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impacto</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Comunidades</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Hoja de Ruta</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_es.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutoriales</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇪🇸</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Mint de Cashu (Nutshell)</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <p>El Mint de Cashu es el componente principal de la infraestructura, es quien custodia los bitcoins de los usuarios, a cambio emite tokens ("cupones digitales") que representan ese valor. A continuación explicaremos el proceso de configuración.</p>
+
+                <h2>Configuración del Mint de Cashu</h2>
+                <p>El proceso de configuración es muy sencillo, en el paso de configuración de la infraestructura mediante el script <code>config_env.sh</code> se generó la clave <code>MINT_PRIVATE_KEY</code> necesaria en el proceso de generación de claves del mint.</p>
+
+                <h3>1. Configuramos el backend lightning (LNbits)</h3>
+                <p>En LNbits podemos crear una cuenta nueva para que guarde los fondos de los usuarios del mint. O usamos la cuenta admin creada en la configuración de LNbits.</p>
+                <p>Por defecto las billeteras se llaman <code>LNbits wallet</code>, la renombramos a <code>Cashu Mint</code>:</p>
+                <img src="img/lnbits-wallet-rename.png" alt="LNbits Wallet Rename">
+
+                <h3>2. Obtenemos la clave API de la billetera</h3>
+                <img src="img/lnbits-wallet-api-key.png" alt="LNbits Wallet API Key">
+                <div class="tutorial-tip">
+                    Podemos usar la clave <code>Admin key</code> o <code>Invoice read key</code>.
+                </div>
+
+                <h3>3. Modificamos el archivo .env con los datos de LNbits</h3>
+                <p>Editamos el archivo <code>.env</code> localizado en la ruta <code>/cashu4cs-deploy/app-data/cashu/.env</code> y buscamos las líneas siguientes:</p>
+<pre><code># Use with LNbitsWallet
+MINT_LNBITS_ENDPOINT=https://yourlnbits.com
+MINT_LNBITS_KEY=gds87dskdsjhds71dsdsdsds2e</code></pre>
+
+                <p>Quedando así:</p>
+<pre><code># Use with LNbitsWallet
+MINT_LNBITS_ENDPOINT=https://lnbits.cashu4community.xyz
+MINT_LNBITS_KEY=8e54079dc12b46a2b216153222c29a8a</code></pre>
+
+                <div class="tutorial-tip">
+                    <strong>Importante:</strong> Es importante verificar que el backend lightning del mint sea <code>LNbitsWallet</code>, lo hacemos buscando en el archivo .env el parámetro <code>MINT_BACKEND_BOLT11_SAT</code>. Si tiene otra cosa, cambiar al de LNbits.
+                </div>
+
+                <h2>Actualizando el mint de Cashu</h2>
+                <p>Como usamos Docker de soporte de la infraestructura, el proceso de actualización se hace relativamente fácil.</p>
+
+                <h3>1. Respaldamos la base de datos del mint</h3>
+                <p>Realizamos una copia de la base de datos ubicada en <code>/cashu4cs-deploy/app-data/cashu/data/mint/mint.sqlite3</code>:</p>
+<pre><code>cd cashu4cs-deploy/
+cp app-data/cashu/data/mint/mint.sqlite3 app-data/cashu/backup</code></pre>
+
+                <h3>2. Actualizamos el número de versión en el docker-compose.yml</h3>
+                <p>Editamos el archivo <code>docker-compose.yml</code> ubicado en la raíz del proyecto. Localizamos el servicio cashu:</p>
+<pre><code>  cashu:
+    image: cashubtc/nutshell:0.19.2</code></pre>
+
+                <p>Actualizamos con la versión más reciente:</p>
+<pre><code>  cashu:
+    image: cashubtc/nutshell:0.20.2</code></pre>
+
+                <h3>3. Hacemos efectivo los cambios</h3>
+<pre><code>./recreate.sh cashu</code></pre>
+
+                <div class="tutorial-tip">
+                    <strong>Importante:</strong> Es importante no violar el paso 1 porque de ocurrir un error podremos volver a la versión anterior restaurando la base de datos y revirtiendo los cambios del paso 2. También es recomendable revisar las notas de la nueva versión para conocer si se necesitan hacer cambios puntuales antes de actualizar.
+                </div>
+
+                <h2>Creando un nuevo Keyset desde la CLI</h2>
+                <p>Usaremos <code>mint-cli</code> para rotar los keyset y definir la comisión. Esto lo haremos para cada una de las unidades que tengamos en el mint (sats, usd, etc).</p>
+                <p>Para conocer que unidades tenemos activas, consultamos el endpoint <code>/v1/keysets</code>:</p>
+<pre><code>curl https://mint.cashu4community.xyz/v1/keysets
+{
+  "keysets": [
+    {
+      "id": "0145ee812683eaf8...",
+      "unit": "sat",
+      "active": true,
+      "input_fee_ppk": 100,
+      "final_expiry": null
+    }
+  ]
+}</code></pre>
+
+                <p>Si quisiéramos cambiar el fee de 100 ppk (per-proof-of-knowledge) a 50 ppk, ejecutamos dentro del contenedor de cashu:</p>
+<pre><code>poetry run mint-cli -h cashu next-keyset sat 50
+final_expiry = None
+New keyset successfully created:
+keyset.id = '01e5bac64190f22f...'
+keyset.unit = 'sat'
+keyset.max_order = 64
+keyset.input_fee_ppk = 50</code></pre>
+
+                <div class="tutorial-tip">
+                    El argumento <code>-h</code> que acompaña al comando <code>mint-cli</code> es necesario porque en entornos Docker no se puede acceder directamente a <code>127.0.0.1</code>, es por eso que usamos <code>cashu</code> ya que es el nombre del servicio declarado en el docker-compose.
+                </div>
+
+                <p>Comprobamos que se creó el nuevo keyset:</p>
+<pre><code>curl https://mint.cashu4community.xyz/v1/keysets
+{
+  "keysets": [
+    {
+      "id": "0145ee812683eaf8...",
+      "unit": "sat",
+      "active": false,
+      "input_fee_ppk": 100,
+      "final_expiry": null
+    },
+    {
+      "id": "01e5bac64190f22f...",
+      "unit": "sat",
+      "active": true,
+      "input_fee_ppk": 50,
+      "final_expiry": null
+    }
+  ]
+}</code></pre>
+
+                <div class="tutorial-nav">
+                    <a href="lnbits-wallet_es.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Anterior</span>
+                        <span class="nav-title">← LNbits</span>
+                    </a>
+                    <a href="orchard_es.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Siguiente</span>
+                        <span class="nav-title">Orchard →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Proyecto</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infraestructura</a></li>
+                        <li><a href="../index.html#timeline">Hoja de Ruta</a></li>
+                        <li><a href="../tutorials_es.html">Tutoriales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Comunidad</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Aplicar</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Patrocinador</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Código abierto bajo licencia MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

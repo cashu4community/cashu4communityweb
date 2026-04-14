@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migración de Infraestructura | Cashu4Community</title>
+    <meta name="description" content="Tutorial: Migrando la infraestructura a otro VPS">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Inicio</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problemas</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infraestructura</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impacto</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Comunidades</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Hoja de Ruta</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_es.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutoriales</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇪🇸</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Migrando la Infraestructura a otro VPS</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <p>Puede que en algún momento necesitemos mover la infraestructura hacia otro proveedor de servicios o simplemente el VPS contratado está a punto de expirar y sea preferible adquirir uno nuevo. Llegado el momento, el proceso de migrar es muy fácil.</p>
+
+                <h2>1. Detener la Infraestructura</h2>
+                <p>Siempre se debe avisar con tiempo cuando realicemos tareas de este tipo para evitar que los usuarios se queden a media operación.</p>
+<pre><code>cd cashu4cs-deploy/
+./stop.sh</code></pre>
+                <p>Hasta aquí ya tenemos la infraestructura detenida y nadie podrá usar los servicios.</p>
+
+                <h2>2. Salvar directorio cashu4cs-deploy</h2>
+                <p>Usaremos el comando <code>tar zcvf</code> para realizar un backup comprimido.</p>
+<pre><code>tar zcvf cashu4cs-deploy.tar.gz cashu4cs-deploy/
+cashu4cs-deploy/
+cashu4cs-deploy/get_public_ip.sh
+cashu4cs-deploy/.git/
+...
+cashu4cs-deploy/app-data/lnbits/db/
+cashu4cs-deploy/app-data/cashu/
+cashu4cs-deploy/app-data/cashu/.env
+cashu4cs-deploy/recreate.sh</code></pre>
+
+                <p>Verificamos que el archivo se creó correctamente:</p>
+<pre><code>ls .
+cashu4cs-deploy cashu4cs-deploy.tar.gz</code></pre>
+
+                <p>Ese archivo comprimido es toda nuestra infraestructura, la cual podremos copiar en el nuevo VPS.</p>
+
+                <div class="tutorial-tip">
+                    <strong>Importante:</strong> No puede olvidar que el VPS destino debe tener los requisitos necesarios para la infraestructura que se vio en los primeros pasos.
+                </div>
+
+                <h2>3. Copiar y descomprimir en el nuevo VPS</h2>
+<pre><code>scp cashu4cs-deploy.tar.gz root@&lt;ip nuevo vps&gt;:/root/</code></pre>
+
+                <p>Si terminó la copia correctamente, pasamos a conectarnos al servidor:</p>
+<pre><code>ssh root@&lt;ip nuevo vps&gt;
+
+# Luego de conectarnos descomprimimos el archivo
+tar zxvf cashu4cs-deploy.tar.gz
+
+# Nos movemos al directorio
+cd cashu4cs-deploy/</code></pre>
+
+                <p>El nuevo VPS tiene una IP distinta por lo que hay que actualizar los registros DNS de nuestro dominio y el archivo <code>lnd.conf</code> específicamente <code>externalip</code>.</p>
+
+                <p>Obtenemos la IP del nuevo VPS:</p>
+<pre><code>./get_public_ip.sh
+12.45.128.56</code></pre>
+
+                <p>Esa es la IP que debemos actualizar en el parámetro <code>externalip</code> y en los registros DNS.</p>
+
+                <h2>4. Iniciar la infraestructura</h2>
+<pre><code>./start.sh</code></pre>
+
+                <p>En este paso se descargan las imágenes nuevamente ya que en el nuevo VPS no existen. Si no falla el proceso, podemos comprobar:</p>
+<pre><code>docker ps
+CONTAINER ID   IMAGE                                              COMMAND         STATUS          NAMES
+c0ec55b00d9c   lnbits/lnbits:v1.5.3                               "sh -c '..."    Up 30 seconds   app_lnbits
+86eada0916e5   jc21/nginx-proxy-manager:latest                    "/init"         Up 30 seconds   nginx_proxy_manager
+fb888e103a82   ghcr.io/orangeshyguy21/orchard-mintdb-sqlite:1.5   "docker-..."    Up 30 seconds   app_orchard
+5ff40c0146ab   lightninglabs/lightning-terminal:v0.16.1-alpha     "litd ..."      Up 30 seconds   lightning_terminal
+aa7146e0961d   cashubtc/nutshell:0.20.0                           "poetry ..."    Up 30 seconds   app_cashu
+a538285ac7bd   lightninglabs/lnd:v0.20.1-beta                     "lnd ..."       Up 30 seconds   nodo_lnd
+da4838d5f798   postgres:14.18-bookworm                            "docker-..."    Up 30 seconds   postgres_lnbits
+e20eecdc0df8   redis:8.4.0                                        "docker-..."    Up 30 seconds   redis
+7de5f6d082cf   dockurr/tor                                        "tor"           Up 30 seconds   proxy_tor</code></pre>
+
+                <div class="tutorial-nav">
+                    <a href="update-services_es.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Anterior</span>
+                        <span class="nav-title" data-lang-es="← Actualización de Servicios" data-lang-en="← Service Updates">← Actualización de Servicios</span>
+                    </a>
+                    <a href="../tutorials_es.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Índice" data-lang-en="Index">Índice</span>
+                        <span class="nav-title" data-lang-es="Tutoriales →" data-lang-en="Tutorials →">Tutoriales →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Proyecto</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infraestructura</a></li>
+                        <li><a href="../index.html#timeline">Hoja de Ruta</a></li>
+                        <li><a href="../tutorials_es.html">Tutoriales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Comunidad</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Aplicar</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Patrocinador</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Código abierto bajo licencia MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

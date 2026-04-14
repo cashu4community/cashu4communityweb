@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nginx Proxy Manager | Cashu4Community</title>
+    <meta name="description" content="Tutorial: Configuración de acceso con Nginx Proxy Manager">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Inicio</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problemas</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infraestructura</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impacto</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Comunidades</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Hoja de Ruta</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_es.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutoriales</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇪🇸</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Configuración de acceso con Nginx Proxy Manager</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <p>En esta etapa vas a configurar el acceso externo a tus servicios (Lightning Terminal, LNBits, Cashu, Orchard, etc.) usando <strong>Nginx Proxy Manager</strong>, que actúa como proxy inverso y gestor de certificados SSL.</p>
+
+                <h2>Acceso inicial</h2>
+                <p>El contenedor ya viene preconfigurado, por lo que no necesitas crear usuario:</p>
+                <ul>
+                    <li><strong>Usuario:</strong> <code>changeme@domin.com</code></li>
+                    <li><strong>Contraseña:</strong> <code>ch4ng3me*-</code></li>
+                </ul>
+                <p>Accede desde tu navegador a <code>http://npm.cashu4community.xyz:81</code>. Como el acceso es por primera vez debemos hacerlo usando el puerto 81 y mediante una conexión insegura. En el siguiente paso corregiremos esto.</p>
+                <img src="img/npm-login-page-without-ssl.png" alt="NPM Login Page">
+
+                <h2>1. Crear un Proxy Host</h2>
+                <p>En el panel principal no hay hosts configurados aún. Haz clic en el botón <strong>"Add Proxy Host"</strong>.</p>
+                <img src="img/npm-add-proxy-host.png" alt="NPM Add Proxy Host">
+
+                <h2>2. Configurar el Proxy Host</h2>
+                <img src="img/npm-add-proxy-host-details.png" alt="NPM Proxy Host Details">
+
+                <h3>Sección: Details</h3>
+
+                <h4>Domain Names</h4>
+                <p>Introduce el dominio o subdominio que usarás. Ejemplo:</p>
+<pre><code>npm.cashu4community.xyz</code></pre>
+
+                <h4>Scheme</h4>
+                <ul>
+                    <li><code>http</code> - si el servicio interno no usa SSL (lo más común en Docker)</li>
+                    <li><code>https</code> - si el contenedor ya expone HTTPS</li>
+                </ul>
+                <p>En este caso: <strong>http</strong></p>
+
+                <h4>Forward Hostname / IP</h4>
+                <p>Es el nombre del contenedor o IP interna en Docker. Ejemplo:</p>
+<pre><code>npm</code></pre>
+                <div class="tutorial-tip">
+                    Esto funciona porque los contenedores comparten red (Docker network).
+                </div>
+
+                <h4>Forward Port</h4>
+                <p>Puerto interno del servicio. Ejemplo:</p>
+<pre><code>81</code></pre>
+
+                <h4>Access List</h4>
+                <p>Déjalo en <code>Publicly Accessible</code>. Luego puedes restringirlo si quieres añadir autenticación.</p>
+
+                <h4>Opciones (recomendado dejar activado)</h4>
+                <ul>
+                    <li><strong>Cache Assets</strong></li>
+                    <li><strong>Block Common Exploits</strong></li>
+                    <li><strong>Websockets Support</strong></li>
+                </ul>
+                <div class="tutorial-tip">
+                    Especialmente importante activar WebSockets para servicios como Lightning Terminal, LNBits e interfaces en tiempo real.
+                </div>
+
+                <h3>Sección: SSL</h3>
+                <p>Aquí defines todo lo relacionado al certificado SSL y la conexión HTTPS.</p>
+                <img src="img/npm-add-proxy-host-ssl-options.png" alt="NPM SSL Options">
+
+                <h4>SSL Certificate</h4>
+                <p>Como es un registro nuevo, selecciona <code>Request a new Certificate</code>.</p>
+                <div class="tutorial-tip">
+                    En caso de ya existir un certificado válido para el dominio, seleccionarlo.
+                </div>
+
+                <h4>Opciones (recomendado dejar activado)</h4>
+                <ul>
+                    <li><strong>Force SSL</strong></li>
+                    <li><strong>HTTP/2 Support</strong></li>
+                    <li><strong>HSTS Enabled</strong></li>
+                </ul>
+
+                <h2>3. Guardar</h2>
+                <p>Haz clic en <strong>Save</strong>. Si todo está bien configurado, el dominio apuntará correctamente al contenedor y ya tendrás acceso desde el navegador.</p>
+
+                <h2>4. Eliminar entrada en docker-compose.yml</h2>
+                <p>Ya hemos configurado el Proxy Host para el propio servicio NPM y podemos acceder mediante HTTPS usando el puerto 443. Ahora deshabilitaremos el acceso por el puerto 81.</p>
+                <p>Buscamos el servicio npm y en la sección <code>ports:</code> eliminamos el puerto 81:</p>
+<pre><code>    ports:
+      - '80:80'
+      - '443:443'
+      - '81:81'</code></pre>
+                <p>Quedando así:</p>
+<pre><code>    ports:
+      - '80:80'
+      - '443:443'</code></pre>
+
+                <h2>5. Reconstruir el contenedor NPM</h2>
+<pre><code>./recreate.sh npm</code></pre>
+
+                <div class="tutorial-tip">
+                    <strong>Importante:</strong> Tras entrar vía HTTPS recomiendo cambiar el correo y la contraseña de la cuenta de acceso a NPM, de lo contrario esta exponiendo su infraestructura.
+                </div>
+
+                <h2>Cómo encaja esto en tu infraestructura</h2>
+                <p>Hasta aquí hemos configurado un registro Proxy Host y el acceso al NPM de forma segura. Ahora podemos configurar el resto de los servicios ya que cada uno tendrá su propio Proxy Host:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dominio</th>
+                            <th>Esquema</th>
+                            <th>Reenvío de dominio / IP</th>
+                            <th>Puerto interno</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>npm.cashu4community.xyz</td>
+                            <td>http</td>
+                            <td>npm</td>
+                            <td>81</td>
+                        </tr>
+                        <tr>
+                            <td>lit.cashu4community.xyz</td>
+                            <td>https</td>
+                            <td>lit</td>
+                            <td>8443</td>
+                        </tr>
+                        <tr>
+                            <td>lnbits.cashu4community.xyz</td>
+                            <td>http</td>
+                            <td>lnbits</td>
+                            <td>5000</td>
+                        </tr>
+                        <tr>
+                            <td>mint.cashu4community.xyz</td>
+                            <td>http</td>
+                            <td>cashu</td>
+                            <td>3336</td>
+                        </tr>
+                        <tr>
+                            <td>orchard.cashu4community.xyz</td>
+                            <td>http</td>
+                            <td>orchard</td>
+                            <td>3326</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="tutorial-nav">
+                    <a href="lightning-network-daemon_es.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Anterior</span>
+                        <span class="nav-title">← Lightning Network Daemon</span>
+                    </a>
+                    <a href="lightning-terminal_es.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Siguiente</span>
+                        <span class="nav-title">Lightning Terminal →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Proyecto</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infraestructura</a></li>
+                        <li><a href="../index.html#timeline">Hoja de Ruta</a></li>
+                        <li><a href="../tutorials_es.html">Tutoriales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Comunidad</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Aplicar</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Patrocinador</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Código abierto bajo licencia MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

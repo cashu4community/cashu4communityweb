@@ -1,5 +1,7 @@
 /* Import pixel font */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* Reset y variables CSS */
 :root {
@@ -3607,5 +3609,376 @@ html {
 
     .back-to-communities {
         margin-top: 2.5rem;
+    }
+}
+
+/* ============================================
+   TUTORIALS STYLES
+   ============================================ */
+
+/* Tutorial Hero */
+.tutorial-hero {
+    padding: 120px 0 40px;
+    background: linear-gradient(135deg, var(--cashu-purple), var(--bitcoin-orange));
+    text-align: center;
+}
+
+.tutorial-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
+}
+
+.tutorial-meta {
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+/* Tutorial Content */
+.tutorial-content {
+    padding: 3rem 0;
+    font-family: 'Inter', sans-serif;
+}
+
+.tutorial-content .container {
+    max-width: 900px;
+}
+
+.tutorial-content h2 {
+    font-family: var(--pixel-font);
+    font-size: 1.5rem;
+    color: var(--bitcoin-orange);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tutorial-content h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #6ee7b7;
+    margin: 2rem 0 0.75rem;
+}
+
+.tutorial-content h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--light-text);
+    margin: 1.5rem 0 0.5rem;
+}
+
+.tutorial-content p {
+    color: #d1d5db;
+    margin-bottom: 1rem;
+    line-height: 1.85;
+    font-size: 1rem;
+}
+
+.tutorial-content ul,
+.tutorial-content ol {
+    color: #d1d5db;
+    margin: 0.75rem 0 1.25rem 1.5rem;
+    font-size: 1rem;
+    line-height: 1.85;
+}
+
+.tutorial-content li {
+    margin-bottom: 0.5rem;
+}
+
+.tutorial-content strong {
+    color: #f3f4f6;
+    font-weight: 600;
+}
+
+.tutorial-content a {
+    color: var(--bitcoin-orange);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.tutorial-content a:hover {
+    color: #fbbf24;
+}
+
+/* Code blocks */
+.tutorial-content pre {
+    background: #111318;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin: 1rem 0 1.5rem;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #a5d6a7;
+}
+
+.tutorial-content pre code {
+    background: none;
+    padding: 0;
+    border: none;
+    color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+.tutorial-content code {
+    background: rgba(247, 147, 26, 0.12);
+    color: #fbbf24;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.88rem;
+}
+
+/* Tip/Note boxes */
+.tutorial-tip {
+    background: rgba(247, 147, 26, 0.06);
+    border-left: 4px solid var(--bitcoin-orange);
+    padding: 1rem 1.25rem;
+    margin: 1rem 0 1.5rem;
+    border-radius: 0 8px 8px 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    color: #d1d5db;
+    line-height: 1.75;
+}
+
+.tutorial-tip strong {
+    color: var(--bitcoin-orange);
+    font-weight: 600;
+}
+
+/* Tutorial images */
+.tutorial-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 1rem 0 1.5rem;
+    display: block;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Tutorial video */
+.tutorial-content video {
+    max-width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 1rem 0 1.5rem;
+    display: block;
+}
+
+/* Tutorial tables */
+.tutorial-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0 1.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+}
+
+.tutorial-content th {
+    background: #111318;
+    color: var(--bitcoin-orange);
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border: 1px solid #333;
+    font-weight: 700;
+}
+
+.tutorial-content td {
+    padding: 0.75rem 1rem;
+    border: 1px solid #333;
+    color: #d1d5db;
+}
+
+.tutorial-content tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Tutorial navigation (prev/next) */
+.tutorial-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 2.5rem 0 4rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: 3rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.tutorial-nav a {
+    text-decoration: none;
+    color: #d1d5db;
+    padding: 1rem 1.25rem;
+    border: 1px solid #333;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    max-width: 45%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.tutorial-nav a:hover {
+    border-color: var(--bitcoin-orange);
+    background: rgba(247, 147, 26, 0.06);
+}
+
+.tutorial-nav .nav-label {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.tutorial-nav .nav-title {
+    font-size: 0.95rem;
+    color: var(--bitcoin-orange);
+    font-weight: 600;
+}
+
+.tutorial-nav .nav-prev {
+    text-align: left;
+}
+
+.tutorial-nav .nav-next {
+    text-align: right;
+    margin-left: auto;
+}
+
+.tutorial-nav .nav-center {
+    text-align: center;
+    align-self: center;
+}
+
+@media (max-width: 768px) {
+    .tutorial-nav {
+        flex-direction: column;
+    }
+
+    .tutorial-nav a {
+        max-width: 100%;
+    }
+}
+
+/* Back to tutorials button */
+.back-to-tutorials {
+    text-align: center;
+    padding: 2rem 0 4rem;
+}
+
+/* Tutorials Index Page */
+.tutorials-index {
+    font-family: 'Inter', sans-serif;
+}
+
+.tutorials-list {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+    counter-reset: tutorial-counter;
+}
+
+.tutorials-list li {
+    counter-increment: tutorial-counter;
+    margin-bottom: 0;
+}
+
+.tutorials-list li a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.25rem;
+    text-decoration: none;
+    color: #d1d5db;
+    border-bottom: 1px solid #2a2a2a;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+}
+
+.tutorials-list li a:hover {
+    background: rgba(247, 147, 26, 0.06);
+    color: var(--light-text);
+    padding-left: 1.5rem;
+}
+
+.tutorials-list li a::before {
+    content: counter(tutorial-counter) ".";
+    color: var(--bitcoin-orange);
+    font-weight: 700;
+    font-size: 1rem;
+    min-width: 28px;
+    font-family: var(--pixel-font);
+}
+
+.tutorials-list li a .list-description {
+    color: #9ca3af;
+    font-size: 0.85rem;
+    margin-left: auto;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.tutorials-section-title {
+    font-family: var(--pixel-font);
+    font-size: 1.2rem;
+    color: var(--bitcoin-orange);
+    margin: 3rem 0 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tutorials-section-title:first-of-type {
+    margin-top: 1.5rem;
+}
+
+/* Tutorial index subtitle */
+.tutorials-subtitle {
+    color: #9ca3af;
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Responsive tutorials */
+@media (max-width: 768px) {
+    .tutorial-title {
+        font-size: 1.8rem;
+    }
+
+    .tutorial-content h2 {
+        font-size: 1.3rem;
+    }
+
+    .tutorial-content h3 {
+        font-size: 1.05rem;
+    }
+
+    .tutorial-content pre {
+        font-size: 0.8rem;
+        padding: 1rem;
+    }
+
+    .tutorials-list li a {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .tutorials-list li a .list-description {
+        margin-left: 28px;
+        text-align: left;
     }
 }

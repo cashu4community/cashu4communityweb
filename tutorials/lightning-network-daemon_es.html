@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightning Network Daemon (LND) | Cashu4Community</title>
+    <meta name="description" content="Tutorial: Inicialización del nodo Lightning Network Daemon">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Inicio</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problemas</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infraestructura</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impacto</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Comunidades</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Hoja de Ruta</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_es.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutoriales</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇪🇸</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Inicializando Lightning Network Daemon (LND)</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <p>Para que el nodo sea funcional, es obligatorio crear o restaurar una billetera criptográfica:</p>
+<pre><code>docker exec -it node_lnd lncli create</code></pre>
+
+                <h3>1. Contraseña</h3>
+                <p>Ingrese la clave de billetera generada por el script <code>config_env.sh</code> en el archivo <code>app-data/lnd/walletunlock</code>.</p>
+<pre><code>Input wallet password:
+Confirm wallet password:</code></pre>
+
+                <h3>2. Semilla (Seed)</h3>
+                <p>Seleccione <code>n</code> para generar una nueva semilla de 24 palabras.</p>
+<pre><code>Do you have an existing cipher seed mnemonic or extended master root key you want to use?
+Enter 'y' to use an existing cipher seed mnemonic, 'x' to use an extended master root key
+or 'n' to create a new seed (Enter y/x/n):</code></pre>
+
+                <h3>3. Passphrase</h3>
+                <p>La passphrase añade una capa extra de seguridad, puede optar por introducir una o presionar enter si no desea usarla.</p>
+<pre><code>Your cipher seed can optionally be encrypted.
+Input your passphrase if you wish to encrypt it
+(or press enter to proceed without a cipher seed passphrase):
+Confirm password:
+
+Generating fresh cipher seed...
+
+!!!YOU MUST WRITE DOWN THIS SEED TO BE ABLE TO RESTORE THE WALLET!!!
+
+---------------BEGIN LND CIPHER SEED---------------
+ 1. one        2. two        3. three        4. four
+ 5. five       6. six        7. seven        8. eight
+ 9. nine      10. ten       11. eleven      12. twelve
+13. thirteen  14. fourteen  15. fifteen     16. sixteen
+17. seventeen 18. eighteen  19. nineteen    20. twenty
+21. twentyone 22. twentytwo 23. twentythree 24. twentfour
+---------------END LND CIPHER SEED-----------------
+
+!!!YOU MUST WRITE DOWN THIS SEED TO BE ABLE TO RESTORE THE WALLET!!!
+
+lnd successfully initialized!</code></pre>
+
+                <h3>4. Respaldo</h3>
+                <p>Guarde el <strong>Cipher Seed</strong> y la <strong>Passphrase</strong> (en caso de usarla) en un lugar seguro y fuera de línea; es vital para la recuperación de fondos.</p>
+                <div class="tutorial-tip">
+                    <strong>Importante:</strong> No se recomienda guardar ambas cosas en el mismo lugar ya que si alguien accede a esta información podría recuperar los fondos.
+                </div>
+
+                <p>A partir de aquí solo nos queda ir al archivo <code>lnd.conf</code> y quitar el comodín a la línea <code>wallet-unlock-password-file</code>:</p>
+<pre><code>cd app-data/lnd/
+nano lnd.conf</code></pre>
+
+                <p>Archivo antes:</p>
+<pre><code>[Application Options]
+alias=Cashu4CS
+datadir=~/.lnd/data
+backupfilepath=~/.lnd/backup/channel.backup
+#wallet-unlock-password-file=~/.lnd/walletunlock
+logdir=~/.lnd/logs</code></pre>
+
+                <p>Archivo con los cambios:</p>
+<pre><code>[Application Options]
+alias=Cashu4CS
+datadir=~/.lnd/data
+backupfilepath=~/.lnd/backup/channel.backup
+wallet-unlock-password-file=~/.lnd/walletunlock
+logdir=~/.lnd/logs</code></pre>
+
+                <h2>Adquisición de Liquidez (Canales de Entrada)</h2>
+                <p>Para recibir pagos en su Mint o LNbits, su nodo necesita <strong>liquidez de entrada (Inbound Liquidity)</strong>. Al ser un nodo nuevo, no tiene canales abiertos, por lo que debe "alquilar" o comprar liquidez inicial a través de mercados especializados.</p>
+
+                <h3>Servicios de liquidez recomendados</h3>
+                <ul>
+                    <li><strong><a href="https://lnbig.com/#/" target="_blank" rel="noopener noreferrer">LNBig</a>:</strong> Permite solicitar la apertura de canales directos hacia su nodo. Ideal para liquidez rápida y de alta capacidad.</li>
+                    <li><strong><a href="https://amboss.space/" target="_blank" rel="noopener noreferrer">Amboss</a>:</strong> Mercado donde puede comprar canales de liquidez de entrada. Permite filtrar por reputación, duración y costo.</li>
+                    <li><strong><a href="https://zeuslsp.com/" target="_blank" rel="noopener noreferrer">Zeus LSP</a>:</strong> Proveedor de liquidez integrado con la wallet Zeus, permite abrir canales de forma sencilla.</li>
+                    <li><strong><a href="https://lnserver.com/" target="_blank" rel="noopener noreferrer">LN Server</a>:</strong> Servicio de apertura de canales Lightning con distintas opciones de capacidad.</li>
+                </ul>
+
+                <div class="tutorial-tip">
+                    Si conocen otros servicios que no aparezcan en esta lista, pueden compartirlos.
+                </div>
+
+                <p>Para utilizar estos servicios, se necesitará el <strong>URI del nodo</strong>, que tiene el formato:</p>
+                <p><code>pubkey@ip:9735</code> o <code>pubkey@direccion.onion:9735</code></p>
+
+                <p>Ejecutando el siguiente comando obtenemos los datos necesarios:</p>
+<pre><code>docker exec -it node_lnd lncli getinfo</code></pre>
+
+<pre><code>{
+    "version": "0.20.1-beta commit=v0.20.1-beta",
+    "identity_pubkey": "02525d7726b3aabaf8f3f3570691b180e9c46c8b662115094b289d86949201e6d6",
+    "alias": "Cashu4CS",
+    "color": "#3399ff",
+    "num_active_channels": 0,
+    "synced_to_chain": true,
+    "uris": [
+        "02525d7726b...@72.61.27.142:9735",
+        "02525d7726b...@4v3qiuuq2cx...onion:9735"
+    ]
+}</code></pre>
+
+                <div class="tutorial-tip">
+                    Cualquiera de las dos direcciones, ya sea en la red clearnet o en la red Tor, puede usarse en los servicios de compra de liquidez cuando se le solicite.
+                </div>
+
+                <div class="tutorial-nav">
+                    <a href="first-steps_es.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Anterior</span>
+                        <span class="nav-title" data-lang-es="← Primeros Pasos" data-lang-en="← First Steps">← Primeros Pasos</span>
+                    </a>
+                    <a href="nginx-proxy-manager_es.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Siguiente</span>
+                        <span class="nav-title">Nginx Proxy Manager →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Proyecto</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infraestructura</a></li>
+                        <li><a href="../index.html#timeline">Hoja de Ruta</a></li>
+                        <li><a href="../tutorials_es.html">Tutoriales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Comunidad</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Aplicar</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Patrocinador</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Código abierto bajo licencia MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orchard | Cashu4Community</title>
+    <meta name="description" content="Tutorial: Administración del Mint de Cashu con Orchard">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Inicio</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problemas</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infraestructura</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impacto</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Comunidades</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Hoja de Ruta</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_es.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutoriales</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇪🇸</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Administración del Mint de Cashu con Orchard</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <p>Orchard es una herramienta web que nos permitirá tener un mayor control de las operaciones realizadas en el mint de Cashu, además de realizar algunas operaciones sobre este. Es una herramienta en desarrollo por lo que podemos encontrarnos algún fallo. Sea prudente.</p>
+
+                <h2>Inicializando Orchard</h2>
+                <p>Accedemos a Orchard via <code>https://orchard.cashu4community.xyz</code> (ustedes lo harán mediante sus respectivos dominios). Lo primero que nos encontramos es la pantalla de inicialización de Orchard que nos pide la <code>SETUP_KEY</code>, recordemos que esto lo generamos en el paso de Configuración de la Infraestructura y lo debimos haber copiado. En caso de no encontrar dicha clave la pueden ver en el archivo <code>app-data/orchard/.env</code>.</p>
+
+                <img src="img/orchard-initial-setup.png" alt="Orchard Initial Setup">
+
+                <p>Adicionamos el usuario que usaremos para loguearnos en Orchard, la contraseña, la confirmamos y listo. Tendremos Orchard listo para usar.</p>
+
+                <h2>Orchard Dashboard</h2>
+                <p>Como verán al iniciar sesión en Orchard, este puede mostrar información del nodo Bitcoin (en caso de que tengamos uno instalado), nodo Lightning y el Mint de Cashu. Las operaciones sobre el Nodo Bitcoin y nodo Lightning son informativas, no hay mucho que hacer allí, por lo que nos centraremos en el Mint de Cashu.</p>
+
+                <img src="img/orchard-mint-dashboard.png" alt="Orchard Mint Dashboard">
+
+                <h2>Sección Info</h2>
+                <p>En la sección de Info podemos actualizar toda la información del Mint en lo referente a los datos de contacto. Todos pueden ser actualizados desde esta vista.</p>
+
+                <img src="img/orchard-info-section.png" alt="Orchard Info Section">
+
+                <h2>Sección Config</h2>
+                <p>Actualmente la sección Config no es funcional. Aqui se pretende ajustar algunos parámetros como el máximo y mínimo en una operación de mint o melt, habilitar o deshabilitar Redis, entre otras opciones. Dicho sea de paso, estas opciones están presentes en el archivo <code>.env</code>. Según el desarrollador, estas funciones vía RPC no están implementadas.</p>
+
+                <img src="img/orchard-config-section.png" alt="Orchard Config Section">
+
+                <h2>Sección Keysets</h2>
+                <p>Desde esta sección podemos configurar un nuevo keyset sin tener que recurrir a la línea de comando. Solo tiene una limitante por el momento: solo funciona con keysets v1. La última actualización de Nutshell incorpora la versión 2.</p>
+
+                <img src="img/orchard-keysets-section.png" alt="Orchard Keysets Section">
+
+                <p>Añadiendo un nuevo Keyset:</p>
+
+                <img src="img/orchard-new-keyset.png" alt="Orchard New Keyset">
+
+                <h2>Sección Database</h2>
+                <p>En esta sección se muestra información alojada en la base de datos como operaciones de Mint y Melt. Se pueden realizar un backup de la base de datos entre otras opciones más.</p>
+
+                <img src="img/orchard-database-section.png" alt="Orchard Database Section">
+
+                <div class="tutorial-nav">
+                    <a href="cashu-mint-nutshell_es.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Anterior</span>
+                        <span class="nav-title">← Mint de Cashu</span>
+                    </a>
+                    <a href="update-services_es.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Siguiente</span>
+                        <span class="nav-title" data-lang-es="Actualización de Servicios →" data-lang-en="Service Updates →">Actualización de Servicios →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Proyecto</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infraestructura</a></li>
+                        <li><a href="../index.html#timeline">Hoja de Ruta</a></li>
+                        <li><a href="../tutorials_es.html">Tutoriales</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Comunidad</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Aplicar</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Patrocinador</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Código abierto bajo licencia MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
