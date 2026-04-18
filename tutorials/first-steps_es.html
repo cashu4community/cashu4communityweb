@@ -88,91 +88,58 @@ git clone https://github.com/cashu4community/cashu4cs-deploy.git
 cd cashu4cs-deploy</code></pre>
 
                 <h2>Configuración de la Infraestructura</h2>
-                <p>El despliegue se automatiza mediante el script <code>config_env.sh</code>, el cual gestiona de forma interactiva las variables de entorno y los parámetros de seguridad.</p>
+                <p>Para el despliegue de la infraestructura debemos obtener la ip pública del VPS y crear varias claves.</p>
 
-                <h3>Ejecución del Asistente de Configuración</h3>
-                <p>Inicie el script para generar el entorno:</p>
-<pre><code>./config_env.sh</code></pre>
+                <h3>Servicio Lightning Network Daemon</h3>
+                <p>Necesitamos la IP pública del VPS la podemos obtener con el script <code>get_public_ip.sh</code> de la siguiente manera:</p>
+<pre><code>./get_public_ip.sh
+72.61.27.142</code></pre>
+                <p>Con este dato podemos actualizar el archivo <code>lnd.conf</code> parámetro <code>externalip</code>, además podemos definir el parámetro <code>alias</code> útil para buscar el nodo en servicios de búsqueda como mempool.space.</p>
+                <p>Debemos crear además una contraseña que usaremos para cifrar la billetera del nodo debe tener al menos 12 caracteres que combine mayúsculas, minúsculas, números y caracteres especiales como <code>+ - *</code></p>
+                <p>Ej. <code>+6Mn31qVwLC-</code></p>
+                <p>Esta debe ser guardada en el archivo <code>app-data/lnd/walletunlock</code>.</p>
 
-<pre><code>=== Domain Configuration ===
+                <h3>Servicio Lightning Terminal (LIT)</h3>
+                <p>Solo necesitamos crear una contraseña similar en fortaleza a la de la billetera LND para el parámetro <code>uipassword</code> del archivo <code>lit.conf</code></p>
 
-Getting public IP...
-IP obtained: 72.61.27.142
+                <h3>Servicio LNbits</h3>
+                <p>En LNbits solo tenemos que crear la clave de configuración <code>AUTH_SECRET_KEY</code> del archivo <code>.env</code> en la raíz del directorio <code>app-data/lnbits/</code> la podemos generar con el siguiente comando:</p>
+<pre><code>openssl rand -hex 32</code></pre>
+                <p>LNbits también necesita la clave de PostgreSQL la crearemos igual que la de LND y LIT y la cambiamos en el archivo <code>.env</code> específicamente en la línea <code>LNBITS_DATABASE_URL="postgres://lnbits_user:dbpassword_@db:5432/lnbits_db"</code> sustituyendo <code>dbpassword_</code> por la clave generada. También debemos actualizar la contraseña de postgres en el archivo <code>docker-compose.yml</code> en el servicio <code>db</code>:</p>
+<pre><code>environment:
+      POSTGRES_USER: 'lnbits_user'
+      POSTGRES_PASSWORD: 'dbpassword_'
+      POSTGRES_DB: 'lnbits_db'</code></pre>
 
-LND Node Alias Configuration
+                <h3>Servicio Mint de Cashu</h3>
+                <p>Para el servicio cashu solo necesitamos generar la clave <code>MINT_PRIVATE_KEY</code> del archivo <code>.env</code> en la raíz del directorio <code>app-data/cashu/</code> lo hacemos ejecutando el comando:</p>
+<pre><code>openssl rand -hex 32</code></pre>
 
-Enter your LND node alias: Cashu4Community
-
-Do you want to add an extra domain for LND management? (y/N):
-
-Generating keys...
-
-==========================================
-  CONFIGURATION PREVIEW
-==========================================
-  LND alias=Cashu4CS
-  EXTERNAL_IP=72.61.27.142
-  TLSEXTRADOMAIN=lnd
-  POSTGRES_PASSWORD=331c3b377e0a29eb0d946b607dc313c4
-  LIT_PASSWORD=88d0206291e23d4c56ac7f293ad19d7b
-  LNDWALLET_PASSWD=b4a7d595160162b207411dca986f06a9
-  lnbits:     AUTH_SECRET_KEY=12ff5985076ce516692264938240564ecc2c54b083a3f3811346d5b85d9a7008
-  cashu:      MINT_PRIVATE_KEY=3d5bbc9143d1c8d22b1588c7d88e8069c0a008dd579c5a0b699259a8e8e83bee
-  orchard:    SETUP_KEY=667f6fb870d3e022207e99e966ff6f88
-==========================================
-Press any key to save configuration...
-==========================================
-  SAVING CONFIGURATION
-==========================================
-
-- Backing up configuration files...
-  [OK] Backups created in backup/
-
-- Updating environment variables...
-  [OK] Root .env updated
-  [OK] LNBITS: AUTH_SECRET_KEY
-  [OK] CASHU: MINT_PRIVATE_KEY
-  [OK] ORCHARD: SETUP_KEY
-  [OK] LNBITS: LNBITS_DATABASE_URL (password)
-
-- Generating certificates...
-  [OK] Certificates generated
-
-==========================================
-  CONFIGURATION SAVED SUCCESSFULLY
-==========================================</code></pre>
-
-                <p><strong>Funciones principales del script:</strong></p>
-                <ul>
-                    <li><strong>Detección de IP:</strong> Identifica la IP pública del VPS para configurar el parámetro <code>externalip</code> en LND.</li>
-                    <li><strong>Identidad del Nodo:</strong> Solicita un <em>alias</em> para su nodo Lightning, facilitando su identificación en exploradores de red.</li>
-                    <li><strong>Gestión de Dominios:</strong> Permite definir subdominios adicionales para la conexión remota vía RPC o REST API.</li>
-                    <li><strong>Generación de Credenciales:</strong> Crea automáticamente claves robustas para la billetera LND, PostgreSQL, LNbits, el Mint de Cashu (<code>MINT_PRIVATE_KEY</code>) y Orchard.</li>
-                    <li><strong>Persistencia y Seguridad:</strong> Genera respaldos (backups) automáticos de los archivos de configuración existentes antes de aplicar cambios.</li>
-                    <li><strong>Criptografía:</strong> Genera los certificados TLS necesarios para la comunicación segura entre los servicios.</li>
-                </ul>
+                <h3>Servicio Orchard</h3>
+                <p>En Orchard solo necesitamos generar la clave <code>SETUP_KEY</code> en el archivo <code>.env</code> ubicado en la raíz del directorio <code>app-data/orchard</code> lo hacemos de igual manera con el comando:</p>
+<pre><code>openssl rand -hex 32</code></pre>
 
                 <h2>Gestión de los Servicios</h2>
-                <p>Se incluyen scripts especializados para facilitar la administración de la pila tecnológica, ideales para usuarios que prefieren flujos de trabajo simplificados.</p>
+                <p>Los siguientes comando permiten administrar la pila tecnológica:</p>
 
                 <table>
                     <thead>
                         <tr>
-                            <th>Script</th>
+                            <th>Comando</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><code>./start.sh</code></td>
+                            <td><code>docker-compose up -d</code></td>
                             <td>Inicia la infraestructura completa; descarga las imágenes en la primera ejecución.</td>
                         </tr>
                         <tr>
-                            <td><code>./stop.sh</code></td>
+                            <td><code>docker-compose down</code></td>
                             <td>Detiene todos los servicios de forma controlada.</td>
                         </tr>
                         <tr>
-                            <td><code>./recreate.sh [servicio]</code></td>
+                            <td><code>docker-compose up --force-recreate [servicio] -d</code></td>
                             <td>Reconstruye un contenedor específico tras realizar cambios en su configuración.</td>
                         </tr>
                     </tbody>
@@ -182,7 +149,7 @@ Press any key to save configuration...
                 <p>La infraestructura se compone de los siguientes servicios interconectados:</p>
                 <ul>
                     <li><strong>Financieros:</strong> <code>lnd</code>, <code>cashu</code> (Mint), <code>lnbits</code>.</li>
-                    <li><strong>Gestion y Red:</strong> <code>lit</code> (Lightning Terminal), <code>npm</code> (Proxy Manager), <code>tor</code>, <code>orchard</code>.</li>
+                    <li><strong>Gestión y Red:</strong> <code>lit</code> (Lightning Terminal), <code>npm</code> (Proxy Manager), <code>tor</code>, <code>orchard</code>.</li>
                     <li><strong>Persistencia:</strong> <code>db</code> (PostgreSQL), <code>redis</code>.</li>
                 </ul>
 
