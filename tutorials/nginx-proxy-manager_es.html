@@ -68,99 +68,71 @@
                 <p>En esta etapa vas a configurar el acceso externo a tus servicios (Lightning Terminal, LNBits, Cashu, Orchard, etc.) usando <strong>Nginx Proxy Manager</strong>, que actúa como proxy inverso y gestor de certificados SSL.</p>
 
                 <h2>Acceso inicial</h2>
-                <p>El contenedor ya viene preconfigurado, por lo que no necesitas crear usuario:</p>
+                <p>El contenedor ya viene preconfigurado, por lo que no necesitas crear un usuario:</p>
                 <ul>
                     <li><strong>Usuario:</strong> <code>changeme@domin.com</code></li>
                     <li><strong>Contraseña:</strong> <code>ch4ng3me*-</code></li>
                 </ul>
-                <p>Accede desde tu navegador a <code>http://npm.cashu4community.xyz:81</code>. Como el acceso es por primera vez debemos hacerlo usando el puerto 81 y mediante una conexión insegura. En el siguiente paso corregiremos esto.</p>
+                <p>Accede desde tu navegador a la URL o IP donde esté corriendo el contenedor, para nuestro ejemplo usaremos <code>http://npm.cashu4community.xyz:81</code>. Como accedemos por primera vez, lo hacemos usando el puerto 81 y mediante una conexión insegura. En el siguiente paso corregiremos esto.</p>
                 <img src="img/npm-login-page-without-ssl.png" alt="NPM Login Page">
 
-                <h2>1. Crear un Proxy Host</h2>
-                <p>En el panel principal no hay hosts configurados aún. Haz clic en el botón <strong>"Add Proxy Host"</strong>.</p>
+                <h2>Crear un Proxy Host</h2>
+                <p>Para crear un <strong>Proxy Host</strong> seleccionamos en el Dashboard la sección Proxy Host como se muestra en la siguiente imagen:</p>
+                <img src="img/npm-list-of-all-records.png" alt="NPM Dashboard">
+
+                <p>Luego hacemos clic en el botón Add Proxy Host</p>
                 <img src="img/npm-add-proxy-host.png" alt="NPM Add Proxy Host">
 
-                <h2>2. Configurar el Proxy Host</h2>
+                <p>Nos aparecerá una ventana donde introduciremos los datos del servicio.</p>
                 <img src="img/npm-add-proxy-host-details.png" alt="NPM Proxy Host Details">
 
-                <h3>Sección: Details</h3>
+                <ol>
+                    <li><strong>Domain Names</strong> este será el nombre dominio que tendrá la aplicación de cara a internet. Como para este ejemplo estamos configurando el acceso al NPM usaremos el dominio <code>npm.cashu4community.xyz</code>.</li>
+                    <li><strong>Scheme</strong> el esquema es la via por la cual NPM se comunica con la aplicacion que está corriendo en el contenedor puede ser <code>http</code> o <code>https</code>. Para NPM lo dejamos en <code>http</code>.</li>
+                    <li><strong>Forward Hostname / IP</strong> no es mas que el nombre del host interno como se trata de un contenedor de docker lo mejor será usar el nombre del servicio. Para NPM será <code>npm</code>.</li>
+                    <li><strong>Forward Port</strong> es el puerto por el que corre la aplicación internamente en el contenedor de Docker. NPM usa el puerto 81.</li>
+                    <li><strong>Options</strong> Habilitamos todas las opciones para mejorar la seguridad y funcionalidad de la aplicación.</li>
+                </ol>
 
-                <h4>Domain Names</h4>
-                <p>Introduce el dominio o subdominio que usarás. Ejemplo:</p>
-<pre><code>npm.cashu4community.xyz</code></pre>
-
-                <h4>Scheme</h4>
-                <ul>
-                    <li><code>http</code> - si el servicio interno no usa SSL (lo más común en Docker)</li>
-                    <li><code>https</code> - si el contenedor ya expone HTTPS</li>
-                </ul>
-                <p>En este caso: <strong>http</strong></p>
-
-                <h4>Forward Hostname / IP</h4>
-                <p>Es el nombre del contenedor o IP interna en Docker. Ejemplo:</p>
-<pre><code>npm</code></pre>
-                <div class="tutorial-tip">
-                    Esto funciona porque los contenedores comparten red (Docker network).
-                </div>
-
-                <h4>Forward Port</h4>
-                <p>Puerto interno del servicio. Ejemplo:</p>
-<pre><code>81</code></pre>
-
-                <h4>Access List</h4>
-                <p>Déjalo en <code>Publicly Accessible</code>. Luego puedes restringirlo si quieres añadir autenticación.</p>
-
-                <h4>Opciones (recomendado dejar activado)</h4>
-                <ul>
-                    <li><strong>Cache Assets</strong></li>
-                    <li><strong>Block Common Exploits</strong></li>
-                    <li><strong>Websockets Support</strong></li>
-                </ul>
-                <div class="tutorial-tip">
-                    Especialmente importante activar WebSockets para servicios como Lightning Terminal, LNBits e interfaces en tiempo real.
-                </div>
-
-                <h3>Sección: SSL</h3>
-                <p>Aquí defines todo lo relacionado al certificado SSL y la conexión HTTPS.</p>
+                <p>Pasamos a la pestaña SSL para generar el certificado y habilitar las opciones de seguridad.</p>
                 <img src="img/npm-add-proxy-host-ssl-options.png" alt="NPM SSL Options">
 
-                <h4>SSL Certificate</h4>
-                <p>Como es un registro nuevo, selecciona <code>Request a new Certificate</code>.</p>
-                <div class="tutorial-tip">
-                    En caso de ya existir un certificado válido para el dominio, seleccionarlo.
-                </div>
+                <ol>
+                    <li><strong>SSL Certificate</strong> Seleccionamos en la lista <code>Request new Certificate</code></li>
+                    <li>Habilitamos <code>Force SSl</code>, <code>HTTP/2 Support</code> y <code>HSTS Enabled</code></li>
+                </ol>
 
-                <h4>Opciones (recomendado dejar activado)</h4>
-                <ul>
-                    <li><strong>Force SSL</strong></li>
-                    <li><strong>HTTP/2 Support</strong></li>
-                    <li><strong>HSTS Enabled</strong></li>
-                </ul>
+                <p>Al hacer clic en el botón <code>Save</code> se configura el proxy host y nos aparecerá mostrando el indicador <code>Online</code> en verde, en caso contrario significa que se ha introducido algum dato erroneo o la aplicación no está corriendo.</p>
+                <img src="img/npm-proxy-host-record.png" alt="NPM Proxy Host Record">
 
-                <h2>3. Guardar</h2>
-                <p>Haz clic en <strong>Save</strong>. Si todo está bien configurado, el dominio apuntará correctamente al contenedor y ya tendrás acceso desde el navegador.</p>
+                <p>Ya configuramos el Proxy Host para el servicio NPM por lo que ya podemos conectarnos a <code>https://npm.cashu4community.xyz</code> sin usar el puerto 81.</p>
+                <img src="img/npm-login-page-with-ssl.png" alt="NPM Login Page with SSL">
 
-                <h2>4. Eliminar entrada en docker-compose.yml</h2>
-                <p>Ya hemos configurado el Proxy Host para el propio servicio NPM y podemos acceder mediante HTTPS usando el puerto 443. Ahora deshabilitaremos el acceso por el puerto 81.</p>
-                <p>Buscamos el servicio npm y en la sección <code>ports:</code> eliminamos el puerto 81:</p>
+                <h2>Eliminamos el acceso de NPM por el puerto 81</h2>
+                <p>Ya hemos configurado el Proxy Host para el servicio NPM y ya podemos acceder mediante https usando el puerto 443. Ahora deshabilitaremos el acceso por el puerto 81. Para ello editamos el archivo docker-compose.yml en la raíz del proyecto.</p>
+                <p>Buscamos el servicio npm y en la sección <code>ports:</code> eliminamos el puerto 81.</p>
 <pre><code>    ports:
-      - '80:80'
-      - '443:443'
-      - '81:81'</code></pre>
+      - '80:80' 
+      - '443:443' 
+      - '81:81' </code></pre>
                 <p>Quedando así:</p>
 <pre><code>    ports:
-      - '80:80'
-      - '443:443'</code></pre>
+      - '80:80' 
+      - '443:443' </code></pre>
 
-                <h2>5. Reconstruir el contenedor NPM</h2>
-<pre><code>./recreate.sh npm</code></pre>
+                <p>Para hacer efectivo el cambio solo necesitamos regenerar el contenedor de NPM.</p>
+                <p>Ejecutamos lo siguiente:</p>
+<pre><code>docker-compose up --force-recreate npm -d</code></pre>
+
+                <p>Si no hubo errores en la edición del archivo yml el proceso debe terminar correctamente. Así que ya podremos acceder al panel de administración de NPM mediante https unicamente.</p>
 
                 <div class="tutorial-tip">
-                    <strong>Importante:</strong> Tras entrar vía HTTPS recomiendo cambiar el correo y la contraseña de la cuenta de acceso a NPM, de lo contrario esta exponiendo su infraestructura.
+                    <strong>Importante:</strong> Tras entrar vía HTTPS recomiendo cambiar el correo y la contraseña de la cuenta de acceso a NPM, de lo contrario está exponiendo su infraestructura.
                 </div>
+                <img src="img/npm-user-and-password.png" alt="NPM User Menu">
 
                 <h2>Cómo encaja esto en tu infraestructura</h2>
-                <p>Hasta aquí hemos configurado un registro Proxy Host y el acceso al NPM de forma segura. Ahora podemos configurar el resto de los servicios ya que cada uno tendrá su propio Proxy Host:</p>
+                <p>Hasta aquí hemos configurado un registro Proxy Host y el acceso al NPM de forma segura, ahora podemos configurar el resto de los servicios ya que cada uno tendrá su propio Proxy Host en la siguiente tabla se muestran los datos necesarios:</p>
 
                 <table>
                     <thead>
@@ -204,6 +176,10 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="tutorial-tip">
+                    <strong>Importante:</strong> Los dominios usados aquí son solo una referencia para poder explicar el proceso de despliegue y puesta a punto de la infraestructura.
+                </div>
 
                 <div class="tutorial-nav">
                     <a href="lightning-network-daemon_es.html" class="nav-prev">
