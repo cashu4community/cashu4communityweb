@@ -65,34 +65,76 @@
         <section class="tutorial-content">
             <div class="container">
 
-                <p>LNbits es una solución de billetera y sistema de cuentas que corre sobre el nodo LND, permitiendo segmentar fondos y habilitar funcionalidades extendidas mediante extensiones. Es el motor que procesa las transacciones de los demás servicios.</p>
+                <p>LNbits es una solución de billetera y sistema de cuentas que corre sobre el nodo LND, permitiendo segmentar fondos y habilitar funcionalidades extendidas mediante extensiones. Es el motor que procesa las transacciones de los demás servicios. Se puede decir que es la navaja suiza Lightning.</p>
 
-                <h3>Paso 1. Inicializando LNbits</h3>
-                <p>Lo primero que haremos es ir a la url <code>https://lnbits.cashu4community.xyz</code></p>
-                <p>Usaremos a modo de ejemplo las credenciales siguientes:</p>
-<pre><code>Usuario -> admin
-Contrasena -> 1234Abc-+</code></pre>
+                <h2>Inicializando LNbits</h2>
+                <p>Siguiendo con nuestro entorno de pruebas accedemos a <code>https://lnbits.cashu4community.xyz</code> si aun no has configurado este Proxy Host en NPM ve a la sección <code>Crear un Proxy Host</code> del servicio Nginx Proxy Manager.</p>
 
-                <div class="tutorial-tip">
-                    <strong>Importante:</strong> La cuenta admin es muy importante ya que tiene el máximo privilegio de LNbits, guarde las credenciales en un lugar seguro y use esta cuenta solo para tareas administrativas.
-                </div>
-
+                <p>Al acceder se nos muestra la página de inicializar la instalación, solo necesitaremos introducir un nombre de usuario y la contraseña de este dos veces.</p>
                 <img src="img/lnbits-initial-intall.png" alt="LNbits Initial Install">
 
-                <p>Introducidos los datos hacemos clic en <strong>LOGIN</strong> y nos lleva a la página de configuración de LNbits para hacer los ajustes necesarios.</p>
+                <p>En el ejemplo estamos usando el usuario <code>admin</code> con la clave <code>1234Abc-+</code> ustedes usarán el que deseen.</p>
 
+                <div class="tutorial-tip">
+                    <strong>Importante:</strong> Esta cuenta tiene rol de superusuario y tiene los máximos privilegios en el sistema.
+                </div>
+
+                <p>Luego de crear la cuenta el sistema nos lleva a la página de ajustes (Settings).</p>
                 <img src="img/lnbits-config-page.png" alt="LNbits Config Page">
 
-                <p>En esta página se puede configurar todo lo relacionado al servicio LNbits desde la conexión al proveedor de servicio Lightning, aspectos de seguridad, pagos, tasas de cambio, hasta la personalización del sitio.</p>
+                <p>Por el momento no es necesario modificar nada aquí, así que pasamos a crear la billetera que usará el Mint de Cashu.</p>
 
-                <h3>Paso 2. Configurando la cuenta para los fee.</h3>
-                <p><em>Próximamente.</em></p>
+                <div class="tutorial-tip">
+                    <strong>Importante:</strong> Como recomendación proponemos crear una cuenta para cada servicio que conectemos al LNbits.
+                </div>
 
-                <h3>Paso 3. Habilitando extensiones.</h3>
-                <p><em>Próximamente.</em></p>
+                <p>Vamos a usar la cuenta admin y renombraremos la billetera por defecto para que sirva de backend del Mint de cashu, luego optendremos la apikey para realizar para realizar y recibir pagos.</p>
+                <img src="img/lnbits-wallet-rename.png" alt="LNbits Wallet Rename">
 
-                <h3>Paso 4. Actualizando la versión de LNbits</h3>
-                <p><em>Próximamente.</em></p>
+                <ol>
+                    <li>Seleccionamos la billetera</li>
+                    <li>Vamos al panel derecho específicamente a <code>Wallet Config</code></li>
+                    <li>Cambiamos el nombre por <code>Cashu Mint</code> (puede ser el nombre de su preferencia)</li>
+                    <li>Presionamos <code>Update Name</code></li>
+                </ol>
+
+                <p>De esta forma ya tenemos identificada la billetera que se usará para almacenar los fondos del Mint de Cashu.</p>
+
+                <p>Ahora necesitamos la clave para realizar y recibir pagos un poco mas abajo aparece la opción <code>Node URL, API keys...</code></p>
+                <img src="img/lnbits-wallet-api-key.png" alt="LNbits Wallet API Key">
+
+                <ol>
+                    <li>Cualquiera de las dos llaves funcionara pero la de admin tiene mayor privilegio</li>
+                    <li>Hacemos clic en el ícono del portapapeles y copiamos la clave en un archivo de texto para luego cuando pasemos a configurar el Mint de Cashu usemos esta clave</li>
+                </ol>
+
+                <h2>Actualizando LNbits</h2>
+                <p>El proceso de actualizar la versión de LNbits es facil; pero debemos respaldar la base de datos para evitar perder datos por fallo en una actualización.</p>
+
+                <h3>1. Respaldar la base de datos</h3>
+                <p>Ejecutamos:</p>
+<pre><code>docker exec -it app_lnbits bash
+pg_dump -h db -u lnbits_user -p -d lnbits_db > data/lnbits-db.sql</code></pre>
+
+                <h3>2. Actualizamos el número de versión en el docker-compose.yml</h3>
+                <p>Editamos el archivo docker-compose.yml ubicado en la raíz del proyecto.</p>
+
+                <p>Localizamos el servicio lnbits específicamente la siguiente linea:</p>
+<pre><code>lnbits:
+  image: lnbits/lnbits:v1.4.0</code></pre>
+
+                <p>Como se observa es la version de lnbits es la 1.4 y en el momento en que se redacta este tutorial esta en su versión 1.5.3. Actualizamos el archivo con la versión más reciente.</p>
+<pre><code>lnbits:
+  image: lnbits/lnbits:v1.5.3</code></pre>
+
+                <h3>3. Hacemos efectivo los cambios</h3>
+<pre><code>docker-compose up --force-recreate lnbits -d</code></pre>
+
+                <p>Este proceso eliminará el contenedor con la versión vieja descargará la nueva versión y realizará las actualizaciones a la base de datos en caso de ser necesario.</p>
+
+                <div class="tutorial-tip">
+                    Es importante no violar el paso 1 para en caso de un fallo en la actualización poder volver a la versión anterior. También es recomendable revisar la notas de la nueva versión para conocer si se necesitan hacer cambios puntuales antes de actualizar.
+                </div>
 
                 <div class="tutorial-nav">
                     <a href="lightning-terminal_es.html" class="nav-prev">
