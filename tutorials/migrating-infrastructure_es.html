@@ -65,12 +65,12 @@
         <section class="tutorial-content">
             <div class="container">
 
-                <p>Puede que en algún momento necesitemos mover la infraestructura hacia otro proveedor de servicios o simplemente el VPS contratado está a punto de expirar y sea preferible adquirir uno nuevo. Llegado el momento, el proceso de migrar es muy fácil.</p>
+                <p>Puede que en algún momento necesitemos mover a infraestructura hacia otro proveedor de servicios o simplemente el VPS contratado está a punto de expirar y sea preferible adquirir uno nuevo. Llegado el momento el proceso de migrar es muy fácil.</p>
 
                 <h2>1. Detener la Infraestructura</h2>
-                <p>Siempre se debe avisar con tiempo cuando realicemos tareas de este tipo para evitar que los usuarios se queden a media operación.</p>
+                <p>Siempre se debe avisar con tiempo cuando realicemos tareas de este tipo para evitar que los usuarios se queden a media en una operación.</p>
 <pre><code>cd cashu4cs-deploy/
-./stop.sh</code></pre>
+docker-compose stop</code></pre>
                 <p>Hasta aquí ya tenemos la infraestructura detenida y nadie podrá usar los servicios.</p>
 
                 <h2>2. Salvar directorio cashu4cs-deploy</h2>
@@ -79,57 +79,75 @@
 cashu4cs-deploy/
 cashu4cs-deploy/get_public_ip.sh
 cashu4cs-deploy/.git/
-...
+cashu4cs-deploy/.git/logs/
+cashu4cs-deploy/.git/logs/HEAD
+cashu4cs-deploy/.git/logs/refs/
+cashu4cs-deploy/.git/logs/refs/remotes/
+cashu4cs-deploy/.git/logs/refs/remotes/origin/
+cashu4cs-deploy/.git/logs/refs/remotes/origin/HEAD
+cashu4cs-deploy/.git/logs/refs/heads/
+cashu4cs-deploy/.git/logs/refs/heads/main
+....
+....
+....
 cashu4cs-deploy/app-data/lnbits/db/
 cashu4cs-deploy/app-data/cashu/
 cashu4cs-deploy/app-data/cashu/.env
+cashu4cs-deploy/app-data/cashu/certs/
+cashu4cs-deploy/app-data/cashu/certs/client_cert.pem
+cashu4cs-deploy/app-data/cashu/certs/ca_private.pem
+cashu4cs-deploy/app-data/cashu/certs/generate_certificates.sh
+cashu4cs-deploy/app-data/cashu/certs/server_private.pem
+cashu4cs-deploy/app-data/cashu/certs/server_cert.pem
+cashu4cs-deploy/app-data/cashu/certs/client_private.pem
+cashu4cs-deploy/app-data/cashu/certs/ca_cert.pem
 cashu4cs-deploy/recreate.sh</code></pre>
 
-                <p>Verificamos que el archivo se creó correctamente:</p>
+                <p>Si terminó correctamente la operación anterior listamos el contenido del directorio.</p>
 <pre><code>ls .
 cashu4cs-deploy cashu4cs-deploy.tar.gz</code></pre>
 
                 <p>Ese archivo comprimido es toda nuestra infraestructura, la cual podremos copiar en el nuevo VPS.</p>
 
                 <div class="tutorial-tip">
-                    <strong>Importante:</strong> No puede olvidar que el VPS destino debe tener los requisitos necesarios para la infraestructura que se vio en los primeros pasos.
+                    <strong>Importante:</strong> No puede olvidar que el VPS destino debe tener los requisitos necesarios para la infraestructura que se vio en lo primeros pasos.
                 </div>
 
-                <h2>3. Copiar y descomprimir en el nuevo VPS</h2>
+                <h2>3. Copiar y descomprimir cashu4cs-deploy.tar.gz en el nuevo VPS</h2>
+                <p>Ejecutamos el siguiente comando:</p>
 <pre><code>scp cashu4cs-deploy.tar.gz root@&lt;ip nuevo vps&gt;:/root/</code></pre>
 
-                <p>Si terminó la copia correctamente, pasamos a conectarnos al servidor:</p>
+                <p>Si terminó la copia correctamente, pasamos a conectarnos al servidor.</p>
 <pre><code>ssh root@&lt;ip nuevo vps&gt;
-
 # Luego de conectarnos descomprimimos el archivo
 tar zxvf cashu4cs-deploy.tar.gz
-
-# Nos movemos al directorio
+# No movemos al directorio
 cd cashu4cs-deploy/</code></pre>
 
-                <p>El nuevo VPS tiene una IP distinta por lo que hay que actualizar los registros DNS de nuestro dominio y el archivo <code>lnd.conf</code> específicamente <code>externalip</code>.</p>
+                <p>Te preguntarás porque no iniciamos todo desde el paso anterior y es que aquí hay un detalle. El nuevo VPS tiene una IP distinta por lo que hay que actualizar los registros DNS de nuestro dominio y el archivo <code>lnd.conf</code> específicamente <code>externalip</code>.</p>
 
-                <p>Obtenemos la IP del nuevo VPS:</p>
+                <p>Y como obtenemos la IP del nuevo VPS, muy fácil, podemos encontrarla en el panel del proveedor de servicio VPS o usando el siguiente script:</p>
 <pre><code>./get_public_ip.sh
 12.45.128.56</code></pre>
 
-                <p>Esa es la IP que debemos actualizar en el parámetro <code>externalip</code> y en los registros DNS.</p>
+                <p>En el ejemplo la ip obtenida es <code>12.45.128.56</code> esa es la que debemos actualizar en el parámetro <code>externalip</code> y en los registros DNS. Ahora si podemos pasar al siguiente paso.</p>
 
                 <h2>4. Iniciar la infraestructura</h2>
-<pre><code>./start.sh</code></pre>
+                <p>Ejecutamos lo siguiente:</p>
+<pre><code>docker-compose up -d</code></pre>
 
-                <p>En este paso se descargan las imágenes nuevamente ya que en el nuevo VPS no existen. Si no falla el proceso, podemos comprobar:</p>
+                <p>Ya en este punto se descargan nuevamente las imágenes y se construyen los contenedores con la información que ya tenian por lo que tendriamos en minutos la infraestructura operativa nuevamente. Si no falla el proceso, podemos comprobar con el siguiente comando:</p>
 <pre><code>docker ps
-CONTAINER ID   IMAGE                                              COMMAND         STATUS          NAMES
-c0ec55b00d9c   lnbits/lnbits:v1.5.3                               "sh -c '..."    Up 30 seconds   app_lnbits
-86eada0916e5   jc21/nginx-proxy-manager:latest                    "/init"         Up 30 seconds   nginx_proxy_manager
-fb888e103a82   ghcr.io/orangeshyguy21/orchard-mintdb-sqlite:1.5   "docker-..."    Up 30 seconds   app_orchard
-5ff40c0146ab   lightninglabs/lightning-terminal:v0.16.1-alpha     "litd ..."      Up 30 seconds   lightning_terminal
-aa7146e0961d   cashubtc/nutshell:0.20.0                           "poetry ..."    Up 30 seconds   app_cashu
-a538285ac7bd   lightninglabs/lnd:v0.20.1-beta                     "lnd ..."       Up 30 seconds   nodo_lnd
-da4838d5f798   postgres:14.18-bookworm                            "docker-..."    Up 30 seconds   postgres_lnbits
-e20eecdc0df8   redis:8.4.0                                        "docker-..."    Up 30 seconds   redis
-7de5f6d082cf   dockurr/tor                                        "tor"           Up 30 seconds   proxy_tor</code></pre>
+CONTAINER ID   IMAGE                                              COMMAND                  CREATED         STATUS                  PORTS                                                                                                                                       NAMES
+c0ec55b00d9c   lnbits/lnbits:v1.5.3                               "sh -c 'uv run lnbit…"   30 seconds ago   Up 30 seconds            5000/tcp                                                                                                                                    app_lnbits
+86eada0916e5   jc21/nginx-proxy-manager:latest                    "/init"                  30 seconds ago    Up 30 seconds            0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:443->443/tcp, [::]:443->443/tcp, 81/tcp                                                        nginx_proxy_manager
+fb888e103a82   ghcr.io/orangeshyguy21/orchard-mintdb-sqlite:1.5   "docker-entrypoint.s…"   30 seconds ago   Up 30 seconds             3321/tcp                                                                                                                                    app_orchard
+5ff40c0146ab   lightninglabs/lightning-terminal:v0.16.1-alpha     "litd --configfile=/…"   30 seconds ago   Up 30 seconds             8443/tcp, 9735/tcp, 10009/tcp                                                                                                               lightning_terminal
+aa7146e0961d   cashubtc/nutshell:0.20.0                           "poetry run mint"        30 seconds ago   Up 30seconds                                                                                                                                                        app_cashu
+a538285ac7bd   lightninglabs/lnd:v0.20.1-beta                     "lnd --configfile=/r…"   30 seconds ago   Up 30 seconds             0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp, 0.0.0.0:9735->9735/tcp, [::]:9735->9735/tcp, 0.0.0.0:10009->10009/tcp, [::]:10009->10009/tcp   nodo_lnd
+da4838d5f798   postgres:14.18-bookworm                            "docker-entrypoint.s…"   30 seconds ago   Up 30 seconds             5432/tcp                                                                                                                                    postgres_lnbits
+e20eecdc0df8   redis:8.4.0                                        "docker-entrypoint.s…"   30 seconds ago   Up 30 seconds             6379/tcp                                                                                                                                    redis
+7de5f6d082cf   dockurr/tor                                        "tor"                    30 seconds ago   Up 30 seconds (healthy)   9050-9051/tcp                                                                                                                               proxy_tor</code></pre>
 
                 <div class="tutorial-nav">
                     <a href="update-services_es.html" class="nav-prev">
