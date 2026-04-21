@@ -65,112 +65,84 @@
         <section class="tutorial-content">
             <div class="container">
 
-                <p>Para que el nodo sea funcional, es obligatorio crear o restaurar una billetera criptográfica:</p>
+                <p>En la guía de primeros pasos creamos y configuramos la contraseña necesaria para desbloquear la billetera del servicio LND, la cual se guardó en el archivo <code>walletunlock</code>. Ahora vamos a crear la billetera.</p>
+
+                <h3>2.1 Creando la billetera</h3>
+                <p>Ejecutamos lo siguiente:</p>
+<pre><code>cat app-data/lnd/walletunlock</code></pre>
+                <p>Esto devuelve la contraseña creada con antelación</p>
+<pre><code>+6Mn31qVwLC-</code></pre>
+                <p>La copiamos y ejecutamos:</p>
 <pre><code>docker exec -it node_lnd lncli create</code></pre>
+                <p>Esto nos lleva al asistente de creación de la billetera</p>
 
-                <h3>1. Contraseña</h3>
-                <p>Ingrese la clave de billetera generada en la sección Primeros Pasos en el archivo <code>app-data/lnd/walletunlock</code>.</p>
-<pre><code>Input wallet password:
-Confirm wallet password:</code></pre>
+                <p><em>Imagen 1: Clave de cifrado de la billetera.</em></p>
+                <img src="img/lnd-wallet-input-passwd.png" alt="Clave de cifrado de la billetera">
 
-                <h3>2. Semilla (Seed)</h3>
-                <p>Seleccione <code>n</code> para generar una nueva semilla de 24 palabras.</p>
-<pre><code>Do you have an existing cipher seed mnemonic or extended master root key you want to use?
-Enter 'y' to use an existing cipher seed mnemonic, 'x' to use an extended master root key
-or 'n' to create a new seed (Enter y/x/n):</code></pre>
+                <ol>
+                    <li>Introducimos la clave del archivo <code>walletunlock</code> dos veces.</li>
+                </ol>
 
-                <h3>3. Passphrase</h3>
-                <p>La passphrase añade una capa extra de seguridad, puede optar por introducir una o presionar enter si no desea usarla.</p>
-<pre><code>Your cipher seed can optionally be encrypted.
-Input your passphrase if you wish to encrypt it
-(or press enter to proceed without a cipher seed passphrase):
-Confirm password:
+                <p><em>Imagen 2: Crear una passphrase para la billetera</em></p>
+                <img src="img/lnd-wallet-passphrase.png" alt="Crear passphrase">
 
-Generating fresh cipher seed...
+                <ol start="2">
+                    <li>Presionamos <code>Enter</code> para obviar la passphrase.</li>
+                </ol>
 
-!!!YOU MUST WRITE DOWN THIS SEED TO BE ABLE TO RESTORE THE WALLET!!!
+                <p><em>Imagen 3: Frase semilla de la billetera LND</em></p>
+                <img src="img/lnd-seed-phrase.png" alt="Frase semilla">
 
----------------BEGIN LND CIPHER SEED---------------
- 1. one        2. two        3. three        4. four
- 5. five       6. six        7. seven        8. eight
- 9. nine      10. ten       11. eleven      12. twelve
-13. thirteen  14. fourteen  15. fifteen     16. sixteen
-17. seventeen 18. eighteen  19. nineteen    20. twenty
-21. twentyone 22. twentytwo 23. twentythree 24. twentfour
----------------END LND CIPHER SEED-----------------
+                <ol start="3">
+                    <li>Guarde la frase semilla en un lugar seguro y alejado de internet.</li>
+                </ol>
 
-!!!YOU MUST WRITE DOWN THIS SEED TO BE ABLE TO RESTORE THE WALLET!!!
-
-lnd successfully initialized!</code></pre>
-
-                <h3>4. Respaldo</h3>
-                <p>Guarde el <strong>Cipher Seed</strong> y la <strong>Passphrase</strong> (en caso de usarla) en un lugar seguro y fuera de línea; es vital para la recuperación de fondos.</p>
                 <div class="tutorial-tip">
-                    <strong>Importante:</strong> No se recomienda guardar ambas cosas en el mismo lugar ya que si alguien accede a esta información podría recuperar los fondos.
+                    <strong>Nota</strong>: Esta semilla no es seed y no cumple el estándar BIP39 por lo que si intentan restaurarla en una billetera como Sparrow, Electrum u otra no verán los fondos.
                 </div>
 
-                <p>A partir de aquí solo nos queda ir al archivo <code>lnd.conf</code> y quitar el comodín a la línea <code>wallet-unlock-password-file</code>:</p>
-<pre><code>cd app-data/lnd/
-nano lnd.conf</code></pre>
+                <p>Ahora vamos a editar el archivo <code>lnd.conf</code> y buscar la línea <code>wallet-unlock-file</code></p>
+<pre><code>nano app-data/lnd/lnd.conf</code></pre>
 
-                <p>Archivo antes:</p>
-<pre><code>[Application Options]
-alias=Cashu4CS
-datadir=~/.lnd/data
-backupfilepath=~/.lnd/backup/channel.backup
-#wallet-unlock-password-file=~/.lnd/walletunlock
-logdir=~/.lnd/logs</code></pre>
+                <p><em>Imagen 4: Archivo lnd.conf parámetro wallet-unlock-file</em></p>
+                <img src="img/lnd-wallet-unlock-file.png" alt="Archivo lnd.conf">
 
-                <p>Archivo con los cambios:</p>
-<pre><code>[Application Options]
-alias=Cashu4CS
-datadir=~/.lnd/data
-backupfilepath=~/.lnd/backup/channel.backup
-wallet-unlock-password-file=~/.lnd/walletunlock
-logdir=~/.lnd/logs</code></pre>
+                <ol start="4">
+                    <li>Quitamos el símbolo # de delante de la línea <code>wallet-unlock-file</code></li>
+                </ol>
 
-                <h2>Adquisición de Liquidez (Canales de Entrada)</h2>
-                <p>Para recibir pagos en su Mint o LNbits, su nodo necesita <strong>liquidez de entrada (Inbound Liquidity)</strong>. Al ser un nodo nuevo, no tiene canales abiertos, por lo que debe "alquilar" o comprar liquidez inicial a través de mercados especializados.</p>
+                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
 
-                <h3>Servicios de liquidez recomendados</h3>
+                <h3>2.2 Adquisición de Liquidez (Canales de Entrada)</h3>
+                <p>Para recibir pagos en su Mint o LNbits, su nodo necesita liquidez de entrada (Inbound Liquidity). Al ser un nodo nuevo, no tiene canales abiertos, por lo que debe "alquilar" o comprar liquidez inicial a través de mercados especializados.</p>
+
+                <h4>2.2.1 Servicios de liquidez recomendados.</h4>
                 <ul>
-                    <li><strong><a href="https://lnbig.com/#/" target="_blank" rel="noopener noreferrer">LNBig</a>:</strong> Permite solicitar la apertura de canales directos hacia su nodo. Ideal para liquidez rápida y de alta capacidad.</li>
-                    <li><strong><a href="https://amboss.space/" target="_blank" rel="noopener noreferrer">Amboss</a>:</strong> Mercado donde puede comprar canales de liquidez de entrada. Permite filtrar por reputación, duración y costo.</li>
-                    <li><strong><a href="https://zeuslsp.com/" target="_blank" rel="noopener noreferrer">Zeus LSP</a>:</strong> Proveedor de liquidez integrado con la wallet Zeus, permite abrir canales de forma sencilla.</li>
-                    <li><strong><a href="https://lnserver.com/" target="_blank" rel="noopener noreferrer">LN Server</a>:</strong> Servicio de apertura de canales Lightning con distintas opciones de capacidad.</li>
+                    <li><strong><a href="https://lnbig.com" target="_blank">LNBig</a></strong>: Permite solicitar la apertura de canales directos hacia su nodo. Ideal para liquidez rápida y de alta capacidad.</li>
+                    <li><strong><a href="https://magma.amboss.tech/buy" target="_blank">Amboss Magma</a></strong>: Mercado donde puede comprar canales de liquidez de entrada. Permite filtrar por reputación, duración y costo.</li>
+                    <li><strong><a href="https://zeuslsp.com" target="_blank">Zeus LSP</a></strong>: Proveedor de liquidez integrado con la wallet Zeus, permite abrir canales de forma sencilla.</li>
+                    <li><strong><a href="https://lnserver.com" target="_blank">LN Server</a></strong>: Servicio de apertura de canales Lightning con distintas opciones de capacidad.</li>
                 </ul>
 
-                <div class="tutorial-tip">
-                    Si conocen otros servicios que no aparezcan en esta lista, pueden compartirlos.
-                </div>
-
-                <p>Para utilizar estos servicios, se necesitará el <strong>URI del nodo</strong>, que tiene el formato:</p>
+                <p>Para utilizar estos servicios, se necesitará el URI del nodo, que tiene el formato:</p>
                 <p><code>pubkey@ip:9735</code> o <code>pubkey@direccion.onion:9735</code></p>
 
-                <p>Ejecutando el siguiente comando obtenemos los datos necesarios:</p>
+                <h4>2.2.2 Obteniendo la dirección URI del nodo LND.</h4>
+                <p>Ejecutamos:</p>
 <pre><code>docker exec -it node_lnd lncli getinfo</code></pre>
 
-<pre><code>{
-    "version": "0.20.1-beta commit=v0.20.1-beta",
-    "identity_pubkey": "02525d7726b3aabaf8f3f3570691b180e9c46c8b662115094b289d86949201e6d6",
-    "alias": "Cashu4CS",
-    "color": "#3399ff",
-    "num_active_channels": 0,
-    "synced_to_chain": true,
-    "uris": [
-        "02525d7726b...@72.61.27.142:9735",
-        "02525d7726b...@4v3qiuuq2cx...onion:9735"
-    ]
-}</code></pre>
+                <p><em>Imagen 5: Resultado del comando <code>lncli getinfo</code>.</em></p>
+                <img src="img/lnd-lncli-getinfo-command.png" alt="Comando lncli getinfo">
 
-                <div class="tutorial-tip">
-                    Cualquiera de las dos direcciones, ya sea en la red clearnet o en la red Tor, puede usarse en los servicios de compra de liquidez cuando se le solicite.
-                </div>
+                <ol>
+                    <li>Clave Pública del nodo LND.</li>
+                    <li>Dirección URI del nodo tanto en la red Clearnet como Tor, cualquiera de las dos es válida para los proveedores de liquidez.</li>
+                </ol>
 
                 <div class="tutorial-nav">
                     <a href="first-steps_es.html" class="nav-prev">
                         <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Anterior</span>
-                        <span class="nav-title" data-lang-es="← Primeros Pasos" data-lang-en="← First Steps">← Primeros Pasos</span>
+                        <span class="nav-title">← Primeros Pasos</span>
                     </a>
                     <a href="nginx-proxy-manager_es.html" class="nav-next">
                         <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Siguiente</span>
