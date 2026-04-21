@@ -65,63 +65,154 @@
         <section class="tutorial-content">
             <div class="container">
 
-                <h2>Preparación del Entorno</h2>
-                <p>Para garantizar un despliegue estable, se requieren los siguientes elementos:</p>
+                <h2>1. Primeros pasos</h2>
+
+                <h3>1.1 Requerimientos</h3>
                 <ul>
-                    <li><strong>Sistema Operativo:</strong> Servidor VPS con una distribución Linux (preferiblemente Debian o Ubuntu).</li>
-                    <li><strong>Software Base:</strong> Docker y Docker Compose instalados.</li>
-                    <li><strong>Red:</strong> Un nombre de dominio apuntando a la IP del servidor para la gestión de certificados y acceso externo.</li>
-                    <li><strong>Conocimientos Requeridos:</strong> Manejo básico de terminal Linux y administración de contenedores.</li>
+                    <li>Servidor VPS con sistema operativo Debian/Ubuntu preferiblemente.</li>
+                    <li>Docker 26.0+.</li>
+                    <li>Docker Compose 2.0+.</li>
+                    <li>Dominio DNS válido para publicar los servicios en Internet.</li>
                 </ul>
 
-                <h3>Instalación de los requisitos</h3>
-                <p>Ejecute los siguientes comandos para instalar las dependencias necesarias y clonar el repositorio del proyecto:</p>
-<pre><code># Instalación de Docker y Docker Compose desde los repositorios oficiales
-sudo apt update && sudo apt upgrade
-sudo apt install -y docker.io docker-compose
+                <h3>1.2 Esquema de la infraestructura</h3>
+                <p><em>Imagen 1: Arquitectura de la infraestructura Docker.</em></p>
+                <img src="img/esquema-infraestructura.png" alt="Arquitectura de la infraestructura Docker">
+                <p><em>Descripción: El esquema muestra los contenedores de Docker (Tor, Lightning Network Daemon, Lightning Terminal, LNbits, Postgres, Cashu, Orchard y Nginx Proxy Manager). Las flechas indican la comunicación entre servicios.</em></p>
 
-# Configuración de permisos (No es necesario para la cuenta root)
-sudo usermod -aG docker $(whoami)
+                <h3>1.3 Instalando los requisitos</h3>
 
-# Clonación del repositorio de despliegue
-git clone https://github.com/cashu4community/cashu4cs-deploy.git
+                <h4>1.3.1 Instalando Docker y Docker Compose</h4>
+                <p>La mayoría de los VPS proveen acceso directo como usuario root por defecto. Si este es su caso, omita el uso de sudo en todos los comandos. Para confirmar su usuario actual, ejecute:</p>
+<pre><code>whoami</code></pre>
+                <p>Si la salida del comando es <code>root</code> no se requiere sudo delante de los siguientes comandos:</p>
+<pre><code>sudo apt update && sudo apt upgrade
+# Debian 12+
+sudo apt install docker.io docker-compose
+# Ubuntu 24.04+
+sudo apt install docker.io docker-compose-v2</code></pre>
+
+                <h4>1.3.2 Agregando nuestro usuario al grupo Docker</h4>
+                <p>Si la salida del comando <code>whoami</code> que ejecutamos anteriormente fue <code>root</code> obviamos este paso, en caso contrario ejecutamos el siguiente comando:</p>
+<pre><code>sudo usermod -aG docker $(whoami)</code></pre>
+                <p>Esto nos permitirá ejecutar el comando docker sin privilegios.</p>
+
+                <h4>1.3.3 Clonando el repositorio del Proyecto</h4>
+<pre><code>git clone https://github.com/cashu4community/cashu4cs-deploy.git
 cd cashu4cs-deploy</code></pre>
 
-                <h2>Configuración de la Infraestructura</h2>
-                <p>Para el despliegue de la infraestructura debemos obtener la ip pública del VPS y crear varias claves.</p>
+                <div class="tutorial-tip">
+                    <strong>Importante</strong>: A partir de ahora todos los comandos se ejecutarán desde el directorio <code>cashu4cs-deploy</code>.
+                </div>
 
-                <h3>Servicio Lightning Network Daemon</h3>
-                <p>Necesitamos la IP pública del VPS la podemos obtener con el script <code>get_public_ip.sh</code> de la siguiente manera:</p>
-<pre><code>./get_public_ip.sh
-72.61.27.142</code></pre>
-                <p>Con este dato podemos actualizar el archivo <code>lnd.conf</code> parámetro <code>externalip</code>, además podemos definir el parámetro <code>alias</code> útil para buscar el nodo en servicios de búsqueda como mempool.space.</p>
-                <p>Debemos crear además una contraseña que usaremos para cifrar la billetera del nodo debe tener al menos 12 caracteres que combine mayúsculas, minúsculas, números y caracteres especiales como <code>+ - *</code></p>
-                <p>Ej. <code>+6Mn31qVwLC-</code></p>
-                <p>Esta debe ser guardada en el archivo <code>app-data/lnd/walletunlock</code>.</p>
+                <h3>1.4 Configuración inicial</h3>
+                <p>Para poder iniciar la infraestructura se necesita configurar varios parámetros. Se recomienda guardarlos en un documento ya que serán necesarios en las siguientes secciones del tutorial.</p>
 
-                <h3>Servicio Lightning Terminal (LIT)</h3>
-                <p>Solo necesitamos crear una contraseña similar en fortaleza a la de la billetera LND para el parámetro <code>uipassword</code> del archivo <code>lit.conf</code></p>
+                <h4>1.4.1 Configurando parámetros de Lightning Network Daemon</h4>
 
-                <h3>Servicio LNbits</h3>
-                <p>En LNbits solo tenemos que crear la clave de configuración <code>AUTH_SECRET_KEY</code> del archivo <code>.env</code> en la raíz del directorio <code>app-data/lnbits/</code> la podemos generar con el siguiente comando:</p>
+                <h5>Cambiando la IP Pública del nodo Lightning</h5>
+                <p>Para obtener la ip pública usaremos el script <code>get_public_ip.sh</code> ubicado en la raíz del directorio <code>cashu4cs-deploy</code>.</p>
+<pre><code>./get_public_ip.sh</code></pre>
+                <p>Esto devuelve una salida como la siguiente:</p>
+<pre><code>72.61.27.142</code></pre>
+                <p>Conociendo esta IP vamos a editar el archivo <code>lnd.conf</code>.</p>
+<pre><code>nano app-data/lnd/lnd.conf</code></pre>
+                <p>Buscamos la línea <code>externalip=</code> y adicionamos la IP obtenida <strong>72.61.27.142</strong>.</p>
+                <p><em>Imagen 2: Archivo lnd.conf parámetro externalip=.</em></p>
+                <img src="img/lnd-public-ip.png" alt="Archivo lnd.conf parámetro externalip">
+                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
+
+                <h5>Cambiando el alias del nodo LND</h5>
+                <p>El alias es útil para poder encontrar el nodo en exploradores de la red lightning cómo <a href="https://mempool.space" target="_blank">mempool.space</a> o <a href="https://amber.space" target="_blank">amber.space</a>. Para cambiarlo editamos nuevamente el archivo <code>lnd.conf</code> y buscamos la línea <code>alias=</code>, para este tutorial usaremos <strong>Cashu4CS</strong> como alias del nodo LND.</p>
+                <p><em>Imagen 3: Archivo lnd.conf parámetro alias=.</em></p>
+                <img src="img/lnd-alias.png" alt="Archivo lnd.conf parámetro alias">
+
+                <h5>Creando la contraseña para la billetera del nodo LND</h5>
+                <p>El proceso de creación de la billetera del nodo LND que veremos mas adelante nos pide una contraseña usada para cifrar la billetera y desbloquearla cada vez que se reinicia el servicio, esta debe ser de al menos 12 carácteres y debe tener combinación de mayúsculas y minúsculas, números y caracteres especiales cómo: Ej <em>*-+</em>. Una vez creada la contraseña la introducimos en el archivo <code>walletunlock</code> ubicado en <code>app-data/lnd/</code>.</p>
+                <p>Para este tutorial usaremos <code>+6Mn31qVwLC-</code> como contraseña de la billetera.</p>
+<pre><code>nano app-data/lnd/walletunlock</code></pre>
+                <p><em>Imagen 4: Archivo walletunlock con la contraseña creada anteriormente.</em></p>
+                <img src="img/lnd-walletunlock-file.png" alt="Archivo walletunlock con la contraseña">
+                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
+
+                <div class="tutorial-tip">
+                    <strong>Nota</strong>: El archivo <code>walletunlock</code> nos permitirá desbloquear automáticamente la billetera del nodo tras un reinicio del contenedor Docker. Esta es la razón por la que contiene la contraseña.
+                </div>
+
+                <h4>1.4.2 Creando la contraseña para el acceso a Lightning Terminal</h4>
+                <p>Para acceder al servicio Lightning Terminal (de ahora en lo adelante LIT) se necesita una contraseña, esta debe tener los mismos requisitos de complejidad que la usada en la billetera LND. Una vez generada la guardamos en el archivo <code>lit.conf</code> ubicado en <code>app-data/lit/</code>.</p>
+                <p>Creada la contraseña editamos el archivo <code>lit.conf</code>.</p>
+<pre><code>nano app-data/lit/lit.conf</code></pre>
+                <p>Buscamos la línea <code>uipassword=</code> e introducimos la contraseña, usaremos <code>+dFskhU8d35*</code> como ejemplo para el tutorial quedando así:</p>
+                <p><em>Imagen 5: Archivo lit.conf con la contraseña creada para acceder a la web de LIT.</em></p>
+                <img src="img/lit-uipassword.png" alt="Archivo lit.conf con la contraseña">
+                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
+
+                <h4>1.4.3 Estableciendo los parámetros de configuración de LNbits</h4>
+                <p>El servicio LNbits necesita la clave <code>AUTH_SECRET_KEY</code> definida en el archivo <code>.env</code> y la contraseña de la base de datos PostgreSQL para funcionar.</p>
+
+                <h5>Generando la clave <code>AUTH_SECRET_KEY</code></h5>
 <pre><code>openssl rand -hex 32</code></pre>
-                <p>LNbits también necesita la clave de PostgreSQL la crearemos igual que la de LND y LIT y la cambiamos en el archivo <code>.env</code> específicamente en la línea <code>LNBITS_DATABASE_URL="postgres://lnbits_user:dbpassword_@db:5432/lnbits_db"</code> sustituyendo <code>dbpassword_</code> por la clave generada. También debemos actualizar la contraseña de postgres en el archivo <code>docker-compose.yml</code> en el servicio <code>db</code>:</p>
-<pre><code>environment:
-      POSTGRES_USER: 'lnbits_user'
-      POSTGRES_PASSWORD: 'dbpassword_'
-      POSTGRES_DB: 'lnbits_db'</code></pre>
+                <p>Esto nos devuelve algo como esto:</p>
+<pre><code>f92a03c2e12362f092b6589bde08b0433cd08f4ffe9ef894fe8e01660d18054f</code></pre>
+                <p>Copiamos la clave y editamos el archivo <code>.env</code> ubicado en <code>app-data/lnbits/</code>.</p>
+<pre><code>nano app-data/lnbits/.env</code></pre>
+                <p>Buscamos la linea <code>AUTH_SECRET_KEY</code> y pegamos la clave generada en el paso anterior.</p>
+                <p><em>Imagen 6: Archivo .env con la clave AUTH_SECRET_KEY creada anteriormente.</em></p>
+                <img src="img/lnbits-auth-secret-key.png" alt="Archivo .env con la clave AUTH_SECRET_KEY">
+                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
 
-                <h3>Servicio Mint de Cashu</h3>
-                <p>Para el servicio cashu solo necesitamos generar la clave <code>MINT_PRIVATE_KEY</code> del archivo <code>.env</code> en la raíz del directorio <code>app-data/cashu/</code> lo hacemos ejecutando el comando:</p>
+                <h5>Creando la contraseña de la base de datos PostgreSQL</h5>
+                <p>Ahora necesitamos crear la contraseña que usará LNbits para crear la base de datos PostgreSQL, la introduciremos en el archivo <code>.env</code> que editamos anteriormente y en el archivo <code>docker-compose.yml</code> ubicado en la raíz del directorio <code>cashu4cs-deploy</code>.</p>
+                <p>Editamos el archivo <code>.env</code>.</p>
+<pre><code>nano app-data/lnbits/.env</code></pre>
+                <p>Buscamos la linea <code>LNBITS_DATABASE_URL="postgres://lnbits_user:dbpassword_@db:5432/lnbits_db"</code> y sustituimos <code>dbpassword_</code> por nuestra contraseña. Usaremos <code>3Edf56gh.*FU</code> como ejemplo.</p>
+                <p><em>Imagen 7: Variable <code>LNBITS_DATABASE_URL</code> de conexión a la base de datos usando la contraseña generada anteriormente</em></p>
+                <img src="img/lnbits-postgres-uri.png" alt="Variable LNBITS_DATABASE_URL">
+                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
+                <p>Ahora editamos el archivo <code>docker-compose.yml</code>.</p>
+<pre><code>nano docker-compose.yml</code></pre>
+                <p>Buscamos el servicio docker <code>db:</code> y editamos en la sección <code>enviroment:</code> la variable <code>POSTGRES_PASSWORD</code>, quedando así:</p>
+                <p><em>Imagen 8: Variable POSTGRES_PASSWORD actualizada con la contraseña generada.</em></p>
+                <img src="img/lnbits-docker-compose-pgsql-passwd.png" alt="Variable POSTGRES_PASSWORD">
+                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
+
+                <h4>1.4.4 Estableciendo los parámetros de configuración del Mint de Cashu</h4>
+                <p>Para el buen funcionamiento del Mint de Cashu debemos generar la variable <code>MINT_PRIVATE_KEY=</code> y los certificados ssl usados para cifrar la conexión RPC desde el servicio Orchard hacia el Mint.</p>
+
+                <h5>Creando la variable <code>MINT_PRIVATE_KEY</code></h5>
 <pre><code>openssl rand -hex 32</code></pre>
+                <p>Esto nos devuelve algo como esto:</p>
+<pre><code>cf33ffb9af447b1210e052548f911ba62639a6a653f7066809bacecb7436ea4b</code></pre>
+                <p>Igual que hicimos con <code>AUTH_SECRET_KEY</code> de LNbits copiamos la clave anterior y editamos el archivo <code>.env</code> ubicado en <code>app-data/cashu/</code>.</p>
+<pre><code>nano app-data/cashu/.env</code></pre>
+                <p>Buscamos la línea <code>MINT_PRIVATE_KEY=</code> y pegamos la clave generada en el paso anterior:</p>
+                <p><em>Imagen 9: Variable MINT_PRIVATE_KEY actualizada en el archivo .env.</em></p>
+                <img src="img/cashu-mint-private-key.png" alt="Variable MINT_PRIVATE_KEY">
+                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
 
-                <h3>Servicio Orchard</h3>
-                <p>En Orchard solo necesitamos generar la clave <code>SETUP_KEY</code> en el archivo <code>.env</code> ubicado en la raíz del directorio <code>app-data/orchard</code> lo hacemos de igual manera con el comando:</p>
-<pre><code>openssl rand -hex 32</code></pre>
+                <h5>Generando los certificados ssl para la conexión RPC</h5>
+                <p>Vamos al directorio <code>certs</code> ubicado en <code>app-data/cashu/</code></p>
+<pre><code>cd app-data/cashu/certs</code></pre>
+                <p>Ejecutamos el script <code>generate_certificates.sh</code></p>
+<pre><code>./generate_certificates.sh</code></pre>
+                <p>Este script genera todos los certificados necesarios para la conexión RPC, si no ocurrió algún error los certificados se encuentran en este directorio.</p>
+<pre><code>ls .
+ca_cert.pem  ca_private.pem  client_cert.pem  client_private.pem  generate_certificates.sh  server_cert.pem  server_private.pem</code></pre>
 
-                <h2>Gestión de los Servicios</h2>
-                <p>Los siguientes comando permiten administrar la pila tecnológica:</p>
+                <h4>1.4.5 Estableciendo los parámetros de configuración de Orchard</h4>
+                <p>Necesitamos generar la clave <code>SETUP_KEY</code> usada en la inicialización de Orchard.</p>
+<pre><code>openssl rand -hex 16</code></pre>
+                <p>El resultado sería</p>
+<pre><code>d5c454540c045373b5bac4a58b0b52e8</code></pre>
+                <p>Copiamos la clave anterior y editamos el archivo <code>.env</code> ubicado en <code>app-data/orchard/</code>.</p>
+<pre><code>nano app-data/orchard/.env</code></pre>
+                <p>Buscamos la línea <code>SETUP_KEY=</code> y pegamos</p>
+                <p><em>Imagen 10: Variable SETUP_KEY actualizada en el archivo .env.</em></p>
+                <img src="img/orchard-setup-key.png" alt="Variable SETUP_KEY">
+                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
 
+                <h3>1.5 Gestión de los Servicios</h3>
                 <table>
                     <thead>
                         <tr>
@@ -136,22 +227,42 @@ cd cashu4cs-deploy</code></pre>
                         </tr>
                         <tr>
                             <td><code>docker-compose down</code></td>
-                            <td>Detiene todos los servicios de forma controlada.</td>
+                            <td>Detiene todos los servicios de forma controlada y elimina los contenedores</td>
                         </tr>
                         <tr>
                             <td><code>docker-compose up --force-recreate [servicio] -d</code></td>
                             <td>Reconstruye un contenedor específico tras realizar cambios en su configuración.</td>
                         </tr>
+                        <tr>
+                            <td><code>docker-compose start [servicio]</code></td>
+                            <td>Inicia el contenedor</td>
+                        </tr>
+                        <tr>
+                            <td><code>docker-compose stop [servicio]</code></td>
+                            <td>Detiene un contenedor</td>
+                        </tr>
                     </tbody>
                 </table>
 
-                <h3>Servicios Desplegados</h3>
-                <p>La infraestructura se compone de los siguientes servicios interconectados:</p>
+                <h4>1.5.1 Nombre de los servicios</h4>
+                <p>A continuación se listan los nombres de los servicios de la infraestructura, útil si se quieren ejecutar los comandos de iniciar, parar o reconstruir de la tabla anterior.</p>
                 <ul>
                     <li><strong>Financieros:</strong> <code>lnd</code>, <code>cashu</code> (Mint), <code>lnbits</code>.</li>
                     <li><strong>Gestión y Red:</strong> <code>lit</code> (Lightning Terminal), <code>npm</code> (Proxy Manager), <code>tor</code>, <code>orchard</code>.</li>
                     <li><strong>Persistencia:</strong> <code>db</code> (PostgreSQL), <code>redis</code>.</li>
                 </ul>
+
+                <h3>1.6 Iniciando la Infraestructura</h3>
+                <p>Para iniciar la infraestructura ejecutamos:</p>
+<pre><code>docker-compose up -d</code></pre>
+                <p>La primera vez que se ejecuta este comando se descargan las imágenes de docker de los servicios.</p>
+                <p><em>Imagen 11: Descarga de las imágenes en el proceso de inicio</em></p>
+                <img src="img/docker-pulling-images.png" alt="Descarga de imágenes">
+                <p>Si el paso anterior ocurrió sin contratiempos ejecutando:</p>
+<pre><code>docker ps</code></pre>
+                <p>Nos muestra los contenedores iniciados</p>
+                <p><em>Imagen 12: Listado de contenedores en ejecución</em></p>
+                <img src="img/docker-ps-command.png" alt="Listado de contenedores">
 
                 <div class="tutorial-nav">
                     <a href="../tutorials_es.html" class="nav-prev">
