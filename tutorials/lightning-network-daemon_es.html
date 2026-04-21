@@ -70,7 +70,7 @@
                 <h3>2.1 Creando la billetera</h3>
                 <p>Ejecutamos lo siguiente:</p>
 <pre><code>cat app-data/lnd/walletunlock</code></pre>
-                <p>Esto devuelve la contraseña creada con antelación</p>
+                <p>Esto devuelve la contraseña creada con anterior</p>
 <pre><code>+6Mn31qVwLC-</code></pre>
                 <p>La copiamos y ejecutamos:</p>
 <pre><code>docker exec -it node_lnd lncli create</code></pre>
@@ -83,31 +83,38 @@
                     <li>Introducimos la clave del archivo <code>walletunlock</code> dos veces.</li>
                 </ol>
 
-                <p><em>Imagen 2: Crear una passphrase para la billetera</em></p>
-                <img src="img/lnd-wallet-passphrase.png" alt="Crear passphrase">
+                <p><em>Imagen 2: Crear una billetera nueva.</em></p>
+                <img src="img/lnd-new-wallet-creation.png" alt="Crear billetera nueva">
 
                 <ol start="2">
+                    <li>Introducimos <code>n</code> para crear una billetera nueva.</li>
+                </ol>
+
+                <p><em>Imagen 3: Crear una passphrase para la billetera</em></p>
+                <img src="img/lnd-wallet-passphrase.png" alt="Crear passphrase">
+
+                <ol start="3">
                     <li>Presionamos <code>Enter</code> para obviar la passphrase.</li>
                 </ol>
 
-                <p><em>Imagen 3: Frase semilla de la billetera LND</em></p>
+                <p><em>Imagen 4: Frase semilla de la billetera LND</em></p>
                 <img src="img/lnd-seed-phrase.png" alt="Frase semilla">
 
-                <ol start="3">
-                    <li>Guarde la frase semilla en un lugar seguro y alejado de internet.</li>
+                <ol start="4">
+                    <li>Copie la frase semilla en un lugar seguro y alejado de internet.</li>
                 </ol>
 
                 <div class="tutorial-tip">
-                    <strong>Nota</strong>: Esta semilla no es seed y no cumple el estándar BIP39 por lo que si intentan restaurarla en una billetera como Sparrow, Electrum u otra no verán los fondos.
+                    <strong>Nota</strong>: Esta semilla no cumple con el estándar BIP39 por lo que si intentan restaurarla en una billetera como Sparrow, Electrum u otra no verán los fondos en cadena.
                 </div>
 
                 <p>Ahora vamos a editar el archivo <code>lnd.conf</code> y buscar la línea <code>wallet-unlock-file</code></p>
 <pre><code>nano app-data/lnd/lnd.conf</code></pre>
 
-                <p><em>Imagen 4: Archivo lnd.conf parámetro wallet-unlock-file</em></p>
+                <p><em>Imagen 5: Archivo lnd.conf parámetro wallet-unlock-file</em></p>
                 <img src="img/lnd-wallet-unlock-file.png" alt="Archivo lnd.conf">
 
-                <ol start="4">
+                <ol start="5">
                     <li>Quitamos el símbolo # de delante de la línea <code>wallet-unlock-file</code></li>
                 </ol>
 
@@ -116,7 +123,7 @@
                 <h3>2.2 Adquisición de Liquidez (Canales de Entrada)</h3>
                 <p>Para recibir pagos en su Mint o LNbits, su nodo necesita liquidez de entrada (Inbound Liquidity). Al ser un nodo nuevo, no tiene canales abiertos, por lo que debe "alquilar" o comprar liquidez inicial a través de mercados especializados.</p>
 
-                <h4>2.2.1 Servicios de liquidez recomendados.</h4>
+                <h4>2.2.1 Servicios de liquidez recomendados</h4>
                 <ul>
                     <li><strong><a href="https://lnbig.com" target="_blank">LNBig</a></strong>: Permite solicitar la apertura de canales directos hacia su nodo. Ideal para liquidez rápida y de alta capacidad.</li>
                     <li><strong><a href="https://magma.amboss.tech/buy" target="_blank">Amboss Magma</a></strong>: Mercado donde puede comprar canales de liquidez de entrada. Permite filtrar por reputación, duración y costo.</li>
@@ -127,16 +134,19 @@
                 <p>Para utilizar estos servicios, se necesitará el URI del nodo, que tiene el formato:</p>
                 <p><code>pubkey@ip:9735</code> o <code>pubkey@direccion.onion:9735</code></p>
 
-                <h4>2.2.2 Obteniendo la dirección URI del nodo LND.</h4>
+                <h4>2.2.2 Obteniendo la dirección URI del nodo LND</h4>
                 <p>Ejecutamos:</p>
 <pre><code>docker exec -it node_lnd lncli getinfo</code></pre>
 
-                <p><em>Imagen 5: Resultado del comando <code>lncli getinfo</code>.</em></p>
+                <p><em>Imagen 6: Resultado del comando <code>lncli getinfo</code>.</em></p>
                 <img src="img/lnd-lncli-getinfo-command.png" alt="Comando lncli getinfo">
 
                 <ol>
+                 <ol start="6">
                     <li>Clave Pública del nodo LND.</li>
-                    <li>Dirección URI del nodo tanto en la red Clearnet como Tor, cualquiera de las dos es válida para los proveedores de liquidez.</li>
+                 </ol>
+                 <ol start="7">
+                    <li>Dirección URI del nodo tanto en la red Clearnet como Tor, cualquiera de las dos es valida para los proveedores de liquidez.</li>
                 </ol>
 
                 <div class="tutorial-nav">
