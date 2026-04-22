@@ -58,89 +58,99 @@
     <main>
         <section class="tutorial-hero">
             <div class="container">
-                <h1 class="tutorial-title">Configuración de acceso con Nginx Proxy Manager</h1>
+                <h1 class="tutorial-title">Configuración de Nginx Proxy Manager (NPM)</h1>
             </div>
         </section>
 
         <section class="tutorial-content">
             <div class="container">
 
-                <p>En esta etapa vas a configurar el acceso externo a tus servicios (Lightning Terminal, LNBits, Cashu, Orchard, etc.) usando <strong>Nginx Proxy Manager</strong>, que actúa como proxy inverso y gestor de certificados SSL.</p>
+                <p>En este paso vamos a configurar el acceso externo a los servicios (Lightning Terminal, LNBits, Cashu y Orchard) usando Nginx Proxy Manager, que actúa como proxy inverso y gestor de certificados SSL.</p>
 
-                <h2>Acceso inicial</h2>
-                <p>El contenedor ya viene preconfigurado, por lo que no necesitas crear un usuario:</p>
-                <ul>
-                    <li><strong>Usuario:</strong> <code>changeme@domin.com</code></li>
-                    <li><strong>Contraseña:</strong> <code>ch4ng3me*-</code></li>
-                </ul>
-                <p>Accede desde tu navegador a la URL o IP donde esté corriendo el contenedor, para nuestro ejemplo usaremos <code>http://npm.cashu4community.xyz:81</code>. Como accedemos por primera vez, lo hacemos usando el puerto 81 y mediante una conexión insegura. En el siguiente paso corregiremos esto.</p>
-                <img src="img/npm-login-page.png" alt="NPM Login Page">
+                <h3>Acceso inicial</h3>
+                <p>El acceso inicial al contenedor de Nginx Proxy Manager (NPM) se realiza a través de HTTP y utilizando el puerto 81. En nuestro ejemplo, accederemos mediante la URL <code>http://npm.cashu4community.xyz:81</code>. En el siguiente paso, modificaremos esta configuración para evitar riesgos de seguridad.</p>
+                <p>El contenedor ya está preconfigurado, así que no se requiere la creación de un usuario en el primer inicio.</p>
 
-                <h2>Crear un Proxy Host</h2>
-                <p>Para crear un <strong>Proxy Host</strong> seleccionamos en el Dashboard la sección Proxy Host como se muestra en la siguiente imagen:</p>
-                <img src="img/npm-dashboard.png" alt="NPM Dashboard">
-
-                <p>Luego hacemos clic en el botón Add Proxy Host</p>
-                <img src="img/npm-add-proxy-host.png" alt="NPM Add Proxy Host">
-
-                <p>Nos aparecerá una ventana donde introduciremos los datos del servicio.</p>
-                <img src="img/npm-add-proxy-host-details.png" alt="NPM Proxy Host Details">
+                <p><em>Imagen 1: Página de Login Nginx Proxy manager.</em></p>
+                <img src="img/npm-login-page.png" alt="Login NPM">
 
                 <ol>
-                    <li><strong>Domain Names</strong> este será el nombre dominio que tendrá la aplicación de cara a internet. Como para este ejemplo estamos configurando el acceso al NPM usaremos el dominio <code>npm.cashu4community.xyz</code>.</li>
-                    <li><strong>Scheme</strong> el esquema es la via por la cual NPM se comunica con la aplicacion que está corriendo en el contenedor puede ser <code>http</code> o <code>https</code>. Para NPM lo dejamos en <code>http</code>.</li>
-                    <li><strong>Forward Hostname / IP</strong> no es mas que el nombre del host interno como se trata de un contenedor de docker lo mejor será usar el nombre del servicio. Para NPM será <code>npm</code>.</li>
-                    <li><strong>Forward Port</strong> es el puerto por el que corre la aplicación internamente en el contenedor de Docker. NPM usa el puerto 81.</li>
-                    <li><strong>Options</strong> Habilitamos todas las opciones para mejorar la seguridad y funcionalidad de la aplicación.</li>
+                    <li>Usuario <code>changeme@domain.com</code></li>
+                    <li>Contraseña <code>ch4ng3m3*-</code></li>
+                    <li>Presionamos <code>Enter</code> o hacemos clic en <code>Sign in</code></li>
                 </ol>
 
-                <p>Pasamos a la pestaña SSL para generar el certificado y habilitar las opciones de seguridad.</p>
-                <img src="img/npm-add-proxy-host-ssl-options.png" alt="NPM SSL Options">
+                <p>Luego de loguearnos pasamos al dashboard del servicio NPM.</p>
 
-                <ol>
-                    <li><strong>SSL Certificate</strong> Seleccionamos en la lista <code>Request new Certificate</code></li>
-                    <li>Habilitamos <code>Force SSl</code>, <code>HTTP/2 Support</code> y <code>HSTS Enabled</code></li>
+                <p><em>Imagen 2: Dashboard del NPM.</em></p>
+                <img src="img/npm-dashboard.png" alt="Dashboard NPM">
+
+                <ol start="4">
+                    <li>Entramos al panel de Proxy Host.</li>
                 </ol>
 
-                <p>Al hacer clic en el botón <code>Save</code> se configura el proxy host y nos aparecerá mostrando el indicador <code>Online</code> en verde, en caso contrario significa que se ha introducido algum dato erroneo o la aplicación no está corriendo.</p>
-                <img src="img/npm-proxy-host-record.png" alt="NPM Proxy Host Record">
+                <h3>3.1 Creando un proxy host para NPM</h3>
+                <p>Como habrás observado, el acceso a NPM se hace vía HTTP (protocolo inseguro) y por el puerto 81, lo que deja nuestro servicio vulnerable a ataques. Para solucionarlo, crearemos un Proxy Host para el propio NPM y así poder operar sobre HTTPS.</p>
 
-                <p>Ya configuramos el Proxy Host para el servicio NPM por lo que ya podemos conectarnos a <code>https://npm.cashu4community.xyz</code> sin usar el puerto 81.</p>
-                <img src="img/npm-login-page-with-ssl.png" alt="NPM Login Page with SSL">
+                <p><em>Imagen 3: Adicionar un Proxy Host.</em></p>
+                <img src="img/npm-add-proxy-host.png" alt="Add Proxy Host">
 
-                <h2>Eliminamos el acceso de NPM por el puerto 81</h2>
-                <p>Ya hemos configurado el Proxy Host para el servicio NPM y ya podemos acceder mediante https usando el puerto 443. Ahora deshabilitaremos el acceso por el puerto 81. Para ello editamos el archivo docker-compose.yml en la raíz del proyecto.</p>
-                <p>Buscamos el servicio npm y en la sección <code>ports:</code> eliminamos el puerto 81.</p>
-<pre><code>    ports:
-      - '80:80' 
-      - '443:443' 
-      - '81:81' </code></pre>
-                <p>Quedando así:</p>
-<pre><code>    ports:
-      - '80:80' 
-      - '443:443' </code></pre>
+                <ol start="5">
+                    <li>Adicionamos un Proxy Host.</li>
+                </ol>
 
-                <p>Para hacer efectivo el cambio solo necesitamos regenerar el contenedor de NPM.</p>
-                <p>Ejecutamos lo siguiente:</p>
-<pre><code>docker-compose up --force-recreate npm -d</code></pre>
+                <p><em>Imagen 4: Opciones de Proxy Host.</em></p>
+                <img src="img/npm-add-proxy-host-details.png" alt="Opciones Proxy Host">
 
-                <p>Si no hubo errores en la edición del archivo yml el proceso debe terminar correctamente. Así que ya podremos acceder al panel de administración de NPM mediante https unicamente.</p>
+                <ol start="6">
+                    <li><code>Domain Names</code> en este campo se introduce el nombre de dominio que tendrá la aplicación de cara a internet. Como estamos configurando el acceso a NPM usaremos el dominio <code>npm.cashu4community.xyz</code>.</li>
+                    <li><code>Scheme</code> el esquema es el protocolo usado por NPM para comunicarse con la aplicación que está corriendo en el contenedor puede ser http o https. Para NPM lo dejamos en http.</li>
+                    <li><code>Forward Hostname / IP</code> no es más que el nombre del host, como se trata de un contenedor de docker lo mejor será usar el nombre del servicio, como estamos configurando NPM usaremos npm. Puede ver la lista completa de los servicios al final de la sección Primeros Pasos.</li>
+                    <li><code>Forward Port</code> es el puerto por el que corre la aplicación internamente en el contenedor de Docker, NPM usa el puerto 81. La lista de puertos la encontrarán al final de este tutorial.</li>
+                    <li><code>Options</code> habilitamos todas las opciones para mejorar la seguridad y funcionalidad de la aplicación.</li>
+                </ol>
+
+                <p><em>Imagen 5: Opciones de Proxy Host opciones SSL.</em></p>
+                <img src="img/npm-add-proxy-host-ssl-options.png" alt="Opciones SSL">
+
+                <ol start="11">
+                    <li>Nos ubicamos en la Pestaña SSL.</li>
+                    <li>Seleccionamos en el menú desplegable la opción <code>Request a new Certificate</code>.</li>
+                    <li>Habilitamos las opciones <code>Force SSL</code>, <code>HTTP/2 Support</code> y <code>HSTS Enabled</code>.</li>
+                    <li>Salvamos los cambios.</li>
+                </ol>
+
+                <p>Tras salvar los cambios podemos ver el registro de NPM en el panel de la sección Proxy Host.</p>
+
+                <p><em>Imagen 6: Registro del servicio NPM en el panel de Proxy Host.</em></p>
+                <img src="img/npm-proxy-host-record.png" alt="Proxy Host Record">
 
                 <div class="tutorial-tip">
-                    <strong>Importante:</strong> Tras entrar vía HTTPS recomiendo cambiar el correo y la contraseña de la cuenta de acceso a NPM, de lo contrario está exponiendo su infraestructura.
+                    <strong>Importante:</strong> Para crear el certificado digital NPM verifica la existencia del dominio DNS, en caso de no existir el proceso falla.
                 </div>
-                <img src="img/npm-proxy-user-menu.png" alt="NPM User Menu">
 
-                <h2>Cómo encaja esto en tu infraestructura</h2>
-                <p>Hasta aquí hemos configurado un registro Proxy Host y el acceso al NPM de forma segura, ahora podemos configurar el resto de los servicios ya que cada uno tendrá su propio Proxy Host en la siguiente tabla se muestran los datos necesarios:</p>
+                <p><em>Imagen 7: Proxy Host correctamente configurado.</em></p>
+                <img src="img/npm-proxy-host-status.png" alt="Proxy Host Status">
+
+                <p>Con NPM ya configurado para acceder vía HTTPS de forma segura, cerramos sesión y volvemos a entrar para seguir con las demás configuraciones.</p>
+
+                <p><em>Imagen 8: Cierre de sesión Menú de usuario.</em></p>
+                <img src="img/npm-proxy-logout.png" alt="Logout">
+
+                <ol start="15">
+                    <li>Cerramos sesión.</li>
+                </ol>
+
+                <h3>3.2 Listado de servicios a configurar en NPM</h3>
+                <p>La tabla siguiente muestra los servicios a configurar en NPM, así como todos los parámetros necesarios para configurarlos. Usaremos el dominio <code>cashu4community.xyz</code> como referencia, cada cual lo adapta a sus dominios personales.</p>
 
                 <table>
                     <thead>
                         <tr>
-                            <th>Dominio</th>
+                            <th>Nombre de Dominio</th>
                             <th>Esquema</th>
-                            <th>Reenvío de dominio / IP</th>
-                            <th>Puerto interno</th>
+                            <th>Servicio Docker</th>
+                            <th>Puerto</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -177,9 +187,125 @@
                     </tbody>
                 </table>
 
-                <div class="tutorial-tip">
-                    <strong>Importante:</strong> Los dominios usados aquí son solo una referencia para poder explicar el proceso de despliegue y puesta a punto de la infraestructura.
-                </div>
+                <p>Una vez que registremos todos los Proxy Host nos quedaría algo como esto:</p>
+
+                <p><em>Imagen 9: Listado de los servicios de la Infraestructura en NPM.</em></p>
+                <img src="img/npm-proxy-host-list.png" alt="Proxy Host List">
+
+                <h3>3.3 Actualizando los datos de la cuenta de acceso</h3>
+                <p>Como mencionamos al principio de este tutorial, el servicio de NPM viene preconfigurado con una cuenta de usuario genérica. Para evitar accesos no deseados en nuestra infraestructura, es obligatorio cambiar esta cuenta. Para ello, accedemos al menú de usuario.</p>
+
+                <p><em>Imagen 9: Menú de usuario Edición del Perfil.</em></p>
+                <img src="img/npm-user-menu-edit-profile.png" alt="User Menu Edit Profile">
+
+                <ol>
+                    <li>Hacemos clic en <code>Edit Profile</code> para cambiar la dirección de correo que usamos para iniciar sesión.</li>
+                </ol>
+
+                <p><em>Imagen 10: Cambio de nombre de usuario y correo electrónico.</em></p>
+                <img src="img/npm-change-email.png" alt="Change Email">
+
+                <ol start="2">
+                    <li>Actualizamos los datos del campo <code>Email address</code> con nuestro correo.</li>
+                    <li>Salvamos los cambios.</li>
+                </ol>
+
+                <p><em>Imagen 11: Menú de usuario cambio de contraseña.</em></p>
+                <img src="img/npm-user-menu-change-passwd.png" alt="User Menu Change Password">
+
+                <ol start="4">
+                    <li>Hacemos clic en <code>Change Password</code> para cambiar la contraseña actual.</li>
+                </ol>
+
+                <p><em>Imagen 12: Cambio de contraseña del usuario actual.</em></p>
+                <img src="img/npm-change-password.png" alt="Change Password">
+
+                <ol start="5">
+                    <li>Introducimos la contraseña actual.</li>
+                    <li>Introducimos la contraseña nueva y la confirmamos.</li>
+                    <li>Salvamos los cambios.</li>
+                </ol>
+
+                <p><em>Imagen 13: Menú de usuario doble factor de autenticación.</em></p>
+                <img src="img/npm-user-menu-2fa.png" alt="User Menu 2FA">
+
+                <ol start="8">
+                    <li>Hacemos clic en <code>Two-Factor Auth</code> (recomendado activarlo si se quiere un plus de seguridad).</li>
+                </ol>
+
+                <p><em>Imagen 14: Habilitar 2FA en el sistema NPM.</em></p>
+                <img src="img/npm-2fa-enable.png" alt="Enable 2FA">
+
+                <ol start="9">
+                    <li>Hacemos clic en el botón Habilitar doble factor de autenticación.</li>
+                </ol>
+
+                <p><em>Imagen 15: Habilitar 2FA mediante QR con código de verificación.</em></p>
+                <img src="img/npm-qr-code-2fa.png" alt="QR Code 2FA">
+
+                <ol start="10">
+                    <li>Escaneamos el QR con la aplicación <a href="https://play.google.com/store/apps/details?id=com.twofasapp&hl=es" target="_blank">2FA Authenticator</a> pueden usar otras como  <a href="https://play.google.com/store/search?q=authy&c=apps&hl=es" target="_blank">Authy</a> para este paso.</li>
+                    <li>Si no es posible escanear el QR copie el código directamente en la aplicacion 2FA.</li>
+                    <li>Pegue el código de 6 dígitos que genera la aplicación de 2FA.</li>
+                    <li>Verificamos.</li>
+                </ol>
+
+                <p>Si falla la verificación puede deberse a que el código de 6 dígitos expiró, intente de nuevo. El siguiente paso será mostrarnos los códigos de recuperación necesarios en caso de que perdamos el código 2FA o la aplicación se nos desinstale.</p>
+
+                <p><em>Imagen 16: Códigos de recuperación 2FA.</em></p>
+                <img src="img/npm-2fa-recovery-code.png" alt="Recovery Code">
+
+                <ol start="14">
+                    <li>Copiamos los códigos de recuperación y confirmamos.</li>
+                </ol>
+
+                <p><em>Imagen 17: Opciones 2FA.</em></p>
+                <img src="img/npm-2fa-options.png" alt="2FA Options">
+
+                <ol start="15">
+                    <li>Hacemos clic aquí si queremos deshabilitar el 2FA.</li>
+                    <li>Hacemos clic aquí si queremos nuevos códigos de recuperación.</li>
+                </ol>
+
+                <h3>3.4 Eliminando acceso hacia NPM por el puerto 81</h3>
+                <p>Ya confiramos el acceso seguro a NPM y actualizamos las credenciales de la cuenta <code>administrador</code>. Ahora vamos a deshabilitar el acceso hacia NPM por el puerto 81. Para ello editamos el archivo docker-compose.yml ubicado en <code>cashu4cs-deploy</code>.</p>
+<pre><code>nano docker-compose.yml</code></pre>
+
+                <p>Buscamos el servicio NPM que comienza con la línea <code>npm:</code> y eliminamos la línea <code>- '81:81'</code> de <code>ports:</code></p>
+<pre><code> npm:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx_proxy_manager
+    restart: unless-stopped
+    ports:
+      - '80:80' 
+      - '443:443' 
+      - '81:81' 
+    environment:
+      - DB_SQLITE_FILE:"/data/database.sqlite"
+      - DISABLE_IPV6:'true'
+    volumes:
+      - ./app-data/npm/data:/data
+      - ./app-data/npm/letsencrypt:/etc/letsencrypt</code></pre>
+
+                <p>Servicio NPM sin el puerto 81.</p>
+<pre><code> npm:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx_proxy_manager
+    restart: unless-stopped
+    ports:
+      - '80:80' 
+      - '443:443' 
+    environment:
+      - DB_SQLITE_FILE:"/data/database.sqlite"
+      - DISABLE_IPV6:'true'
+    volumes:
+      - ./app-data/npm/data:/data
+      - ./app-data/npm/letsencrypt:/etc/letsencrypt</code></pre>
+
+                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
+
+                <p>Y por último recreamos el contenedor del servicio NPM para que los cambio sean efectivos, ejecutamos:</p>
+<pre><code>docker-compose up --force-recreate npm -d</code></pre>
 
                 <div class="tutorial-nav">
                     <a href="lightning-network-daemon_es.html" class="nav-prev">
