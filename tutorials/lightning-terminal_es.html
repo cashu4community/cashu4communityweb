@@ -25,7 +25,7 @@
                     <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problemas</a></li>
                     <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infraestructura</a></li>
                     <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impacto</a></li>
-                    <li><a href "../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Comunidades</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Comunidades</a></li>
                     <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Hoja de Ruta</a></li>
                     <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
                     <li><a href="../tutorials_es.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutoriales</a></li>
@@ -65,117 +65,153 @@
         <section class="tutorial-content">
             <div class="container">
 
-                <p>Lightning Terminal es una interfaz gráfica y herramienta de gestión para la red Lightning Network de Bitcoin. Desarrollada por Lightning Labs, permite a los nodos operar canales de pago de forma más eficiente mediante funciones avanzadas como <strong>pool</strong> (mercado de liquidez), <strong>loop</strong> (intercambio on/off-chain) y <strong>faraday</strong> (análisis de riesgos). Facilita la compra y venta de liquidez entrante, la gestión de canales y la obtención de recomendaciones para mejorar la rentabilidad del nodo. Es ideal para usuarios que desean participar activamente en Lightning sin manejar comandos complejos en terminal.</p>
+                <p>Lightning Terminal es una interfaz gráfica y herramienta de gestión diseñada para la red Lightning Network de Bitcoin. Desarrollada por Lightning Labs, permite a los operadores de nodos gestionar canales de pago de forma más eficiente gracias a funciones avanzadas como Pool (mercado de liquidez), Loop (intercambio entre cadena y fuera de cadena) y Faraday (análisis de riesgos y rendimiento). Con esta herramienta, es posible comprar y vender liquidez entrante, optimizar la gestión de canales y recibir recomendaciones para maximizar la rentabilidad del nodo. Es la opción ideal para quienes desean participar activamente en Lightning Network sin necesidad de utilizar comandos complejos en la terminal.</p>
 
-                <p>Ahora bien conociendo que es LIT accedemos a la web <code>https://lit.cashu4community.xyz</code></p>
-
-                <img src="img/lit-login-page.png" alt="Lightning Terminal Login">
-
-                <p>Aquí accederemos con la contraseña que creamos en la sección Primeros Pasos</p>
+                <h3>4.1 Funcionalidades clave de Lightning Terminal</h3>
+                <p>Comenzamos accediendo a la interfaz de Lightning Terminal (de ahora en lo adelante LIT) mediante la siguiente dirección <code>https://lit.cashu4cscommunity.xyz</code>.</p>
 
                 <div class="tutorial-tip">
-                    Puede encontrar la contraseña en el archivo <code>lit.conf</code>, exactamente en parámetro de configuración <code>uipassword</code> ubicado en <code>app-data/lit/</code>
+                    <strong>Nota:</strong> Recuerda que la dirección de acceso al servicio LIT se configuró en el tutorial Nginx Proxy Manager.
                 </div>
 
-                <h2>Página de Inicio</h2>
-                <p>Lo primero que veremos es la pagina de inicio, que nos muestra vario opciones para conectarnos directo al nodo y enlace al canal de YouTube.</p>
-                <img src="img/lit-home-page.png" alt="Lightning Terminal Home">
-
-                <h2>Página de Ajustes (Settings)</h2>
-                <p>En los ajustes podemos realizar varias acciones:</p>
-                <img src="img/lit-settings.png" alt="Lightning Terminal Settings">
+                <p><em>Imagen 1: Página de logueo LIT.</em></p>
+                <img src="img/lit-login-page.png" alt="Login LIT">
 
                 <ol>
-                    <li>Cambiar la unidad de Bitcoin (Satoshis, Bits y Bitcoin)</li>
-                    <li>Selecciona modo en que van a funcionar los canales (Optimizados para recibir, enviar o enrutar)</li>
-                    <li>Cambiar los exploradores (mempool.space para bitcoin onchain y terminal.lightning.engineering para lightning)</li>
-                    <li>Muestra la clave pública del nodo</li>
-                    <li>Alias</li>
-                    <li>Muestra el UrI del nodo</li>
+                    <li>Introducimos la contraseña generada en el tutorial de <code>Primeros Pasos</code> y que se encuentra en el archivo <code>app-data/lit/lit.conf</code> parámetro <code>uipassword</code>.</li>
+                    <li>Hacemos clic en el botón <code>Submit</code> para acceder.</li>
                 </ol>
 
-                <div class="tutorial-tip">
-                    El UrI del nodo esta compuesto por la clave pública del nodo @ ip pública : puerto 9735. Si está habilitado el servicio Tor clave pública @ direccion onion : puerto 9735. Este datos nos servirá para abrir canales.
-                </div>
+                <h3>Inicio</h3>
+                <p><em>Imagen 2: Página de Inicio.</em></p>
+                <img src="img/lit-home-page.png" alt="Página de Inicio">
 
-                <h2>Loop</h2>
-                <p>Loop es un servicio no custodial ofrecido por Lightning Labs que actúa como un puente bidireccional (on/off-ramp) entre la red Lightning y la blockchain de Bitcoin. Su función principal es permitir a los usuarios mover fondos de un lado a otro sin necesidad de abrir o cerrar canales, resolviendo así los problemas de liquidez en la red.</p>
+                <ol start="3">
+                    <li>Saldo del nodo Bitcoin On-chain / Lightning.</li>
+                    <li>Acceso rápido al servicio Lightning Terminal Service.</li>
+                    <li>Acceso al canal de YouTube de Lightning Labs.</li>
+                </ol>
 
-                <p>Las dos operaciones principales son:</p>
+                <h3>Ajustes</h3>
+                <p><em>Imagen 3: Página de Ajustes.</em></p>
+                <img src="img/lit-setting-page.png" alt="Página de Ajustes">
+
+                <ol start="6">
+                    <li>Selección de la Unidad de Bitcoin (BTC, Bits, Sats).</li>
+                    <li>Establece los mecanismos de optimización de los canales (Recepción, Envío o Enrutamiento).</li>
+                    <li>Exploradores de bloque.</li>
+                    <li>Clave pública y dirección URI del nodo útil para abrir canales o comprar liquidez.</li>
+                    <li>Alias del nodo.</li>
+                </ol>
+
+                <h3>Lightning Loop</h3>
+                <p><strong>Loop</strong> es un servicio no custodial ofrecido por Lightning Labs que actúa como un puente bidireccional (on/off-ramp) entre la red Lightning y la blockchain de Bitcoin. Su función principal es permitir a los usuarios mover fondos de un lado a otro sin necesidad de abrir o cerrar canales, resolviendo así los problemas de liquidez en la red.</p>
+
+                <p><em>Imagen 4: Lightning Pool.</em></p>
+                <img src="img/lit-loop-page.png" alt="Lightning Pool">
+
+                <ol start="11">
+                    <li>Capacidad de Entrada / Salida.</li>
+                    <li>Acceso al servicio Loop.</li>
+                    <li>Canales activos en el nodo.</li>
+                </ol>
+
+                <p>Las siguientes imágenes muestran el flujo para realizar una operación de Loop In es decir añadir liquidez desde el saldo onchain de la billetera del nodo.</p>
+
+                <p><em>Imagen 5: Lightning Loop In.</em></p>
+                <img src="img/lit-loop-in-action.png" alt="Loop In">
+
+                <p><em>Imagen 6: Selección del monto on chain a añadir en el canal seleccionado.</em></p>
+                <img src="img/lit-loop-in-fixed-fund.png" alt="Loop In Fixed Fund">
+
+                <p><em>Imagen 7: Confirmar operación de Loop In tras calcular el fee.</em></p>
+                <img src="img/lit-loop-in-confirm.png" alt="Loop In Confirm">
 
                 <ul>
-                    <li><strong>Loop Out</strong>: Convierte fondos de la red Lightning (off-chain) a Bitcoin en la cadena principal (on-chain). Es útil para comerciantes que reciben muchos pagos y necesitan enviar esos fondos a una wallet fría o un exchange, liberando capacidad para seguir recibiendo.</li>
-                    <li><strong>Loop In</strong>: Convierte Bitcoin de la cadena principal a la red Lightning. Sirve para "recargar" un canal de Lightning que se ha quedado sin fondos después de hacer muchos pagos.</li>
+                    <li><strong>Loop In</strong> (para recibir más liquidez entrante en un canal): necesitas saldo en tu billetera on-chain.</li>
+                    <li><strong>Loop Out</strong> (para enviar fondos de Lightning a la red on-chain): necesitas saldo disponible dentro de un canal de pago.</li>
                 </ul>
 
-                <p>Pueden ver Lightning Loop en acción <a href="https://www.youtube.com/watch?v=kYlfHqQnpVM" target="_blank">ver vídeo en YouTube</a></p>
+                <p>Pueden ver Loop en acción en el siguiente <a href="https://www.youtube.com/watch?v=kYlfHqQnpVM" target="_blank">enlace</a>.</p>
 
-                <div class="tutorial-tip">
-                    <strong>Ventaja clave</strong>: Loop permite rebalancear los canales de forma eficiente, a menudo agrupando múltiples transacciones en una sola operación en cadena para ahorrar en comisiones
-                </div>
-
-                
-
-                <h2>Lightning Node Connect</h2>
+                <h3>Lightning Node Connect</h3>
                 <p>La función Lightning Node Connect (LNC) en Lightning Terminal es un mecanismo que te permite conectarte a tu nodo Lightning de forma remota, segura y privada a través de un navegador web o una aplicación móvil, sin necesidad de configurar redirección de puertos o usar Tor.</p>
 
                 <p>Piensa en ello como un "acceso remoto" diseñado específicamente para nodos Lightning, que soluciona problemas de conectividad como el NAT (traducción de direcciones de red) o los firewalls que suelen bloquear las conexiones entrantes.</p>
 
-                <h3>¿Qué es y para qué sirve exactamente?</h3>
+                <p><em>Imagen 8: Página de Lightning Node Connect.</em></p>
+                <img src="img/lit-node-connection.png" alt="Lightning Node Connect">
 
-                <ul>
-                    <li><strong>Conexión Sencilla</strong>: Te permite acceder a tu nodo desde la interfaz web de Lightning Terminal (terminal.lightning.engineering) o desde billeteras móviles como ZEUS, sin configurar direcciones IP o certificados complicados.</li>
-                    <li><strong>Alta Seguridad</strong>: La conexión es cifrada de extremo a extremo utilizando un método llamado PAKE (intercambio de claves autenticado por contraseña). Esto significa que ni el servidor proxy de Lightning Labs ni ningún intermediario pueden ver tu información privada (como saldos o canales); solo ven datos cifrados.</li>
-                    <li><strong>Gestión Remota</strong>: Es la tecnología que hace posible que puedas usar las herramientas de Liquidez de Lightning Terminal (Loop, Pool, Faraday) sin estar en la misma red local que tu nodo.</li>
-                </ul>
-
-                <h3>¿Cómo funciona?</h3>
-                <p>En lugar de que tu navegador se conecte directamente (lo cual es difícil si el nodo está en tu casa detrás de un router), el nodo inicia una conexión saliente hacia un proxy. Tu navegador se conecta al mismo proxy, y LNC une ambos extremos de forma segura.</p>
-
-                <p>Ahora ya tenemos una idea de como funciona Lightning Node Connect vamos a crear una conexión.</p>
-                <img src="img/lit-lnc.png" alt="Lightning Node Connect">
-
-                <ol>
-                    <li>Crea una nueva conexión para el servicio Lightning Node Connect (LNC)</li>
+                <ol start="14">
+                    <li>Hacemos clic para crear una sesión al servicio Lightning Terminal Service.</li>
                 </ol>
 
-                <img src="img/lit-lnc-new-connection.png" alt="LNC New Connection">
+                <p><em>Imagen 9: Creando la nueva sesión de Lightning Terminal Service.</em></p>
+                <img src="img/lit-lts-new-sesion-parameters.png" alt="Nueva Sesión LTS">
 
-                <ol>
-                    <li>Definimos el nombre de la conexión. Ej TEST</li>
-                    <li>Definimos los permisos de la conexión (Admin, Solo Lectura o Customizado)</li>
-                    <li>Añadimos la conexión</li>
+                <ol start="15">
+                    <li>Establecemos el nombre de la sesión.</li>
+                    <li>Seleccionamos los privilegios <code>Admin</code> entre los privilegios disponibles (Admin, Solo lectura y Personalizado).</li>
+                    <li>Hacemos clic en <code>Submit</code> para crear la sesión.</li>
                 </ol>
 
-                <img src="img/lit-lnc-connection-register.png" alt="LNC Connection Register">
+                <p><em>Imagen 10: Opciones de la nueva sesión Lightning Terminal Service.</em></p>
+                <img src="img/lit-lnc-connection-record.png" alt="Opciones Sesión LTS">
 
-                <ol>
-                    <li>Redirecciona al servicio Lightning Terminal Services incluyendo la frase de 12 palabras</li>
-                    <li>Copia la frase de 12 palabras</li>
-                    <li>Muestra un QR con los datos de conexión, sirve para emparejarnos con la aplicación Zeus</li>
-                    <li>Elimina la conexión</li>
+                <ol start="18">
+                    <li>Si hacemos clic nos redirecciona a la web de Lightning Terminal Services para introducir la frase de 12 palabras que establece la conexión con el nodo.</li>
+                    <li>Si hacemos clic copiamos las 12 palabras.</li>
+                    <li>Muestra un QR útil si queremos conectarnos al nodo desde <a href="https://play.google.com/store/apps/details?id=app.zeusln.zeus&hl=es_CL" target="_blank">Zeus</a> o <a href="https://albyhub.com/" target="_blank">Alby Hub</a>.</li>
                 </ol>
 
-                <img src="img/lit-services-pairing-phrase.png" alt="LNC Services Pairing Phrase">
+                <p>Pueden ver el siguiente video sobre LIT <a href="https://www.youtube.com/watch?v=G1rv9dZQO5o" target="_blank">aquí</a>.</p>
 
-                <p>La imagen anterior muestra la pantalla del servicio LNC al cual se puede acceder desde el paso anterior. Al hacer clic en el boton connect no lleva a una pagina donde definimos una contraseña.</p>
+                <h3>4.2 Acceso a Lightning Terminal Service</h3>
+                <p>Llegado a este punto podemos acceder a este servicio desde el paso anterior punto 18, o accediendo directamente desde <a href="https://terminal.lightning.engineering/dashboard" target="_blank">aquí</a>.</p>
 
-                <img src="img/lit-services-set-passwd.png" alt="LNC Services Set Password">
-
-                <p>Luego confirmamos el password.</p>
-
-                <img src="img/lit-services-confirm-passwd.png" alt="LNC Services Confirm Password">
-
-                <p>Confirmado el password se carga el dashboard del nodo.</p>
-
-                <img src="img/lit-services-dashboard.png" alt="LNC Services Dashboard">
+                <p><em>Imagen 11: Página Principal de Lightning Terminal Services.</em></p>
+                <img src="img/lit-services-home.png" alt="Lightning Terminal Services Home">
 
                 <ol>
-                    <li>Desde aquí se puede acceder al explorador Lightning útil si se quiere buscar nodos con buena reputación, la función autopilot nos permite automatizar tareas como cambio de fees según el estado de los canales, Loop lo vimos anteriormente desde aqui podemos realizar el rebalanceo de canales mediante esta función y Assets esta relacionado con la emision de activos sobre lightning algo que aun esta en desarrollo.</li>
-                    <li>Aqui podremos envia y recibir tanto On - chain y Lightning, además de poder abrir canales.</li>
-                    <li>Se muestra información estadistica del funcionamiento del nodo, las ganacias por enrutamiento estado de lconocer os canales, entre otros datos.</li>
-                    <li>En este menu podemos ver la liquides de que dispone, versión del nodo, historial, entre otras informaciones.</li>
+                    <li>Hacemos clic en Conectar a mi nodo.</li>
                 </ol>
+
+                <p><em>Imagen 12: Conectar al nodo mediante 12 palabras generadas por LIT.</em></p>
+                <img src="img/lit-services-pairing-phrase.png" alt="Pairing Phrase">
+
+                <ol start="2">
+                    <li>Pegamos la frase de 12 palabras obtenidas en LIT al crear la nueva sesión.</li>
+                    <li>Hacemos clic en Conectar.</li>
+                </ol>
+
+                <p><em>Imagen 13: Estableciendo la contraseña de la conexión.</em></p>
+                <img src="img/lit-services-set-passwd.png" alt="Set Password">
+
+                <ol start="4">
+                    <li>Insertamos una contraseña para la sesión (no es la contraseña que usamos para LIT son diferentes servicios).</li>
+                    <li>Hacemos clic en Siguiente.</li>
+                </ol>
+
+                <p><em>Imagen 14: Confirmamos la contraseña de la sesión.</em></p>
+                <img src="img/lit-services-confirm-passwd.png" alt="Confirm Password">
+
+                <ol start="6">
+                    <li>Confirmamos la contraseña de la sesión.</li>
+                    <li>Hacemos clic en el botón Listo.</li>
+                </ol>
+
+                <p><em>Imagen 15: Panel Principal de Lightning Terminal Services.</em></p>
+                <img src="img/lit-services-dashboard.png" alt="LTS Dashboard">
+
+                <ol start="8">
+                    <li>Menú de navegación: permite desplazarnos entre el explorador de la red lightning, Autopilot función que automatiza tareas bajo demanda en el nodo, Loop las mismas funciones que vimos en LIT pero con una interfaz mejorada y Asset para los que quieren emitir tokens en la red lightning.</li>
+                    <li>Botones de acción: permite enviar, recibir tanto en la red lightning como en la onchain, además de abrir canales.</li>
+                    <li>Área de estadísticas del nodo: muestra estadísticas del nodo en un período de tiempo como ganancias y pérdidas por enrutamiento, entre otras cosas.</li>
+                    <li>Información de enrutamiento y canales: podemos interactuar con los enrutamientos y los canales, en este último podemos obtener información de ellos, cambiar los fees, cerrar y forzar cierre si está offline por mucho tiempo.</li>
+                    <li>Menú de información del nodo: muestra el saldo lightning y onchain, versión del nodo, historial de operaciones entre otras opciones.</li>
+                </ol>
+
+                <p>Si quiere profundizar más sobre estas herramientas visite el siguiente <a href="https://www.youtube.com/@LightningLabs/videos" target="_blank">enlace</a>.</p>
 
                 <div class="tutorial-nav">
                     <a href="nginx-proxy-manager_es.html" class="nav-prev">
