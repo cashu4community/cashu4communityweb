@@ -41,7 +41,7 @@
                             <span class="lang-text">Español</span>
                         </div>
                         <div class="language-option" data-lang="en">
-                            <span class="flag">🇬🇧</span>
+                            <span class="flag">🇬🇬</span>
                             <span class="lang-text">English</span>
                         </div>
                     </div>
@@ -65,76 +65,162 @@
         <section class="tutorial-content">
             <div class="container">
 
-                <p>LNbits es una solución de billetera y sistema de cuentas que corre sobre el nodo LND, permitiendo segmentar fondos y habilitar funcionalidades extendidas mediante extensiones. Es el motor que procesa las transacciones de los demás servicios. Se puede decir que es la navaja suiza Lightning.</p>
+                <p>LNbits es una solución de billetera y sistema de cuentas que se ejecuta sobre un nodo LND, permitiendo segmentar fondos y habilitar funcionalidades extendidas mediante extensiones. Es el motor que procesa las transacciones de los demás servicios. Se puede decir que es la navaja suiza Lightning.</p>
 
-                <h2>Inicializando LNbits</h2>
-                <p>Siguiendo con nuestro entorno de pruebas accedemos a <code>https://lnbits.cashu4community.xyz</code> si aun no has configurado este Proxy Host en NPM ve a la sección <code>Crear un Proxy Host</code> del servicio Nginx Proxy Manager.</p>
+                <h2>5.1 Inicializando LNbits</h2>
+                <p>Lo primero que haremos es acceder a la web que ya configuramos en el tutorial de NPM: <code>https://lnbits.cashu4community.xyz</code>. Al ser la primera vez, se nos muestra una página que nos permitirá crear la cuenta del superusuario, que tiene los máximos privilegios. Solo necesitaremos introducir un nombre de usuario y la contraseña (dos veces).</p>
 
-                <p>Al acceder se nos muestra la página de inicializar la instalación, solo necesitaremos introducir un nombre de usuario y la contraseña de este dos veces.</p>
-                <img src="img/lnbits-initial-intall.png" alt="LNbits Initial Install">
+                <p><em>Imagen 1: Creación de cuenta superusuario en LNbits.</em></p>
+                <img src="img/lnbits-first-install.png" alt="LNbits First Install">
 
-                <p>En el ejemplo estamos usando el usuario <code>admin</code> con la clave <code>1234Abc-+</code> ustedes usarán el que deseen.</p>
+                <ol>
+                    <li>Introducimos el nombre del usuario.</li>
+                    <li>Introducimos la contraseña de la cuenta dos veces. Se recomienda una contraseña con mínimo 12 caracteres, mayúsculas, minúsculas y caracteres especiales.</li>
+                    <li>Presionamos <code>LOGIN</code> para crear la cuenta.</li>
+                </ol>
+
+                <p><em>Imagen 2: Página de Iniciar Sesión.</em></p>
+                <img src="img/lnbits-login-page.png" alt="LNbits Login Page">
+
+                <ol start="4">
+                    <li>Introducimos el usuario creado en el paso anterior.</li>
+                    <li>Hacemos lo mismo con la contraseña.</li>
+                    <li>Hacemos clic en <code>LOGIN</code>.</li>
+                </ol>
+
+                <p>Luego de iniciar sesión se carga la página de ajustes de LNbits, podemos navegar por diferentes secciones, este tutorial abarcará las más importantes.</p>
+
+                <p><em>Imagen 3: Página de ajustes de LNbits.</em></p>
+                <img src="img/lnbits-funding-page.png" alt="LNbits Funding Page">
+
+                <h3>5.1.1 Ajustes de Fondeo (Backend lightning de LNbits)</h3>
+
+                <p><em>Imagen 4: Página de Ajustes (Fondeo).</em></p>
+                <img src="img/lnbits-setting-funding-page.png" alt="LNbits Setting Funding Page">
+
+                <ol start="7">
+                    <li>Se muestra el Saldo total en las cuentas de LNbits y el saldo del Nodo.</li>
+                    <li>El backend del LNbits para la infraestructura es Lightning Network Daemon (LND). Esta configuración esta definida en el archivo .env que se encuentra en el directorio <code>app-data/lnbits/</code></li>
+                </ol>
+
+                <h3>5.1.2 Ajustes de Pagos</h3>
+
+                <p><em>Imagen 5: Página de Ajustes (Pagos).</em></p>
+                <img src="img/lnbits-payment-page.png" alt="LNbits Payment Page">
+
+                <ol start="9">
+                    <li>Seleccionamos las monedas fiduciarias que estarán disponibles en LNbits.</li>
+                    <li>Seleccionamos la moneda por defecto que mostrará el valor de los sats en la cuenta.</li>
+                    <li>Seleccionamos la comisión que se cobrará por las transacciones salientes (solo si se quiere obtener una pequeña ganancia)</li>
+                    <li>Si asignamos un valor a la comisión por transacción, debemos agregar el ID de la billetera que recibirá las comisiones. En los pasos siguientes explicaremos cómo obtener el ID de la billetera.</li>
+                    <li>Deshabilitamos la comisión para las transacciones internas.</li>
+                </ol>
 
                 <div class="tutorial-tip">
-                    <strong>Importante:</strong> Esta cuenta tiene rol de superusuario y tiene los máximos privilegios en el sistema.
+                    <strong>Nota:</strong> Después de realizar los cambios debemos hacer clic en <code>SAVE</code> y por último en <code>RESTART SERVER</code> si no lo hacemos no se aplicarán los cambios.
                 </div>
 
-                <p>Luego de crear la cuenta el sistema nos lleva a la página de ajustes (Settings).</p>
-                <img src="img/lnbits-config-page.png" alt="LNbits Config Page">
+                <h3>5.1.3 Ajustes de Extensiones</h3>
+                <p>Desde esta página podremos seleccionar las extensiones que se cargarán por defecto, tanto en las secciones administrativas como en las de usuarios estándar (sin privilegios).</p>
 
-                <p>Por el momento no es necesario modificar nada aquí, así que pasamos a crear la billetera que usará el Mint de Cashu.</p>
+                <p><em>Imagen 6: Página de Ajustes (Extensiones).</em></p>
+                <img src="img/lnbits-settings-extensions.png" alt="LNbits Settings Extensions">
+
+                <ol start="14">
+                    <li>Seleccionamos las extensiones para usuarios administradores.</li>
+                    <li>Seleccionamos las extensiones para el resto de los usuarios.</li>
+                </ol>
 
                 <div class="tutorial-tip">
-                    <strong>Importante:</strong> Como recomendación proponemos crear una cuenta para cada servicio que conectemos al LNbits.
+                    <strong>Nota:</strong> Aquí solo aparecerán las extensiones que estén habilitadas. Para añadir otras extensiones hay que ir al apartado de <code>Extensiones</code> en el menú de opciones a la izquierda de la página.
                 </div>
 
-                <p>Vamos a usar la cuenta admin y renombraremos la billetera por defecto para que sirva de backend del Mint de cashu, luego optendremos la apikey para realizar para realizar y recibir pagos.</p>
+                <h2>5.2 Creando una billetera para las comisiones por transacción</h2>
+                <p>Cuando iniciamos sesión en LNbits se crea una billetera por defecto, vamos a renombrarla y usarla para recibir las comisiones por transacción.</p>
+
+                <p><em>Imagen 7: Cambiar el nombre a la billetera por defecto.</em></p>
                 <img src="img/lnbits-wallet-rename.png" alt="LNbits Wallet Rename">
 
-                <ol>
-                    <li>Seleccionamos la billetera</li>
-                    <li>Vamos al panel derecho específicamente a <code>Wallet Config</code></li>
-                    <li>Cambiamos el nombre por <code>Cashu Mint</code> (puede ser el nombre de su preferencia)</li>
-                    <li>Presionamos <code>Update Name</code></li>
+                <ol start="16">
+                    <li>Seleccionamos el monedero.</li>
+                    <li>Hacemos clic en el panel derecho en <code>Wallet Config</code>.</li>
+                    <li>Cambiamos el nombre de la billetera por <code>Service fees</code>.</li>
+                    <li>Hacemos clic en el botón <code>UPDATE NAME</code></li>
                 </ol>
 
-                <p>De esta forma ya tenemos identificada la billetera que se usará para almacenar los fondos del Mint de Cashu.</p>
+                <p>De esta manera hemos cambiado el nombre de la billetera para saber cual es el fin de esta.</p>
 
-                <p>Ahora necesitamos la clave para realizar y recibir pagos un poco mas abajo aparece la opción <code>Node URL, API keys...</code></p>
-                <img src="img/lnbits-wallet-api-key.png" alt="LNbits Wallet API Key">
+                <p><em>Imagen 8: Obteniendo el ID de la billetera Service fees.</em></p>
+                <img src="img/lnbits-wallet-id.png" alt="LNbits Wallet ID">
 
-                <ol>
-                    <li>Cualquiera de las dos llaves funcionara pero la de admin tiene mayor privilegio</li>
-                    <li>Hacemos clic en el ícono del portapapeles y copiamos la clave en un archivo de texto para luego cuando pasemos a configurar el Mint de Cashu usemos esta clave</li>
+                <ol start="20">
+                    <li>Hacemos clic en el panel derecho en <code>Node URL, API Key and API docs</code>.</li>
+                    <li>Copiamos el campo <code>Wallet ID</code></li>
                 </ol>
 
-                <h2>Actualizando LNbits</h2>
-                <p>El proceso de actualizar la versión de LNbits es facil; pero debemos respaldar la base de datos para evitar perder datos por fallo en una actualización.</p>
+                <p>Luego vamos a los ajustes Pagos (lo que vimos en la sección 5.1.2) y pegamos el ID de la billetera en el campo del punto 12.</p>
 
-                <h3>1. Respaldar la base de datos</h3>
-                <p>Ejecutamos:</p>
-<pre><code>docker exec -it app_lnbits bash
-pg_dump -h db -u lnbits_user -p -d lnbits_db > data/lnbits-db.sql</code></pre>
+                <h2>5.3 Extensiones de LNbits</h2>
+                <p>Las extensiones de LNbits son plugins que añaden funcionalidades específicas. Permiten desde crear billeteras con reglas personalizadas (límites, expiración) hasta integrar sistemas de pagos, comercio electrónico, boletos, juegos, crowdfunding o mecanismos como LNURL. Al ser modulares, instalalos solo lo que necesitas sin inflar el sistema.</p>
 
-                <h3>2. Actualizamos el número de versión en el docker-compose.yml</h3>
-                <p>Editamos el archivo docker-compose.yml ubicado en la raíz del proyecto.</p>
+                <p>Ahora veremos como añadir y eliminar extensiones.</p>
 
-                <p>Localizamos el servicio lnbits específicamente la siguiente linea:</p>
-<pre><code>lnbits:
-  image: lnbits/lnbits:v1.4.0</code></pre>
+                <p><em>Imagen 9: Extensiones.</em></p>
+                <img src="img/lnbits-extension-page.png" alt="LNbits Extension Page">
 
-                <p>Como se observa es la version de lnbits es la 1.4 y en el momento en que se redacta este tutorial esta en su versión 1.5.3. Actualizamos el archivo con la versión más reciente.</p>
-<pre><code>lnbits:
-  image: lnbits/lnbits:v1.5.3</code></pre>
+                <ol start="22">
+                    <li>Hacemos clic en la vista de extensiones para listar las extensiones disponibles.</li>
+                </ol>
 
-                <h3>3. Hacemos efectivo los cambios</h3>
-<pre><code>docker-compose up --force-recreate lnbits -d</code></pre>
+                <p>Por defecto solo un par de extensiones están disponibles para los usuarios, por lo que hay que instalar el resto. En el siguiente paso explicamos cómo se instalan.</p>
 
-                <p>Este proceso eliminará el contenedor con la versión vieja descargará la nueva versión y realizará las actualizaciones a la base de datos en caso de ser necesario.</p>
+                <p><em>Imagen 10: Selección de la extensión a instalar.</em></p>
+                <img src="img/lnbits-select-extension-to-install.png" alt="LNbits Select Extension to Install">
 
-                <div class="tutorial-tip">
-                    Es importante no violar el paso 1 para en caso de un fallo en la actualización poder volver a la versión anterior. También es recomendable revisar la notas de la nueva versión para conocer si se necesitan hacer cambios puntuales antes de actualizar.
-                </div>
+                <ol start="23">
+                    <li>Seleccionamos la extensión a instalar.</li>
+                </ol>
+
+                <p>En el ejemplo seleccionamos la extensión LndHub, muy útil si queremos usar billeteras como Blue Wallet o Zeus Wallet para administrar los fondos, pagar y recibir pagos en nuestra cuenta.</p>
+
+                <p><em>Imagen 11: Seleccionar versión a instalar.</em></p>
+                <img src="img/lnbits-extension-select-version.png" alt="LNbits Extension Select Version">
+
+                <ol start="24">
+                    <li>Desplegamos la lista de versiones.</li>
+                    <li>Seleccionamos la disponible haciendo clic en <code>INSTALL</code></li>
+                </ol>
+
+                <p>Luego de unos segundos la extensión aparecerá en la vista de instaladas.</p>
+
+                <p><em>Imagen 12: Extensiones instaladas.</em></p>
+                <img src="img/lnbits-installed-extensions.png" alt="LNbits Installed Extensions">
+
+                <p>Para comenzar recomiendo instalar las extensiones <code>LNURLp</code>, <code>Withdraw Links</code> y <code>LndHub</code>. Luego de esto podemos ir a los ajustes sección de Extensiones y habilitar para todos los usuarios las extensiones instaladas lo vimos en el paso 5.1.3 en el punto 15.</p>
+
+                <h2>5.4 Otras opciones</h2>
+                <p>En la vista principal podemos encontrar otras opciones que nos permitirán tener un control más amplio de lo que sucede en nuestra instancia de LNbits.</p>
+
+                <p><em>Imagen 13: Opciones Avanzadas de Administración de la instancia LNbits.</em></p>
+                <img src="img/lnbits-advanced-options.png" alt="LNbits Advanced Options">
+
+                <ol start="26">
+                    <li>Ajustes de LNbits.</li>
+                    <li>Administración de usuarios y billeteras.</li>
+                    <li>Peticiones a la API de Lnbits en tiempo real.</li>
+                    <li>Visualización de los pagos realizados, con información útil para hacer búsquedas.</li>
+                    <li>Administración de extensiones.</li>
+                </ol>
+
+                <h2>5.5 Respaldando la Base de datos y las configuraciones de LNbits</h2>
+                <p>LNbits permite realizar una copia de seguridad de la base de datos, extensiones y logs desde la interfaz web. Si queremos hacer un respaldo manual basta con ir a los ajustes y hacer clic en <code>DOWNLOAD DATABASE BACKUP</code> como se muestra en la siguiente imagen.</p>
+
+                <p><em>Imagen 14: Salva de la base de datos desde ajustes.</em></p>
+                <img src="img/lnbits-download-database-backup.png" alt="LNbits Download Database Backup">
+
+                <ol start="31">
+                    <li>Descargamos las base de datos.</li>
+                </ol>
 
                 <div class="tutorial-nav">
                     <a href="lightning-terminal_es.html" class="nav-prev">
