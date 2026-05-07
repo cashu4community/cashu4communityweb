@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashu Mint (Nutshell) | Cashu4Community</title>
+    <meta name="description" content="Tutorial: Configuring and managing the Cashu Mint with Nutshell">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Home</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problems</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Communities</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Roadmap</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_en.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutorials</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇬🇧</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Cashu Mint (Nutshell) Configuration</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <p>The Cashu Mint is the core component that issues and redeems ecash tokens. In this tutorial we will configure it to work with LNbits as the Lightning backend and manage its keysets.</p>
+
+                <h2>6.1 Connecting LNbits as the Lightning Backend</h2>
+                <p>Access the Mint configuration file:</p>
+<pre><code>nano app-data/cashu/.env</code></pre>
+
+                <p>Look for the line <code>MINT_BACKEND_BOLT11_LNURL_ENDPOINT</code> and configure it with your LNbits instance:</p>
+<pre><code>MINT_BACKEND_BOLT11_LNURL_ENDPOINT=https://lnbits.cashu4community.xyz/lnurlp/api/v1/lnurlp/link/</code></pre>
+
+                <p>Then look for <code>MINT_LNBITS_ENDPOINT</code> and set it to your LNbits API URL:</p>
+<pre><code>MINT_LNBITS_ENDPOINT=https://lnbits.cashu4community.xyz/api/v1</code></pre>
+
+                <p>Finally, set <code>MINT_LNBITS_KEY</code> with an admin key from LNbits:</p>
+<pre><code>MINT_LNBITS_KEY=55739ee04e53437aba54fa8c9e4175b8</code></pre>
+
+                <p><em>Image 1: LNbits Cashu Mint Wallet.</em></p>
+                <img src="img/lnbits-cashu-mint-wallet.png" alt="LNbits Cashu Mint Wallet">
+
+                <ol>
+                    <li>Create a new wallet in LNbits for the Cashu Mint.</li>
+                    <li>Copy the Admin Key from the wallet.</li>
+                </ol>
+
+                <p><em>Image 2: LNbits Cashu Wallet Admin Key.</em></p>
+                <img src="img/lnbits-cashu-wallet-admin-key.png" alt="LNbits Cashu Wallet Admin Key">
+
+                <ol start="3">
+                    <li>Paste the Admin Key in the <code>MINT_LNBITS_KEY</code> field in the <code>.env</code> file.</li>
+                </ol>
+
+                <p>Save and exit the file <code>ctrl+s</code> and <code>ctrl+x</code></p>
+
+                <h2>6.2 Generating SSL Certificates for RPC Connection</h2>
+                <p>SSL certificates are necessary to connect via RPC to the Mint and execute remote commands.</p>
+
+                <p>Go to the <code>certs</code> directory:</p>
+<pre><code>cd app-data/cashu/certs</code></pre>
+
+                <p>Execute the certificate generation script:</p>
+<pre><code>./generate_certificates.sh</code></pre>
+
+                <p>This script will generate all necessary certificates. We can verify by running:</p>
+<pre><code>ls .
+ca_cert.pem  ca_private.pem  client_cert.pem  client_private.pem  generate_certificates.sh  server_cert.pem  server_private.pem</code></pre>
+
+                <p><em>Image 3: Certificate files generated.</em></p>
+                <img src="img/cashu-certs-files.png" alt="Cashu Certs Files">
+
+                <h2>6.3 Creating a New Keyset from the CLI</h2>
+                <p>We will use mint-cli to rotate keysets and define the fee. We will do this for each unit in the mint (sats, usd).</p>
+
+                <p>E.g.: if we wanted to change the fee from 100 ppk (per-proof-of-knowledge) for sat (Bitcoin) to 50 ppk, we would execute the following inside the cashu container:</p>
+<pre><code>docker exec -it app_cashu bash</code></pre>
+                <p>Once inside the container, execute:</p>
+<pre><code>poetry run mint-cli -h cashu next-keyset sat 50</code></pre>
+
+                <div class="tutorial-tip">
+                    <strong>Note:</strong> The -h argument accompanying the mint-cli command is necessary because in Docker environments you cannot access 127.0.0.1 directly, which is why we use cashu as it is the service name declared in the docker compose.
+                </div>
+
+                <p>This would return something like:</p>
+<pre><code>final_expiry = None
+New keyset successfully created:
+keyset.id = '01e5bac64190f22f2959558b15cbab9f06798958f253a59fbe4687a9d875e3c720'
+keyset.unit = 'sat'
+keyset.max_order = 64
+keyset.input_fee_ppk = 50
+0</code></pre>
+
+                <p>If we now execute again the command:</p>
+<pre><code>curl https://mint.cashu4community.xyz/v1/keysets</code></pre>
+
+                <p>It returns the pair of keysets: the old and the new.</p>
+<pre><code>{
+  "keysets": [
+    {
+      "id": "0145ee812683eaf8ce3859f2601c160d0c8f0d4139447848d0d6745350f3c4fb44",
+      "unit": "sat",
+      "active": false,
+      "input_fee_ppk": 100,
+      "final_expiry": null
+    },
+    {
+      "id": "01e5bac64190f22f2959558b15cbab9f06798958f253a59fbe4687a9d875e3c720",
+      "unit": "sat",
+      "active": true,
+      "input_fee_ppk": 50,
+      "final_expiry": null
+    }
+  ]
+}</code></pre>
+
+                <h2>6.4 USD Stable Support with Blink in the Mint</h2>
+                <p>In version 0.20.0 of Nutshell, USD support via Blink as a funding source was added. In the following steps we will explain what you need to do both in Blink and in the Cashu Mint.</p>
+
+                <p>As a requirement, you must have an account in the Blink Lightning wallet; otherwise we cannot continue. If you don't have an account, download the application for Android from Google Play Store <a href="https://play.google.com/store/apps/details?id=com.galoyapp">here</a> or for iOS from the App Store <a href="https://apps.apple.com/ng/app/blink-bitcoin-wallet/id1531383905">here</a>. Having the wallet registration, access <a href="https://dashboard.blink.sv">https://dashboard.blink.sv</a></p>
+
+                <p>After logging in, you will see the account administration panel showing the two wallets (sats and usd) and several other options. The one we are interested in is API Keys.</p>
+
+                <p><em>Image 4: Blink Administration Panel - API Keys.</em></p>
+                <img src="img/cashu-blink-apikey-selection.png" alt="Cashu Blink API Key Selection">
+
+                <ol start="9">
+                    <li>After selecting <code>API Keys</code> in the options menu, you will see the following screen where we can create a new API key.</li>
+                </ol>
+
+                <p><em>Image 5: Creating new API key.</em></p>
+                <img src="img/cashu-apikey-parameters.png" alt="Cashu New API Key">
+
+                <ol start="10">
+                    <li>Click the button with the <code>+</code> symbol.</li>
+                </ol>
+
+                <p>A window will appear where we will enter a name to identify the use of the key, the lifetime of the API key, and the operations we will allow with it.</p>
+
+                <p><em>Image 6: API key parameters.</em></p>
+                <img src="img/cashu-apikey-parameters.png" alt="Cashu API Key Parameters">
+
+                <ol start="11">
+                    <li>Enter the name of the API key, something that suggests the use it will have.</li>
+                    <li>API key expiration time: select <code>Never</code>.</li>
+                    <li>In the operations that can be done with the API, select all of them.</li>
+                    <li>Click the <code>Create</code> button to create the key.</li>
+                </ol>
+
+                <p>After creating the key, a window appears where we can copy the API keys. It is recommended to back them up in a safe place. For our case, we are only interested in the one related to USD; but if you want to use Blink as a funding account for the mint in both USD and BTC.</p>
+
+                <p><em>Image 7: API keys to connect to Blink BTC and USD accounts.</em></p>
+                <img src="img/cashu-copy-apikey.png" alt="Cashu Copy API Key for USD">
+
+                <ol start="15">
+                    <li>Copy the key in a safe place (this will be the one we use to connect the Cashu Mint to Blink).</li>
+                    <li>Click the <code>Close</code> button.</li>
+                </ol>
+
+                <p>This way we have created the key we will use in the Mint. Now we return to the terminal in our VPS. We are in the cashu-deploy directory and will edit the <code>.env</code> file.</p>
+
+                <pre><code>nano app-data/cashu/.env</code></pre>
+
+                <p>Look for the line that has <code>MINT_DERIVATION_PATH=</code>:</p>
+
+                <pre><code>MINT_DERIVATION_PATH="m/0'/0'/0"</code></pre>
+
+                <p>Go to the beginning of the line and insert the <strong>#</strong> symbol, leaving it like this:</p>
+
+                <pre><code># MINT_DERIVATION_PATH="m/0'/0'/0"</code></pre>
+
+                <p>Then look for the line <code>MINT_DERIVATION_PATH_LIST=</code>:</p>
+
+                <pre><code># MINT_DERIVATION_PATH_LIST=["m/0'/0'/0'", "m/0'/0'/1'", "m/0'/1'/0'", "m/0'/2'/0'"]</code></pre>
+
+                <p>Remove the <strong>#</strong> symbol and the values between double quotes m/0'/0'/1' and m/0'/1'/0', leaving it like this:</p>
+
+                <pre><code>MINT_DERIVATION_PATH_LIST=["m/0'/0'/0'", "m/0'/2'/0'"]</code></pre>
+
+                <div class="tutorial-tip">
+                    <strong>Note:</strong> You must be careful to remove a comma or delete a quote because it will cause an error after restarting the mint service.
+                </div>
+
+                <p>Now look for the line <code>MINT_BACKEND_BOLT11_USD=FakeWallet</code> and remove the <strong>#</strong> symbol and where it says <code>FakeWallet</code> put <code>BlinkWallet</code>, leaving it like this:</p>
+
+                <pre><code>MINT_BACKEND_BOLT11_USD=BlinkWallet</code></pre>
+
+                <p>Finally, look for the Blink connection:</p>
+
+                <pre><code># MINT_BLINK_KEY=blink_abcdefgh</code></pre>
+
+                <p>Remove the <strong>#</strong> symbol and paste the key we created in the Blink panel earlier, leaving something like this:</p>
+
+                <pre><code>MINT_BLINK_KEY=blink_7Sz978fgdFGjhhT6u8g1tDvruhdeiuyidfdZ1fnDFcPSXKag5uHuip2S1yPP2wHG</code></pre>
+
+                <p>Save and exit the file <code>ctrl+s</code> and <code>ctrl+x</code></p>
+
+                <p>Restart the Cashu mint docker container.</p>
+                <pre><code>docker-compose restart cashu</code></pre>
+
+                <p>From here we will be able to select USD as a method to send and receive payments in wallets like <a href="https://cashu.me">cashu.me</a> or <a href="https://elcaju.me">elcaju.me</a>.</p>
+
+                <div class="tutorial-nav">
+                    <a href="lnbits-wallet_en.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Previous</span>
+                        <span class="nav-title">← LNbits</span>
+                    </a>
+                    <a href="orchard_en.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Next</span>
+                        <span class="nav-title">Orchard →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Project</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline">Roadmap</a></li>
+                        <li><a href="../tutorials_en.html">Tutorials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Apply</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Sponsor</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Open source under MIT + CC BY-SA license.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

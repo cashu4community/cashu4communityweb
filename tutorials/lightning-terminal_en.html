@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightning Terminal (LIT) | Cashu4Community</title>
+    <meta name="description" content="Tutorial: Managing your node with Lightning Terminal">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Home</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problems</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Communities</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Roadmap</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_en.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutorials</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇬🇧</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Manage Your Node with Lightning Terminal (LIT)</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <p>Lightning Terminal is a graphical interface and management tool designed for the Bitcoin Lightning Network. Developed by Lightning Labs, it allows node operators to manage payment channels more efficiently thanks to advanced functions like Pool (liquidity marketplace), Loop (on-chain/off-chain swap), and Faraday (risk and performance analysis). With this tool, you can buy and sell inbound liquidity, optimize channel management, and receive recommendations to maximize node profitability. It is the ideal option for those who want to actively participate in the Lightning Network without needing to use complex terminal commands.</p>
+
+                <h3>4.1 Key Lightning Terminal Features</h3>
+                <p>We begin by accessing the Lightning Terminal interface (from now on LIT) via the following address: <code>https://lit.cashu4cscommunity.xyz</code>.</p>
+
+                <div class="tutorial-tip">
+                    <strong>Note:</strong> Remember that the access address for the LIT service was configured in the Nginx Proxy Manager tutorial.
+                </div>
+
+                <p><em>Image 1: LIT login page.</em></p>
+                <img src="img/lit-login-page.png" alt="Login LIT">
+
+                <ol>
+                    <li>Enter the password generated in the <code>First Steps</code> tutorial, which is located in the <code>app-data/lit/lit.conf</code> file, parameter <code>uipassword</code>.</li>
+                    <li>Click the <code>Submit</code> button to access.</li>
+                </ol>
+
+                <h3>Home</h3>
+                <p><em>Image 2: Home Page.</em></p>
+                <img src="img/lit-home-page.png" alt="Home Page">
+
+                <ol start="3">
+                    <li>Node Bitcoin On-chain / Lightning balance.</li>
+                    <li>Quick access to the Lightning Terminal Service.</li>
+                    <li>Access to Lightning Labs YouTube channel.</li>
+                </ol>
+
+                <h3>Settings</h3>
+                <p><em>Image 3: Settings Page.</em></p>
+                <img src="img/lit-settings.png" alt="Settings Page">
+
+                <ol start="6">
+                    <li>Select Bitcoin unit (BTC, Bits, Sats).</li>
+                    <li>Set channel optimization mechanisms (Receiving, Sending, or Routing).</li>
+                    <li>Block explorers.</li>
+                    <li>Public key and node URI useful for opening channels or buying liquidity.</li>
+                    <li>Node alias.</li>
+                </ol>
+
+                <h3>Lightning Loop</h3>
+                <p><strong>Loop</strong> is a non-custodial service offered by Lightning Labs that acts as a bidirectional bridge (on/off-ramp) between the Lightning Network and the Bitcoin blockchain. Its main function is to allow users to move funds from one side to the other without needing to open or close channels, thus solving liquidity problems in the network.</p>
+
+                <p><em>Image 4: Lightning Pool.</em></p>
+                <img src="img/lit-loop-page.png" alt="Lightning Pool">
+
+                <ol start="11">
+                    <li>Inbound / Outbound Capacity.</li>
+                    <li>Access to the Loop service.</li>
+                    <li>Active channels on the node.</li>
+                </ol>
+
+                <p>The following images show the flow to perform a Loop In operation, meaning adding liquidity from the node wallet's on-chain balance.</p>
+
+                <p><em>Image 5: Lightning Loop In.</em></p>
+                <img src="img/lit-loop-in-action.png" alt="Loop In">
+
+                <p><em>Image 6: Selecting the on-chain amount to add to the selected channel.</em></p>
+                <img src="img/lit-loop-in-fixed-fund.png" alt="Loop In Fixed Fund">
+
+                <p><em>Image 7: Confirm Loop In operation after calculating the fee.</em></p>
+                <img src="img/lit-loop-in-confirm.png" alt="Loop In Confirm">
+
+                <ul>
+                    <li><strong>Loop In</strong> (to receive more inbound liquidity on a channel): You need a balance in your on-chain wallet.</li>
+                    <li><strong>Loop Out</strong> (to send funds from Lightning to the on-chain network): You need available balance within a payment channel.</li>
+                </ul>
+
+                <p>You can watch Loop in action in this <a href="https://www.youtube.com/watch?v=kYlfHqQnpVM" target="_blank">video</a>.</p>
+
+                <h3>Lightning Node Connect</h3>
+                <p>The Lightning Node Connect (LNC) function in Lightning Terminal is a mechanism that allows you to connect to your Lightning node remotely, securely and privately through a web browser or mobile application, without needing to configure port forwarding or use Tor.</p>
+
+                <p>Think of it as "remote access" designed specifically for Lightning nodes, solving connectivity problems like NAT (Network Address Translation) or firewalls that usually block incoming connections.</p>
+
+                <p><em>Image 8: Lightning Node Connect Page.</em></p>
+                <img src="img/lit-node-connection.png" alt="Lightning Node Connect">
+
+                <ol start="14">
+                    <li>Click to create a session to the Lightning Terminal Service.</li>
+                </ol>
+
+                <p><em>Image 9: Creating a new Lightning Terminal Service session.</em></p>
+                <img src="img/lit-lnc-new-session-parameters.png" alt="New LTS Session">
+
+                <ol start="15">
+                    <li>Set the session name.</li>
+                    <li>Select privileges <code>Admin</code> from the available privileges (Admin, Read-only, and Custom).</li>
+                    <li>Click <code>Submit</code> to create the session.</li>
+                </ol>
+
+                <p><em>Image 10: New Lightning Terminal Service session options.</em></p>
+                <img src="img/lit-lnc-connection-record.png" alt="LTS Session Options">
+
+                <ol start="18">
+                    <li>If we click, it redirects us to the Lightning Terminal Services website to enter the 12-word phrase that establishes the connection to the node.</li>
+                    <li>If we click, we copy the 12 words.</li>
+                    <li>Shows a QR useful if we want to connect to the node from <a href="https://play.google.com/store/apps/details?id=app.zeusln.zeus&hl=en" target="_blank">Zeus</a> or <a href="https://albyhub.com/" target="_blank">Alby Hub</a>.</li>
+                </ol>
+
+                <p>You can watch the following video about LIT <a href="https://www.youtube.com/watch?v=G1rv9dZQO5o" target="_blank">here</a>.</p>
+
+                <h3>4.2 Accessing Lightning Terminal Service</h3>
+                <p>At this point we can access this service from step 18 above, or by accessing directly from <a href="https://terminal.lightning.engineering/dashboard" target="_blank">here</a>.</p>
+
+                <p><em>Image 11: Lightning Terminal Services Main Page.</em></p>
+                <img src="img/lit-services-home.png" alt="Lightning Terminal Services Home">
+
+                <ol>
+                    <li>Click "Connect to my node".</li>
+                </ol>
+
+                <p><em>Image 12: Connecting to the node via 12 words generated by LIT.</em></p>
+                <img src="img/lit-services-pairing-phrase.png" alt="Pairing Phrase">
+
+                <ol start="2">
+                    <li>Paste the 12-word phrase obtained in LIT when creating the new session.</li>
+                    <li>Click Connect.</li>
+                </ol>
+
+                <p><em>Image 13: Setting the connection password.</em></p>
+                <img src="img/lit-services-set-passwd.png" alt="Set Password">
+
+                <ol start="4">
+                    <li>Insert a password for the session (this is not the same password we used for LIT; they are different services).</li>
+                    <li>Click Next.</li>
+                </ol>
+
+                <p><em>Image 14: Confirming the session password.</em></p>
+                <img src="img/lit-services-confirm-passwd.png" alt="Confirm Password">
+
+                <ol start="6">
+                    <li>Confirm the session password.</li>
+                    <li>Click the Ready button.</li>
+                </ol>
+
+                <p><em>Image 15: Lightning Terminal Services Main Dashboard.</em></p>
+                <img src="img/lit-services-dashboard.png" alt="LTS Dashboard">
+
+                <ol start="8">
+                    <li>Navigation menu: Allows us to navigate between the Lightning network explorer, Autopilot (function that automates on-demand tasks on the node), Loop (the same functions we saw in LIT but with an improved interface), and Asset for those who want to issue tokens on the Lightning network.</li>
+                    <li>Action buttons: Allows sending, receiving both on Lightning and on-chain, plus opening channels.</li>
+                    <li>Node statistics area: Shows node statistics over a time period like earnings and losses from routing, among other things.</li>
+                    <li>Routing and channel information: We can interact with routings and channels; in the latter we can obtain information, change fees, close, and force close if it's offline for a long time.</li>
+                    <li>Node information menu: Shows Lightning and on-chain balance, node version, operation history among other options.</li>
+                </ol>
+
+                <p>If you want to deepen your knowledge of these tools, visit this <a href="https://www.youtube.com/@LightningLabs/videos" target="_blank">link</a>.</p>
+
+                <div class="tutorial-nav">
+                    <a href="nginx-proxy-manager_en.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Previous</span>
+                        <span class="nav-title">← Nginx Proxy Manager</span>
+                    </a>
+                    <a href="lnbits-wallet_en.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Next</span>
+                        <span class="nav-title">LNbits →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Project</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline">Roadmap</a></li>
+                        <li><a href="../tutorials_en.html">Tutorials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Apply</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Sponsor</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Open source under MIT + CC BY-SA license.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

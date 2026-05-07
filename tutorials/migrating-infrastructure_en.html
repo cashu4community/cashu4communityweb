@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infrastructure Migration | Cashu4Community</title>
+    <meta name="description" content="Tutorial: Migrating infrastructure to another VPS">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Home</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problems</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Communities</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Roadmap</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_en.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutorials</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇬🇧</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Migrating Infrastructure to Another VPS</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <p>You may need to move the infrastructure to another service provider at some point, or simply the contracted VPS is about to expire and it is preferable to acquire a new one. When the time comes, the migration process is very easy.</p>
+
+                <h2>1. Stop the Infrastructure</h2>
+                <p>We should always warn in advance when performing tasks of this type to avoid users being left mid-operation.</p>
+<pre><code>cd cashu4cs-deploy/
+docker-compose stop</code></pre>
+                <p>At this point, the infrastructure is stopped and no one will be able to use the services.</p>
+
+                <h2>2. Backup cashu4cs-deploy Directory</h2>
+                <p>We will use the <code>tar zcvf</code> command to perform a compressed backup.</p>
+<pre><code>tar zcvf cashu4cs-deploy.tar.gz cashu4cs-deploy/
+cashu4cs-deploy/
+cashu4cs-deploy/get_public_ip.sh
+cashu4cs-deploy/.git/
+cashu4cs-deploy/.git/logs/
+cashu4cs-deploy/.git/logs/HEAD
+cashu4cs-deploy/.git/logs/refs/
+cashu4cs-deploy/.git/logs/refs/remotes/
+cashu4cs-deploy/.git/logs/refs/remotes/origin/
+cashu4cs-deploy/.git/logs/refs/remotes/origin/HEAD
+cashu4cs-deploy/.git/logs/refs/heads/
+cashu4cs-deploy/.git/logs/refs/heads/main
+...
+...
+...
+cashu4cs-deploy/app-data/lnbits/db/
+cashu4cs-deploy/app-data/cashu/
+cashu4cs-deploy/app-data/cashu/.env
+cashu4cs-deploy/app-data/cashu/certs/
+cashu4cs-deploy/app-data/cashu/certs/client_cert.pem
+cashu4cs-deploy/app-data/cashu/certs/ca_private.pem
+cashu4cs-deploy/app-data/cashu/certs/generate_certificates.sh
+cashu4cs-deploy/app-data/cashu/certs/server_private.pem
+cashu4cs-deploy/app-data/cashu/certs/server_cert.pem
+cashu4cs-deploy/app-data/cashu/certs/client_private.pem
+cashu4cs-deploy/app-data/cashu/certs/ca_cert.pem
+cashu4cs-deploy/recreate.sh</code></pre>
+
+                <p>If the previous operation completed correctly, list the directory contents.</p>
+<pre><code>ls .
+cashu4cs-deploy cashu4cs-deploy.tar.gz</code></pre>
+
+                <p>This compressed file is our entire infrastructure, which we can copy to the new VPS.</p>
+
+                <div class="tutorial-tip">
+                    <strong>Important:</strong> You cannot forget that the destination VPS must have the necessary requirements for the infrastructure as seen in the first steps.
+                </div>
+
+                <h2>3. Copy and Extract cashu4cs-deploy.tar.gz on the New VPS</h2>
+                <p>Execute the following command:</p>
+<pre><code>scp cashu4cs-deploy.tar.gz root@&lt;new vps ip&gt;:/root/</code></pre>
+
+                <p>If the copy completed correctly, we proceed to connect to the server.</p>
+<pre><code>ssh root@&lt;new vps ip&gt;
+# After connecting, extract the file
+tar zxvf cashu4cs-deploy.tar.gz
+# Move to the directory
+cd cashu4cs-deploy/</code></pre>
+
+                <p>You might wonder why we didn't start everything from the previous step, and that's because there is a detail here. The new VPS has a different IP, so we need to update the DNS records of our domain and the <code>lnd.conf</code> file, specifically <code>externalip</code>.</p>
+
+                <p>And how do we get the IP of the new VPS? Very easily; we can find it in the VPS service provider panel or use the following script:</p>
+<pre><code>./get_public_ip.sh
+12.45.128.56</code></pre>
+
+                <p>In the example, the obtained IP is <code>12.45.128.56</code>; this is the one we must update in the <code>externalip</code> parameter and in the DNS records. Now we can proceed to the next step.</p>
+
+                <h2>4. Start the Infrastructure</h2>
+                <p>Execute the following:</p>
+<pre><code>docker-compose up -d</code></pre>
+
+                <p>At this point, the images are downloaded again, and the containers are built with the information they already had, so we would have the infrastructure operational again in minutes. If the process doesn't fail, we can verify with the following command:</p>
+<pre><code>docker ps
+CONTAINER ID   IMAGE                                              COMMAND                  CREATED         STATUS                  PORTS                                                                                                                                       NAMES
+c0ec55b00d9c   lnbits/lnbits:v1.5.3                               "sh -c 'uv run lnbit…"   30 seconds ago   Up 30 seconds            5000/tcp                                                                                                                                    app_lnbits
+86eada0916e5   jc21/nginx-proxy-manager:latest                    "/init"                  30 seconds ago    Up 30 seconds            0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:443->443/tcp, [::]:443->443/tcp, 81/tcp                                                        nginx_proxy_manager
+fb888e103a82   ghcr.io/orangeshyguy21/orchard-mintdb-sqlite:1.5   "docker-entrypoint.s…"   30 seconds ago   Up 30 seconds             3321/tcp                                                                                                                                    app_orchard
+5ff40c0146ab   lightninglabs/lightning-terminal:v0.16.1-alpha     "litd --configfile=/…"   30 seconds ago   Up 30 seconds             8443/tcp, 9735/tcp, 10009/tcp                                                                                                               lightning_terminal
+aa7146e0961d   cashubtc/nutshell:0.20.0                           "poetry run mint"        30 seconds ago   Up 30 seconds                                                                                                                                                        app_cashu
+a538285ac7bd   lightninglabs/lnd:v0.20.1-beta                     "lnd --configfile=/r…"   30 seconds ago   Up 30 seconds             0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp, 0.0.0.0:9735->9735/tcp, [::]:9735->9735/tcp, 0.0.0.0:10009->10009/tcp, [::]:10009->10009/tcp   node_lnd
+da4838d5f798   postgres:14.18-bookworm                            "docker-entrypoint.s…"   30 seconds ago   Up 30 seconds             5432/tcp                                                                                                                                    postgres_lnbits
+e20eecdc0df8   redis:8.4.0                                        "docker-entrypoint.s…"   30 seconds ago   Up 30 seconds (healthy)   6379/tcp                                                                                                                                    redis
+7de5f6d082cf   dockurr/tor                                        "tor"                    30 seconds ago   Up 30 seconds (healthy)   9050-9051/tcp                                                                                                                               proxy_tor</code></pre>
+
+                <div class="tutorial-nav">
+                    <a href="update-services_en.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Previous</span>
+                        <span class="nav-title" data-lang-es="← Service Updates" data-lang-en="← Service Updates">← Service Updates</span>
+                    </a>
+                    <a href="../tutorials_en.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Índice" data-lang-en="Index">Index</span>
+                        <span class="nav-title" data-lang-es="Tutorials →" data-lang-en="Tutorials →">Tutorials →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Project</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline">Roadmap</a></li>
+                        <li><a href="../tutorials_en.html">Tutorials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Apply</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Sponsor</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Open source under MIT + CC BY-SA license.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

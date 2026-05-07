@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+    <title>Service Updates | Cashu4Community</title>
+    <meta name="description" content="Tutorial: Updating infrastructure services">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Home</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problems</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Communities</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Roadmap</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_en.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutorials</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇬🇧</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">8. Updating Infrastructure Services</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <p>In this section we will cover the update of the services that make up the Cashu4Community infrastructure.</p>
+
+                <h2>8.1 Lightning Network Daemon (LND)</h2>
+                <p>To perform any update on the LND service, you should know that if you don't have the seed phrase and the latest backup of the channel state, you run the risk that if the update fails due to some error, you will have no way to restore the node.</p>
+
+                <p><strong>Where do we find the seed phrase?</strong> The seed phrase was obtained in the <code>First Steps</code> tutorial, and the seed can only be obtained once, so there is no way to obtain it again.</p>
+
+                <p><strong>Where do we find the channel backup?</strong> It is saved by default inside the node's data directory. In our infrastructure it is located in <code>app-data/lnd/data/chain/bitcoin/mainnet/chan-backup-archives/</code></p>
+
+                <p>List the <code>chan-backup-archives/</code> directory:</p>
+<pre><code>ls app-data/lnd/data/chain/bitcoin/mainnet/chan-backup-archives/</code></pre>
+
+                <p><em>Image 1: LND channel backup directory.</em></p>
+                <img src="img/lnd-channel-backup-files.png" alt="LND channel backup directory">
+
+                <div class="tutorial-tip">
+                    <strong>Note:</strong> In case of a serious failure in the node, we will only need the last backup file. You can find more information on how to recover a node from the seed phrase and the latest channel state <a href="#" target="_blank">here</a>.
+                </div>
+
+                <p>It is important to add that you should review the release notes of the new node version before updating, as sometimes changes must be made to the node configurations to avoid failures. Now, let's see how to update.</p>
+
+                <p>Our node has version v0.19.3-beta and we will update it to the latest version v0.20.1-beta. After reviewing the release notes, there is nothing to highlight, so we only need to modify the <code>docker-compose.yml</code> file.</p>
+
+                <div class="tutorial-tip">
+                    <strong>Note:</strong> After version v0.19.3-beta, v0.20.0-beta was released and then v0.20.1-beta. In this case, there are no changes that force you to jump from version to version. If you want to feel comfortable, scale up little by little.
+                </div>
+
+                <p>To update the version, edit the <code>docker-compose.yml</code> file and scroll to the <code>lnd</code> service:</p>
+<pre><code>nano docker-compose.yml</code></pre>
+
+                <p>The lnd service would be composed of the following:</p>
+<pre><code>lnd:
+  image: lightninglabs/lnd:v0.19.3-beta
+  container_name: lightning-node-1
+  restart: unless-stopped
+  ports:
+    - "9735:9735"
+    - "10009:10009"
+    - "8080:8080"
+  volumes:
+    - ./app-data/lnd:/root/.lnd
+    - tor-data:/var/lib/tor:ro
+  command:
+    - --configfile=/root/.lnd/lnd.conf
+  depends_on:
+    - tor</code></pre>
+
+                <p>On the <code>image:</code> line is where the image version that our container will use is declared. Since we want to upgrade the version where it says <code>v0.19.3</code>, we put <code>v0.20.1</code>, resulting in the following:</p>
+<pre><code>lnd:
+  image: lightninglabs/lnd:v0.20.1-beta
+  container_name: lightning-node-1
+  restart: unless-stopped
+  ports:
+    - "9735:9735"
+    - "10009:10009"
+    - "8080:8080"
+  volumes:
+    - ./app-data/lnd:/root/.lnd
+    - tor-data:/var/lib/tor:ro
+  command:
+    - --configfile=/root/.lnd/lnd.conf
+  depends_on:
+    - tor</code></pre>
+
+                <p>Save and exit the file <code>ctrl+s</code> and <code>ctrl+x</code></p>
+
+                <p>Recreate the container with the following command:</p>
+<pre><code>docker-compose up --force-recreate lnd -d</code></pre>
+
+                <p>This command will download the new version of the image, delete the container with the previous version, and create it from the newly downloaded image.</p>
+
+                <h2>8.2 Updating LNbits</h2>
+                <p>Before making changes to the LNbits version, it is recommended to make a database backup. This can be done from the LNbits superuser account. If you don't know which one it is, you can go back to the LNbits tutorial to find out.</p>
+
+                <p>After logging into LNbits, go to <code>Settings</code> and click the <code>DOWNLOAD DATABASE BACKUP</code> button that appears next to the <code>RESTART SERVER</code> button.</p>
+
+                <p><em>Image 2: Database Backup.</em></p>
+
+                <p>The downloaded zip file contains a dump of the database, plus a copy of the LNbits data directory that includes extensions and application logs.</p>
+
+                <h3>8.2.1 Backing up the database from the CLI</h3>
+                <p>We can perform a database backup easily; just execute the command:</p>
+<pre><code>docker exec -t postgres_lnbits pg_dump -U lnbits_user lnbits_db | gzip > lnbits_backup_$(date +%Y%m%d_%H%M%S).sql.gz</code></pre>
+
+                <p>This will create the file in the directory from where the command was executed.</p>
+
+                <p>Now that we have the backup, go to the <code>docker-compose.yml</code> file again and look for the <code>lnbits</code> service.</p>
+<pre><code>nano docker-compose.yml</code></pre>
+<pre><code>lnbits:
+  image: lnbits/lnbits:v1.4.0
+  container_name: app_lnbits
+  restart: unless-stopped
+  volumes:
+    - ./app-data/lnd/:/app/.lnd/:ro
+    - ./app-data/lnbits/data/:/app/data
+    - ./app-data/lnbits/.env:/app/.env</code></pre>
+
+                <p>We see that the image version we are using is v1.4.0 and there is a new version v1.5.3 in the project's GitHub repository. It is always recommended to view the release notes of the new version to know if there are any extra steps to perform before updating.</p>
+
+                <p>Change the version v1.4.0 to v1.5.3 on the <code>image:</code> line:</p>
+<pre><code>lnbits:
+  image: lnbits/lnbits:v1.5.3
+  container_name: app_lnbits
+  restart: unless-stopped
+  volumes:
+    - ./app-data/lnd/:/app/.lnd/:ro
+    - ./app-data/lnbits/data/:/app/data
+    - ./app-data/lnbits/.env:/app/.env</code></pre>
+
+                <p>Save and exit the file <code>ctrl+s</code> and <code>ctrl+x</code></p>
+
+                <p>Recreate the container with the following command:</p>
+<pre><code>docker-compose up --force-recreate lnbits -d</code></pre>
+
+                <p>This command will download the new version of the image, delete the container with the previous version, and create it from the newly downloaded image.</p>
+
+                <h2>8.3 Updating the Cashu Mint</h2>
+                <p>Before updating the Cashu mint version, we must make a backup of the Cashu database. Since it is an SQLite database, the process is simpler; we just need to make a copy of the <code>mint.sqlite3</code> file.</p>
+
+                <p>Move to the Cashu directory located in <code>app-data/cashu/</code></p>
+<pre><code>cd app-data/cashu</code></pre>
+
+                <p>Create a backup directory if it doesn't exist.</p>
+<pre><code>mkdir -p backup</code></pre>
+
+                <p>Copy the mint database.</p>
+<pre><code>cp data/mint/mint.sqlite3 backup/</code></pre>
+
+                <p>After saving the database, go to the <code>docker-compose.yml</code> file:</p>
+<pre><code>nano docker-compose.yml</code></pre>
+<pre><code>cashu:
+  image: cashubtc/nutshell:0.19.2
+  container_name: app_cashu
+  restart: unless-stopped
+  volumes:
+    - ./app-data/cashu/.env:/app/.env
+    - ./app-data/cashu/data:/app/data
+    - ./app-data/cashu/certs:/app/certs
+    - ./app-data/cashu/certs/server_private.pem:/app/server_private.pem
+    - ./app-data/cashu/certs/server_cert.pem:/app/server_cert.pem
+    - ./app-data/cashu/certs/ca_cert.pem:/app/ca_cert.pem
+    - ./app-data/cashu/certs/client_cert.pem:/app/client_cert.pem
+    - ./app-data/cashu/certs/client_private.pem:/app/client_private.pem
+    - ./app-data/cashu/backup:/app/backup
+  command: ["poetry", "run", "mint"]
+  depends_on:
+    - lnbits</code></pre>
+
+                <p>We are going to migrate from version 0.19.2 to 0.20.0. As we did with previous services, we change the version on the <code>image:</code> line, resulting in:</p>
+<pre><code>cashu:
+  image: cashubtc/nutshell:0.20.0
+  container_name: app_cashu
+  restart: unless-stopped
+  volumes:
+    - ./app-data/cashu/.env:/app/.env
+    - ./app-data/cashu/data:/app/data
+    - ./app-data/cashu/certs:/app/certs
+    - ./app-data/cashu/certs/server_private.pem:/app/server_private.pem
+    - ./app-data/cashu/certs/server_cert.pem:/app/server_cert.pem
+    - ./app-data/cashu/certs/ca_cert.pem:/app/ca_cert.pem
+    - ./app-data/cashu/certs/client_cert.pem:/app/client_cert.pem
+    - ./app-data/cashu/certs/client_private.pem:/app/client_private.pem
+    - ./app-data/cashu/backup:/app/backup
+  command: ["poetry", "run", "mint"]
+  depends_on:
+    - lnbits</code></pre>
+
+                <p>Save and exit the file <code>ctrl+s</code> and <code>ctrl+x</code></p>
+
+                <p>Don't forget to make a database backup. Check the version notes; the following image shows a warning message informing that there are changes in the database structure after the update, and a backup is necessary to avoid data corruption after a failed update.</p>
+
+                <p><em>Image 3: Warning message about changes in database structure.</em></p>
+                <img src="img/cashu-backup-database-info.png" alt="Cashu Backup Database Info">
+
+                <p>We just need to execute the command:</p>
+<pre><code>docker-compose up --force-recreate cashu -d</code></pre>
+
+                <p>Which we already know does: download the new image, delete the old container, and recreate it with the new image.</p>
+
+                <h2>8.4 Rest of the Infrastructure Services</h2>
+                <p>You might ask why we didn't cover the rest of the services. The reason is that all of them (Tor, Lightning Terminal, Nginx Proxy Manager, Redis, Postgres, and Orchard) are infrastructure support: they add functionalities or allow managing other services. The procedure is always the same: edit <code>docker-compose.yml</code> and change the version.</p>
+
+                <h2>8.5 Troubleshooting</h2>
+                <p>Items will be added as the community reports them.</p>
+
+                <div class="tutorial-nav">
+                    <a href="orchard_en.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Previous</span>
+                        <span class="nav-title">← Orchard</span>
+                    </a>
+                    <a href="migrating-infrastructure_en.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Next</span>
+                        <span class="nav-title">Infrastructure Migration →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Project</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline">Roadmap</a></li>
+                        <li><a href="../tutorials_en.html">Tutorials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Apply</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Sponsor</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Open source under MIT + CC BY-SA license.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

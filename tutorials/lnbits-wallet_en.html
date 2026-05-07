@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNbits | Cashu4Community</title>
+    <meta name="description" content="Tutorial: LNbits - The Swiss Army knife of infrastructure">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Home</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problems</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Communities</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Roadmap</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_en.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutorials</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇬🇧</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">LNbits - The Swiss Army Knife of Infrastructure</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <p>LNbits is a wallet solution and account system that runs on top of an LND node, allowing you to segment funds and enable extended functionalities through extensions. It is the engine that processes transactions for other services. It can be said to be the Lightning Swiss Army knife.</p>
+
+                <h2>5.1 Initializing LNbits</h2>
+                <p>The first thing we will do is access the website we configured in the NPM tutorial: <code>https://lnbits.cashu4community.xyz</code>. Since it is the first time, a page will be shown that will allow us to create the superuser account, which has maximum privileges. We will only need to enter a username and password (twice).</p>
+
+                <p><em>Image 1: Creating superuser account in LNbits.</em></p>
+                <img src="img/lnbits-first-install.png" alt="LNbits First Install">
+
+                <ol>
+                    <li>Enter the username.</li>
+                    <li>Enter the account password twice. A password with at least 12 characters, uppercase, lowercase, and special characters is recommended.</li>
+                    <li>Press <code>LOGIN</code> to create the account.</li>
+                </ol>
+
+                <p><em>Image 2: Login Page.</em></p>
+                <img src="img/lnbits-login-page.png" alt="LNbits Login Page">
+
+                <ol start="4">
+                    <li>Enter the username created in the previous step.</li>
+                    <li>Do the same with the password.</li>
+                    <li>Click <code>LOGIN</code>.</li>
+                </ol>
+
+                <p>After logging in, the LNbits settings page loads. We can navigate through different sections; this tutorial will cover the most important ones.</p>
+
+                <p><em>Image 3: LNbits settings page.</em></p>
+                <img src="img/lnbits-funding-page.png" alt="LNbits Funding Page">
+
+                <h3>5.1.1 Funding Settings (LNbits Lightning Backend)</h3>
+
+                <p><em>Image 4: Settings Page (Funding).</em></p>
+                <img src="img/lnbits-setting-funding-page.png" alt="LNbits Setting Funding Page">
+
+                <ol start="7">
+                    <li>Shows the total balance in LNbits accounts and the Node balance.</li>
+                    <li>The backend for LNbits in the infrastructure is Lightning Network Daemon (LND). This configuration is defined in the .env file located in the <code>app-data/lnbits/</code> directory.</li>
+                </ol>
+
+                <h3>5.1.2 Payment Settings</h3>
+
+                <p><em>Image 5: Settings Page (Payments).</em></p>
+                <img src="img/lnbits-payment-page.png" alt="LNbits Payment Page">
+
+                <ol start="9">
+                    <li>Select the fiat currencies that will be available in LNbits.</li>
+                    <li>Select the default currency that will display the value of sats in the account.</li>
+                    <li>Select the fee that will be charged for outgoing transactions (only if you want to obtain a small profit).</li>
+                    <li>If you assign a value to the transaction fee, you must add the ID of the wallet that will receive the fees. In the following steps we will explain how to obtain the wallet ID.</li>
+                    <li>Disable fees for internal transactions.</li>
+                </ol>
+
+                <div class="tutorial-tip">
+                    <strong>Note:</strong> After making changes, we must click <code>SAVE</code> and finally <code>RESTART SERVER</code>. If we don't, the changes will not be applied.
+                </div>
+
+                <h3>5.1.3 Extension Settings</h3>
+                <p>From this page we can select the extensions that will load by default, both in administrative sections and in standard user (non-privileged) sections.</p>
+
+                <p><em>Image 6: Settings Page (Extensions).</em></p>
+                <img src="img/lnbits-settings-extensions.png" alt="LNbits Settings Extensions">
+
+                <ol start="14">
+                    <li>Select extensions for administrator users.</li>
+                    <li>Select extensions for the rest of the users.</li>
+                </ol>
+
+                <div class="tutorial-tip">
+                    <strong>Note:</strong> Only extensions that are enabled will appear here. To add other extensions, go to the <code>Extensions</code> section in the options menu on the left side of the page.
+                </div>
+
+                <h2>5.2 Creating a Wallet for Transaction Fees</h2>
+                <p>When we log in to LNbits, a default wallet is created. We will rename it and use it to receive transaction fees.</p>
+
+                <p><em>Image 7: Renaming the default wallet.</em></p>
+                <img src="img/lnbits-wallet-rename.png" alt="LNbits Wallet Rename">
+
+                <ol start="16">
+                    <li>Select the wallet.</li>
+                    <li>Click on the right panel on <code>Wallet Config</code>.</li>
+                    <li>Change the wallet name to <code>Service fees</code>.</li>
+                    <li>Click the <code>UPDATE NAME</code> button.</li>
+                </ol>
+
+                <p>This way we have changed the wallet name to know its purpose.</p>
+
+                <p><em>Image 8: Getting the Service fees wallet ID.</em></p>
+                <img src="img/lnbits-wallet-id.png" alt="LNbits Wallet ID">
+
+                <ol start="20">
+                    <li>Click on the right panel on <code>Node URL, API Key and API docs</code>.</li>
+                    <li>Copy the <code>Wallet ID</code> field.</li>
+                </ol>
+
+                <p>Then we go to the Payment settings (which we saw in section 5.1.2) and paste the wallet ID in the field of point 12.</p>
+
+                <h2>5.3 LNbits Extensions</h2>
+                <p>LNbits extensions are plugins that add specific functionalities. They allow everything from creating wallets with personalized rules (limits, expiration) to integrating payment systems, e-commerce, tickets, games, crowdfunding, or mechanisms like LNURL. Being modular, install only what you need without bloating the system.</p>
+
+                <p>Now we will see how to add and remove extensions.</p>
+
+                <p><em>Image 9: Extensions.</em></p>
+                <img src="img/lnbits-extension-page.png" alt="LNbits Extension Page">
+
+                <ol start="22">
+                    <li>Click on the extension view to list available extensions.</li>
+                </ol>
+
+                <p>By default, only a couple of extensions are available to users, so the rest must be installed. In the following step we explain how to install them.</p>
+
+                <p><em>Image 10: Selecting the extension to install.</em></p>
+                <img src="img/lnbits-select-extension-to-install.png" alt="LNbits Select Extension to Install">
+
+                <ol start="23">
+                    <li>Select the extension to install.</li>
+                </ol>
+
+                <p>In the example we select the LndHub extension, very useful if we want to use wallets like Blue Wallet or Zeus Wallet to manage funds, pay and receive payments in our account.</p>
+
+                <p><em>Image 11: Selecting version to install.</em></p>
+                <img src="img/lnbits-extension-select-version.png" alt="LNbits Extension Select Version">
+
+                <ol start="24">
+                    <li>Deploy the version list.</li>
+                    <li>Select the available one by clicking <code>INSTALL</code>.</li>
+                </ol>
+
+                <p>After a few seconds, the extension will appear in the installed view.</p>
+
+                <p><em>Image 12: Installed extensions.</em></p>
+                <img src="img/lnbits-installed-extensions.png" alt="LNbits Installed Extensions">
+
+                <p>To begin, I recommend installing the <code>LNURLp</code>, <code>Withdraw Links</code>, and <code>LndHub</code> extensions. After this, we can go to settings section Extensions and enable all installed extensions for all users as we saw in step 5.1.3 point 15.</p>
+
+                <h2>5.4 Other Options</h2>
+                <p>In the main view we can find other options that will allow us to have broader control of what happens in our LNbits instance.</p>
+
+                <p><em>Image 13: Advanced Administration Options for LNbits instance.</em></p>
+                <img src="img/lnbits-advanced-options.png" alt="LNbits Advanced Options">
+
+                <ol start="26">
+                    <li>LNbits Settings.</li>
+                    <li>User and wallet administration.</li>
+                    <li>Real-time requests to the LNbits API.</li>
+                    <li>View of payments made, with useful information for searches.</li>
+                    <li>Extension administration.</li>
+                </ol>
+
+                <h2>5.5 Backing up LNbits Database and Configurations</h2>
+                <p>LNbits allows performing a backup of the database, extensions, and logs from the web interface. If we want to do a manual backup, it is enough to go to settings and click <code>DOWNLOAD DATABASE BACKUP</code> as shown in the following image.</p>
+
+                <p><em>Image 14: Saving the database from settings.</em></p>
+                <img src="img/lnbits-download-database-backup.png" alt="LNbits Download Database Backup">
+
+                <ol start="31">
+                    <li>Download the database.</li>
+                </ol>
+
+                <div class="tutorial-nav">
+                    <a href="lightning-terminal_en.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Previous</span>
+                        <span class="nav-title">← Lightning Terminal</span>
+                    </a>
+                    <a href="cashu-mint-nutshell_en.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Next</span>
+                        <span class="nav-title">Cashu Mint →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Project</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline">Roadmap</a></li>
+                        <li><a href="../tutorials_en.html">Tutorials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Apply</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Sponsor</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Open source under MIT + CC BY-SA license.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

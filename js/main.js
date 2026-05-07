@@ -613,7 +613,43 @@ function changeLanguage(lang) {
         }
     });
     
-    // Actualizar el título del hero con formato HTML
+    // Actualizar URLs para páginas específicas de idioma
+    const elementsWithUrlLang = document.querySelectorAll('[data-url-es], [data-url-en]');
+    elementsWithUrlLang.forEach(element => {
+        const url = element.getAttribute(`data-url-${lang}`);
+        if (url) {
+            element.href = url;
+        }
+    });
+    
+    // Detectar página actual y redirigir si es necesario
+    const currentPage = window.location.pathname;
+    const fileName = currentPage.substring(currentPage.lastIndexOf('/') + 1);
+    
+    // Redirigir páginas individuales de tutorial
+    const isIndividualTutorial = currentPage.includes('/tutorials/') && (fileName.includes('_es.html') || fileName.includes('_en.html'));
+    if (isIndividualTutorial) {
+        if (fileName.includes('_es.html') && lang === 'en') {
+            const newPage = currentPage.replace('_es.html', '_en.html');
+            window.location.href = newPage;
+            return;
+        } else if (fileName.includes('_en.html') && lang === 'es') {
+            const newPage = currentPage.replace('_en.html', '_es.html');
+            window.location.href = newPage;
+            return;
+        }
+    }
+    
+    // Redirigir páginas índice de tutoriales
+    if (fileName === 'tutorials_es.html' && lang === 'en') {
+        window.location.href = 'tutorials_en.html';
+        return;
+    } else if (fileName === 'tutorials_en.html' && lang === 'es') {
+        window.location.href = 'tutorials_es.html';
+        return;
+    }
+    
+    // Actualizar el título del hero con formato HTML (solo para página principal)
     const heroTitle = document.querySelector('.hero-title');
     if (heroTitle && lang === 'en') {
         heroTitle.innerHTML = `
@@ -635,18 +671,24 @@ function changeLanguage(lang) {
     console.log(`Idioma cambiado a: ${lang}`);
 }
 
-// Cargar idioma guardado al iniciar
+// Cargar idioma al iniciar - SOLO establecer la bandera, NO redirigir
 document.addEventListener('DOMContentLoaded', function() {
-    const savedLang = localStorage.getItem('selectedLanguage') || 'es';
     const selectedLanguage = document.getElementById('selected-language');
+    const currentPage = window.location.pathname;
+    const fileName = currentPage.substring(currentPage.lastIndexOf('/') + 1);
     
-    // Establecer bandera según idioma guardado
-    if (savedLang === 'en') {
+    // Detectar idioma de la página actual basado en la URL y el atributo lang del html
+    const isEnglishPage = document.documentElement.lang === 'en' || 
+                          fileName.includes('_en.html') || 
+                          fileName.includes('tutorials_en.html');
+    
+    // Establecer bandera según la página actual (sin redirigir ni aplicar traducciones)
+    if (isEnglishPage) {
         selectedLanguage.querySelector('.flag').textContent = '🇬🇧';
-        changeLanguage('en');
+        localStorage.setItem('selectedLanguage', 'en');
     } else {
         selectedLanguage.querySelector('.flag').textContent = '🇪🇸';
-        changeLanguage('es');
+        localStorage.setItem('selectedLanguage', 'es');
     }
 });
 

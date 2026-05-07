@@ -28,7 +28,7 @@
                     <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Comunidades</a></li>
                     <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Hoja de Ruta</a></li>
                     <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
-                    <li><a href="../tutorials_es.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutoriales</a></li>
+                    <li><a href="../tutorials_es.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials" data-url-es="../tutorials_es.html" data-url-en="../tutorials_en.html">Tutoriales</a></li>
                 </ul>
                 <div class="language-selector">
                     <div class="selected-language" id="selected-language">
@@ -65,65 +65,82 @@
         <section class="tutorial-content">
             <div class="container">
 
-                <p>Orchard es una herramienta web que nos permitirá tener un mayor control de las operaciones realizadas en el mint de cashu, además de realizar algunas operaciones sobre este. Es una herramienta en desarrollo por lo que podemos encontrarno algún fallo. Sea prudente.</p>
+                <p>Orchard es una herramienta web que nos permitirá tener un mayor control de las operaciones realizadas en el Mint de Cashu, además de realizar algunas operaciones sobre este. Es una herramienta en desarrollo, por lo que podemos encontrarnos con algún fallo. Sea prudente.</p>
 
                 <h2>Inicializando Orchard</h2>
-                <p>Accedemos a orchard vía <code>https://orchard.cashu4community.xyz</code> ustedes loarán mediante sus respectivos dominios. Lo primero que no encontramos es la pantalla de inicialización de Orchard que nos pide la SETUP_KEY, recordemos que esto lo generamos en el paso de Configuración de la Infraestructura y lo debimos haber copiado, en caso de no encontrar dicha clave la pueden ver en el archivo <code>app-data/orchar/.env</code>.</p>
+                <p>Accedemos a Orchard vía <code>https://orchard.cashu4community.xyz</code> (ustedes lo harán mediante sus respectivos dominios). Lo primero que nos encontramos es la pantalla de inicialización de Orchard que nos pide la <code>SETUP_KEY</code>. Recordemos que esto lo generamos en el paso de Configuración de la Infraestructura y lo debimos haber copiado. En caso de no encontrar dicha clave, la pueden ver en el archivo <code>app-data/orchard/.env</code>.</p>
 
                 <img src="img/orchard-initial-setup.png" alt="Orchard Initial Setup">
 
                 <ol>
-                    <li>Insertamos la clave <code>SETUP_KEY</code> que se generó cuando configuramos la infraestructura, si no la guardamos podemos encontrarla en el archivo <code>.env</code> dentro de <code>app-data/orchard/.env</code>.</li>
-                    <li>Introducimos el nombre de usuario puede ser admin, orchard o como desee.</li>
+                    <li>Insertamos la clave <code>SETUP_KEY</code> que se generó cuando configuramos la infraestructura. Si no la guardamos, podemos encontrarla en el archivo <code>.env</code> dentro de <code>app-data/orchard/.env</code>.</li>
+                    <li>Introducimos el nombre de usuario (puede ser admin, orchard o como desee).</li>
                     <li>Introducimos una contraseña y la confirmamos.</li>
+                    <li>Hacemos clic en el botón <code>Start</code> para guardar los cambios.</li>
                 </ol>
 
                 <h2>Orchard Mint Dashboard</h2>
-                <p>Orchard permite mostrar información del nodo Bitcoin en caso de que tengamos uno instalado, nodo lightning y el Mint de cashu, las operaciones sobre el Nodo Bitcoin y nodo Lightning son informativas no hay mucho que hacer aquí, por lo que nos centraremos en el Mint de Cashu.</p>
+                <p>Orchard permite mostrar información del nodo Bitcoin en caso de que tengamos uno instalado, nodo Lightning y el Mint de Cashu. Las secciones del nodo Bitcoin y nodo Lightning son solo informativas, no hay mucho que hacer allí, por lo que nos centraremos en el Mint de Cashu.</p>
 
                 <img src="img/orchard-mint-dashboard.png" alt="Orchard Mint Dashboard">
 
+                <ol start="5">
+                    <li>Se muestra la información del Mint como su nombre, URL, descripción entre otros datos.</li>
+                    <li>Se muestran los NUTs activos en el Mint de Cashu.</li>
+                    <li>Se muestran datos relacionados con los Keysets.</li>
+                    <li>En la vista de Actividades se muestran cantidad de operaciones, número de operaciones Melt y Mint, % de operaciones completadas entre otros datos.</li>
+                </ol>
+
                 <h2>Orchard sección Info</h2>
-                <p>En la sección de Info podemos actualizar toda la información del Mint en lo referente a los datos de contacto, todos pueden ser actualizados desde esta vista.</p>
+                <p>En la sección de Info podemos actualizar toda la información del Mint en lo referente a los datos de contacto. Todos pueden ser actualizados desde esta vista.</p>
 
                 <img src="img/orchard-info-section.png" alt="Orchard Info Section">
 
-                <p>Toda esta información es la que se puede editar en el archivo <code>app-data/cashu/.env</code> en la sección <code>Mint Information</code></p>
+                <ol start="9">
+                    <li>Tras actualizar los datos del Mint, procedemos a guardarlos.</li>
+                </ol>
+
+                <p>Toda esta información es la que se puede editar en el archivo <code>app-data/cashu/.env</code> en la sección <code>Mint Information</code>:</p>
 <pre><code># Mint information
 MINT_INFO_NAME="Cashu4CS"
 MINT_INFO_DESCRIPTION="The short mint description"
 MINT_INFO_DESCRIPTION_LONG="A Cashu4Community Mint for educational purpose"
-MINT_INFO_CONTACT=[["email","conthelpact@cashu4community.xyz"], ["twitter","@cashu4community"]]
+MINT_INFO_CONTACT=[["email","contact@cashu4community.xyz"], ["twitter","@cashu4community"]]
 MINT_INFO_MOTD="Message to users"
 MINT_INFO_ICON_URL="https://cashu4community.xyz/images/icons/cashu4community_logo_transparente.png"
 MINT_INFO_URLS=["https://mint.cashu4community.xyz"]
 MINT_INFO_TOS_URL="https://mint.host/tos"</code></pre>
 
                 <h2>Orchard sección Config</h2>
-                <p>Actualmente la sección config no es funcional, y todo lo que se muestra aquí es informativo como el máximo y mínimo en una operación de mint o melt, habilitar o deshabilitar redis, entre otras opciones. Dicho sea de paso estas opciones estan presentes en el archivo .env. Según el desarrollador estas funciones vía RPC no están implementadas.</p>
+                <p>Actualmente la sección Config no es funcional, y todo lo que se muestra aquí es informativo como el máximo y mínimo en una operación de mint o melt, habilitar o deshabilitar Redis, entre otras opciones. Dicho sea de paso, estas opciones están presentes en el archivo <code>.env</code>. Según el desarrollador, estas funciones vía RPC no están implementadas.</p>
 
                 <img src="img/orchard-config-section.png" alt="Orchard Config Section">
 
                 <h2>Orchard sección Keysets</h2>
-                <p>Desde esta sección podemos configurar un nuevo keyset sin tener que chocar con la linea de comando, solo tiene una limitante por el momento solo funciona con keysets versión v1 la última actualización de nutshell incorpora la versión v2.</p>
+                <p>Desde esta sección podemos configurar un nuevo keyset sin tener que interactuar con la línea de comandos. Solo tiene una limitante: por el momento solo funciona con keysets versión v1; la última actualización de Nutshell incorpora la versión v2.</p>
 
                 <img src="img/orchard-keysets-section.png" alt="Orchard Keysets Section">
 
-                <ol>
-                    <li>Si queremos adicionar un nuevo Keyset lo podemos hacer aquí.</li>
-                    <li>Listado de Keysets exixtentes en el Mint</li>
+                <ol start="10">
+                    <li>Si queremos añadir un nuevo Keyset lo podemos hacer aquí.</li>
+                    <li>Listado de Keysets existentes en el Mint.</li>
+                    <li>Después de seleccionar la comisión a usar, seleccionamos la versión del keyset. Por el momento Orchard solo soporta la v1.</li>
                 </ol>
 
                 <div class="tutorial-tip">
-                    <strong>Importante:</strong> Si se esta usando la versión 0.20 de nutshel se recomienda generar los nuevos Keysets via mint-cli (esto lo pueden ver en la documentación del Mint de Cashu).
+                    <strong>Nota:</strong> Si se está usando la versión 0.20 de Nutshell se recomienda generar los nuevos Keysets vía mint-cli (esto lo pueden ver en la documentación del Mint de Cashu).
                 </div>
 
                 <img src="img/orchard-new-keyset.png" alt="Orchard New Keyset">
 
                 <h2>Orchard sección Database</h2>
-                <p>En esta sección se muestra información alojada en la base de datos como operaciones de Mint y Melt, se pueden realizar backups de la base de datos entre otras opciones más.</p>
+                <p>En esta sección se muestra información alojada en la base de datos como operaciones de Mint y Melt. Se pueden realizar backups de la base de datos entre otras opciones de visualización.</p>
 
                 <img src="img/orchard-database-section.png" alt="Orchard Database Section">
+
+                <ol start="13">
+                    <li>Haciendo clic en el botón <code>Create Backup</code> podemos realizar un respaldo de la base de datos.</li>
+                </ol>
 
                 <div class="tutorial-nav">
                     <a href="cashu-mint-nutshell_es.html" class="nav-prev">
@@ -132,7 +149,7 @@ MINT_INFO_TOS_URL="https://mint.host/tos"</code></pre>
                     </a>
                     <a href="update-services_es.html" class="nav-next">
                         <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Siguiente</span>
-                        <span class="nav-title" data-lang-es="Actualización de Servicios →" data-lang-en="Service Updates →">Actualización de Servicios →</span>
+                        <span class="nav-title">Actualización de Servicios →</span>
                     </a>
                 </div>
             </div>
@@ -143,30 +160,30 @@ MINT_INFO_TOS_URL="https://mint.host/tos"</code></pre>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>Proyecto</h4>
+                    <h4 data-lang-es="Proyecto" data-lang-en="Project">Proyecto</h4>
                     <ul>
-                        <li><a href="../index.html#solution">Infraestructura</a></li>
-                        <li><a href="../index.html#timeline">Hoja de Ruta</a></li>
-                        <li><a href="../tutorials_es.html">Tutoriales</a></li>
+                        <li><a href="../index.html#solution" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infraestructura</a></li>
+                        <li><a href="../index.html#timeline" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Hoja de Ruta</a></li>
+                        <li><a href="../tutorials_es.html" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutoriales</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Comunidad</h4>
+                    <h4 data-lang-es="Comunidad" data-lang-en="Community">Comunidad</h4>
                     <ul>
-                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Aplicar</a></li>
-                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
-                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9" data-lang-es="Aplicar" data-lang-en="Apply">Aplicar</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank" data-lang-es="Telegram" data-lang-en="Telegram">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank" data-lang-es="GitHub" data-lang-en="GitHub">GitHub</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Contacto</h4>
+                    <h4 data-lang-es="Contacto" data-lang-en="Contact">Contacto</h4>
                     <ul>
-                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
-                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                        <li><a href="https://x.com/cashu4community" target="_blank" data-lang-es="X" data-lang-en="X">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank" data-lang-es="Nostr" data-lang-en="Nostr">Nostr</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Patrocinador</h4>
+                    <h4 data-lang-es="Patrocinador" data-lang-en="Sponsor">Patrocinador</h4>
                     <div class="sponsor">
                         <a href="https://hrf.org" target="_blank" class="sponsor-link">
                             <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
@@ -175,7 +192,7 @@ MINT_INFO_TOS_URL="https://mint.host/tos"</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Cashu for Community Sovereignty. Código abierto bajo licencia MIT + CC BY-SA</p>
+                <p data-lang-es="&copy; 2025 Cashu for Community Sovereignty. Código abierto bajo licencia MIT + CC BY-SA" data-lang-en="&copy; 2025 Cashu for Community Sovereignty. Open source under MIT + CC BY-SA license">&copy; 2025 Cashu for Community Sovereignty. Código abierto bajo licencia MIT + CC BY-SA</p>
             </div>
         </div>
     </footer>

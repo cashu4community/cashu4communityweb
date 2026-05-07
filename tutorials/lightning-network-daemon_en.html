@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightning Network Daemon (LND) | Cashu4Community</title>
+    <meta name="description" content="Tutorial: Initializing the Lightning Network Daemon node">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Home</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problems</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Communities</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Roadmap</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_en.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutorials</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇬🇧</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Initializing Lightning Network Daemon (LND)</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <p>In the first steps guide we created and configured the necessary password to unlock the LND service wallet, which was saved in the <code>walletunlock</code> file. Now we are going to create the wallet.</p>
+
+                <h3>2.1 Creating the Wallet</h3>
+                <p>Run the following:</p>
+<pre><code>cat app-data/lnd/walletunlock</code></pre>
+                <p>This returns the password created earlier:</p>
+<pre><code>+6Mn31qVwLC-</code></pre>
+                <p>Copy it and run:</p>
+<pre><code>docker exec -it node_lnd lncli create</code></pre>
+                <p>This takes us to the wallet creation wizard.</p>
+
+                <p><em>Image 1: Wallet encryption key.</em></p>
+                <img src="img/lnd-wallet-input-passwd.png" alt="Wallet encryption key">
+
+                <ol>
+                    <li>Enter the password from the <code>walletunlock</code> file twice.</li>
+                </ol>
+
+                <p><em>Image 2: Creating a new wallet.</em></p>
+                <img src="img/lnd-new-wallet-creation.png" alt="Create new wallet">
+
+                <ol start="2">
+                    <li>Enter <code>n</code> to create a new wallet.</li>
+                </ol>
+
+                <p><em>Image 3: Creating a passphrase for the wallet.</em></p>
+                <img src="img/lnd-wallet-passphrase.png" alt="Create passphrase">
+
+                <ol start="3">
+                    <li>Press <code>Enter</code> to skip the passphrase.</li>
+                </ol>
+
+                <p><em>Image 4: LND wallet seed phrase.</em></p>
+                <img src="img/lnd-seed-phrase.png" alt="Seed phrase">
+
+                <ol start="4">
+                    <li>Copy the seed phrase in a safe place away from the internet.</li>
+                </ol>
+
+                <div class="tutorial-tip">
+                    <strong>Note</strong>: This seed does not comply with the BIP39 standard, so if you try to restore it in a wallet like Sparrow, Electrum, or another, you will not see the on-chain funds.
+                </div>
+
+                <p>Now we are going to edit the <code>lnd.conf</code> file and look for the line <code>wallet-unlock-file</code></p>
+<pre><code>nano app-data/lnd/lnd.conf</code></pre>
+
+                <p><em>Image 5: lnd.conf file parameter wallet-unlock-file.</em></p>
+                <img src="img/lnd-wallet-unlock-file.png" alt="lnd.conf file">
+
+                <ol start="5">
+                    <li>Remove the <code>#</code> symbol from in front of the line <code>wallet-unlock-file</code>.</li>
+                </ol>
+
+                <p>Save and exit the file <code>ctrl+s</code> and <code>ctrl+x</code></p>
+
+                <h3>2.2 Acquiring Liquidity (Inbound Channels)</h3>
+                <p>To receive payments in your Mint or LNbits, your node needs inbound liquidity. Being a new node, it has no open channels, so you must "rent" or buy initial liquidity through specialized markets.</p>
+
+                <h4>2.2.1 Recommended Liquidity Services</h4>
+                <ul>
+                    <li><strong><a href="https://lnbig.com" target="_blank">LNBig</a></strong>: Allows requesting direct channels to your node. Ideal for fast liquidity and high capacity.</li>
+                    <li><strong><a href="https://magma.amboss.tech/buy" target="_blank">Amboss Magma</a></strong>: Marketplace where you can buy inbound liquidity channels. Allows filtering by reputation, duration, and cost.</li>
+                    <li><strong><a href="https://zeuslsp.com" target="_blank">Zeus LSP</a></strong>: Liquidity provider integrated with Zeus wallet, allows opening channels easily.</li>
+                    <li><strong><a href="https://lnserver.com" target="_blank">LN Server</a></strong>: Channel opening service with different capacity options.</li>
+                </ul>
+
+                <p>To use these services, you will need the node URI, which has the format:</p>
+                <p><code>pubkey@ip:9735</code> or <code>pubkey@address.onion:9735</code></p>
+
+                <h4>2.2.2 Getting the LND Node URI Address</h4>
+                <p>Run:</p>
+<pre><code>docker exec -it node_lnd lncli getinfo</code></pre>
+
+                <p><em>Image 6: Result of the <code>lncli getinfo</code> command.</em></p>
+                <img src="img/lnd-lncli-getinfo-command.png" alt="lncli getinfo command">
+
+                <ol>
+                 <ol start="6">
+                    <li>Public key of the LND node.</li>
+                  </ol>
+                  <ol start="7">
+                    <li>Node URI address both on Clearnet and Tor; either is valid for liquidity providers.</li>
+                </ol>
+
+                <div class="tutorial-nav">
+                    <a href="first-steps_en.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Previous</span>
+                        <span class="nav-title">← First Steps</span>
+                    </a>
+                    <a href="nginx-proxy-manager_en.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Next</span>
+                        <span class="nav-title">Nginx Proxy Manager →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Project</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline">Roadmap</a></li>
+                        <li><a href="../tutorials_en.html">Tutorials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Apply</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Sponsor</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Open source under MIT + CC BY-SA license.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

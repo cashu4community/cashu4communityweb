@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orchard | Cashu4Community</title>
+    <meta name="description" content="Tutorial: Managing Cashu Mint with Orchard">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Home</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problems</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Communities</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Roadmap</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_en.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials" data-url-es="../tutorials_es.html" data-url-en="../tutorials_en.html">Tutorials</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇬🇧</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Managing Cashu Mint with Orchard</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content">
+            <div class="container">
+
+                <p>Orchard is a web tool that allows us to have greater control over operations performed in the Cashu Mint, as well as perform some operations on it. It is a tool under development, so we may encounter some bugs. Be prudent.</p>
+
+                <h2>Initializing Orchard</h2>
+                <p>Access Orchard via <code>https://orchard.cashu4community.xyz</code> (you will do so through your respective domains). The first thing we find is the Orchard initialization screen that asks for the <code>SETUP_KEY</code>. Remember that we generated this in the Infrastructure Configuration step and should have copied it. If you cannot find this key, you can view it in the file <code>app-data/orchard/.env</code>.</p>
+
+                <img src="img/orchard-initial-setup.png" alt="Orchard Initial Setup">
+
+                <ol>
+                    <li>Insert the <code>SETUP_KEY</code> that was generated when we configured the infrastructure. If we didn't save it, we can find it in the <code>.env</code> file within <code>app-data/orchard/.env</code>.</li>
+                    <li>Enter the username (it can be admin, orchard, or as you wish).</li>
+                    <li>Enter a password and confirm it.</li>
+                    <li>Click the <code>Start</code> button to save the changes.</li>
+                </ol>
+
+                <h2>Orchard Mint Dashboard</h2>
+                <p>Orchard allows displaying information from the Bitcoin node (if we have one installed), Lightning node, and the Cashu Mint. The Bitcoin node and Lightning node sections are informational only; there is not much to do there, so we will focus on the Cashu Mint.</p>
+
+                <img src="img/orchard-mint-dashboard.png" alt="Orchard Mint Dashboard">
+
+                <ol start="5">
+                    <li>Displays Mint information such as its name, URL, description, among other data.</li>
+                    <li>Displays active NUTs in the Cashu Mint.</li>
+                    <li>Displays data related to Keysets.</li>
+                    <li>In the Activities view, it shows number of operations, Mint and Melt operations count, % of completed operations, among other data.</li>
+                </ol>
+
+                <h2>Orchard Info Section</h2>
+                <p>In the Info section we can update all Mint information regarding contact details. All can be updated from this view.</p>
+
+                <img src="img/orchard-info-section.png" alt="Orchard Info Section">
+
+                <ol start="9">
+                    <li>After updating the Mint data, we proceed to save it.</li>
+                </ol>
+
+                <p>All this information can be edited in the <code>app-data/cashu/.env</code> file in the <code>Mint Information</code> section:</p>
+<pre><code># Mint information
+MINT_INFO_NAME="Cashu4CS"
+MINT_INFO_DESCRIPTION="The short mint description"
+MINT_INFO_DESCRIPTION_LONG="A Cashu4Community Mint for educational purpose"
+MINT_INFO_CONTACT=[["email","contact@cashu4community.xyz"], ["twitter","@cashu4community"]]
+MINT_INFO_MOTD="Message to users"
+MINT_INFO_ICON_URL="https://cashu4community.xyz/images/icons/cashu4community_logo_transparente.png"
+MINT_INFO_URLS=["https://mint.cashu4community.xyz"]
+MINT_INFO_TOS_URL="https://mint.host/tos"</code></pre>
+
+                <h2>Orchard Config Section</h2>
+                <p>Currently the Config section is not functional, and everything shown here is informational, such as the maximum and minimum in a mint or melt operation, enabling or disabling Redis, among other options. By the way, these options are present in the <code>.env</code> file. According to the developer, these functions via RPC are not implemented.</p>
+
+                <img src="img/orchard-config-section.png" alt="Orchard Config Section">
+
+                <h2>Orchard Keysets Section</h2>
+                <p>From this section we can configure a new keyset without having to use the command line. It has one limitation at the moment: it only works with version v1 keysets; the latest Nutshell update incorporates version v2.</p>
+
+                <img src="img/orchard-keysets-section.png" alt="Orchard Keysets Section">
+
+                <ol start="10">
+                    <li>If we want to add a new Keyset, we can do it here.</li>
+                    <li>List of existing Keysets in the Mint.</li>
+                    <li>After selecting the fee to use, we select the keyset version. At the moment Orchard only supports v1.</li>
+                </ol>
+
+                <div class="tutorial-tip">
+                    <strong>Note:</strong> If you are using Nutshell version 0.20, it is recommended to generate new Keysets via mint-cli (you can see this in the Cashu Mint documentation).
+                </div>
+
+                <img src="img/orchard-new-keyset.png" alt="Orchard New Keyset">
+
+                <h2>Orchard Database Section</h2>
+                <p>This section displays information stored in the database such as Mint and Melt operations. You can perform database backups among other display options.</p>
+
+                <img src="img/orchard-database-section.png" alt="Orchard Database Section">
+
+                <ol start="13">
+                    <li>By clicking the <code>Create Backup</code> button we can perform a database backup.</li>
+                </ol>
+
+                <div class="tutorial-nav">
+                    <a href="cashu-mint-nutshell_en.html" class="nav-prev">
+                        <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Previous</span>
+                        <span class="nav-title">← Cashu Mint</span>
+                    </a>
+                    <a href="update-services_en.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Next</span>
+                        <span class="nav-title">Service Updates →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 data-lang-es="Proyecto" data-lang-en="Project">Project</h4>
+                    <ul>
+                        <li><a href="../index.html#solution" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Roadmap</a></li>
+                        <li><a href="../tutorials_en.html" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutorials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-lang-es="Comunidad" data-lang-en="Community">Community</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9" data-lang-es="Aplicar" data-lang-en="Apply">Apply</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank" data-lang-es="Telegram" data-lang-en="Telegram">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank" data-lang-es="GitHub" data-lang-en="GitHub">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-lang-es="Contacto" data-lang-en="Contact">Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank" data-lang-es="X" data-lang-en="X">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank" data-lang-es="Nostr" data-lang-en="Nostr">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-lang-es="Patrocinador" data-lang-en="Sponsor">Sponsor</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-lang-es="&copy; 2025 Cashu for Community Sovereignty. Código abierto bajo licencia MIT + CC BY-SA" data-lang-en="&copy; 2025 Cashu for Community Sovereignty. Open source under MIT + CC BY-SA license">&copy; 2025 Cashu for Community Sovereignty. Open source under MIT + CC BY-SA license</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
