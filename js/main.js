@@ -907,6 +907,30 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 });
 
+// Copy button para bloques de código en tutoriales revisados
+document.addEventListener('DOMContentLoaded', function() {
+    const contentSection = document.querySelector('[data-copy-enabled]');
+    if (!contentSection) return;
+
+    contentSection.querySelectorAll('pre').forEach(pre => {
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.textContent = 'Copiar';
+        btn.addEventListener('click', () => {
+            const code = pre.querySelector('code');
+            navigator.clipboard.writeText(code ? code.textContent : pre.textContent).then(() => {
+                btn.textContent = 'Copiado ✓';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copiar';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        });
+        pre.appendChild(btn);
+    });
+});
+
 // Debug: Log cuando el script se carga
 console.log('Cashu4Community - JavaScript cargado correctamente ✨');
 console.log('Bitcoin 🧡 Lightning ⚡ Cashu 💜');

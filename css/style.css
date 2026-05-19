@@ -3718,6 +3718,32 @@ html {
     font-size: 0.9rem;
     line-height: 1.7;
     color: #a5d6a7;
+    position: relative;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: 1px solid rgba(247, 147, 26, 0.4);
+    color: rgba(247, 147, 26, 0.7);
+    padding: 0.15rem 0.5rem;
+    font-size: 0.7rem;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s, border-color 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+
+.tutorial-content pre:hover .copy-btn {
+    opacity: 1;
+}
+
+.copy-btn.copied {
+    color: #6ee7b7;
+    border-color: #6ee7b7;
 }
 
 .tutorial-content pre code {
