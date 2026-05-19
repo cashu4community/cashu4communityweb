@@ -872,6 +872,41 @@ function enhancedSmoothScroll() {
 // Initialize enhanced smooth scroll
 document.addEventListener('DOMContentLoaded', enhancedSmoothScroll);
 
+// Lightbox para imágenes de tutoriales
+document.addEventListener('DOMContentLoaded', function() {
+    const tutorialImages = document.querySelectorAll('.tutorial-content img');
+    if (!tutorialImages.length) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'lightbox-overlay';
+    overlay.innerHTML = '<button class="lightbox-close" aria-label="Cerrar">&#x2715;</button><img>';
+    document.body.appendChild(overlay);
+
+    const lightboxImg = overlay.querySelector('img');
+    const closeBtn = overlay.querySelector('.lightbox-close');
+
+    function openLightbox(src, alt) {
+        lightboxImg.src = src;
+        lightboxImg.alt = alt || '';
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+        lightboxImg.src = '';
+    }
+
+    tutorialImages.forEach(img => {
+        img.addEventListener('click', () => openLightbox(img.src, img.alt));
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+});
+
 // Debug: Log cuando el script se carga
 console.log('Cashu4Community - JavaScript cargado correctamente ✨');
 console.log('Bitcoin 🧡 Lightning ⚡ Cashu 💜');
