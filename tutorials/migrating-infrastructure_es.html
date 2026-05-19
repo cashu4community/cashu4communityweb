@@ -62,19 +62,22 @@
             </div>
         </section>
 
-        <section class="tutorial-content">
+        <section class="tutorial-content" data-copy-enabled>
             <div class="container">
 
-                <p>Puede que en algún momento necesitemos mover a infraestructura hacia otro proveedor de servicios o simplemente el VPS contratado está a punto de expirar y sea preferible adquirir uno nuevo. Llegado el momento el proceso de migrar es muy fácil.</p>
+                <h2>9. Migrando la Infraestructura a otro VPS</h2>
+                <p>En este capítulo describimos el proceso para migrar la infraestructura completa a un nuevo VPS. El proceso es sencillo: detenemos los servicios, comprimimos el directorio de datos, lo copiamos al nuevo servidor y lo levantamos de nuevo.</p>
 
-                <h2>1. Detener la Infraestructura</h2>
-                <p>Siempre se debe avisar con tiempo cuando realicemos tareas de este tipo para evitar que los usuarios se queden a media en una operación.</p>
+                <p>Puede que en algún momento necesitemos mover la infraestructura hacia otro proveedor de servicios, o simplemente el VPS contratado está a punto de expirar y sea preferible adquirir uno nuevo.</p>
+
+                <h3>9.1 Detener la Infraestructura</h3>
+                <p>Siempre debemos avisar con tiempo cuando realicemos tareas de este tipo, para evitar que los usuarios se queden a medias en una operación.</p>
 <pre><code>cd cashu4cs-deploy/
 docker-compose stop</code></pre>
                 <p>Hasta aquí ya tenemos la infraestructura detenida y nadie podrá usar los servicios.</p>
 
-                <h2>2. Salvar directorio cashu4cs-deploy</h2>
-                <p>Usaremos el comando <code>tar zcvf</code> para realizar un backup comprimido.</p>
+                <h3>9.2 Respaldar el directorio cashu4cs-deploy</h3>
+                <p>Usaremos el comando <code>tar zcvf</code> para crear un respaldo comprimido.</p>
 <pre><code>tar zcvf cashu4cs-deploy.tar.gz cashu4cs-deploy/
 cashu4cs-deploy/
 cashu4cs-deploy/get_public_ip.sh
@@ -103,40 +106,40 @@ cashu4cs-deploy/app-data/cashu/certs/client_private.pem
 cashu4cs-deploy/app-data/cashu/certs/ca_cert.pem
 cashu4cs-deploy/recreate.sh</code></pre>
 
-                <p>Si terminó correctamente la operación anterior listamos el contenido del directorio.</p>
+                <p>Si terminó correctamente, listamos el contenido del directorio.</p>
 <pre><code>ls .
 cashu4cs-deploy cashu4cs-deploy.tar.gz</code></pre>
 
                 <p>Ese archivo comprimido es toda nuestra infraestructura, la cual podremos copiar en el nuevo VPS.</p>
 
                 <div class="tutorial-tip">
-                    <strong>Importante:</strong> No puede olvidar que el VPS destino debe tener los requisitos necesarios para la infraestructura que se vio en lo primeros pasos.
+                    <strong>Importante:</strong> No debemos olvidar que el VPS destino debe tener los requisitos necesarios para la infraestructura que se vio en los primeros pasos.
                 </div>
 
-                <h2>3. Copiar y descomprimir cashu4cs-deploy.tar.gz en el nuevo VPS</h2>
+                <h3>9.3 Copiar y descomprimir cashu4cs-deploy.tar.gz en el nuevo VPS</h3>
                 <p>Ejecutamos el siguiente comando:</p>
-<pre><code>scp cashu4cs-deploy.tar.gz root@&lt;ip nuevo vps&gt;:/root/</code></pre>
+<pre><code>scp cashu4cs-deploy.tar.gz root@&lt;IP del nuevo VPS&gt;:/root/</code></pre>
 
                 <p>Si terminó la copia correctamente, pasamos a conectarnos al servidor.</p>
-<pre><code>ssh root@&lt;ip nuevo vps&gt;
+<pre><code>ssh root@&lt;IP del nuevo VPS&gt;
 # Luego de conectarnos descomprimimos el archivo
 tar zxvf cashu4cs-deploy.tar.gz
-# No movemos al directorio
+# Nos movemos al directorio
 cd cashu4cs-deploy/</code></pre>
 
-                <p>Te preguntarás porque no iniciamos todo desde el paso anterior y es que aquí hay un detalle. El nuevo VPS tiene una IP distinta por lo que hay que actualizar los registros DNS de nuestro dominio y el archivo <code>lnd.conf</code> específicamente <code>externalip</code>.</p>
+                <p>Es posible que nos preguntemos por qué no iniciamos todo desde el paso anterior, y es que aquí hay un detalle: el nuevo VPS tiene una IP distinta, por lo que hay que actualizar los registros DNS de nuestro dominio y el parámetro <code>externalip</code> en el archivo <code>lnd.conf</code>.</p>
 
-                <p>Y como obtenemos la IP del nuevo VPS, muy fácil, podemos encontrarla en el panel del proveedor de servicio VPS o usando el siguiente script:</p>
+                <p>¿Y cómo obtenemos la IP del nuevo VPS? Podemos encontrarla en el panel del proveedor o usando el siguiente script:</p>
 <pre><code>./get_public_ip.sh
 12.45.128.56</code></pre>
 
-                <p>En el ejemplo la ip obtenida es <code>12.45.128.56</code> esa es la que debemos actualizar en el parámetro <code>externalip</code> y en los registros DNS. Ahora si podemos pasar al siguiente paso.</p>
+                <p>En el ejemplo, la IP obtenida es <code>12.45.128.56</code>; esa es la que debemos actualizar en el parámetro <code>externalip</code> y en los registros DNS. Ahora sí podemos pasar al siguiente paso.</p>
 
-                <h2>4. Iniciar la infraestructura</h2>
+                <h3>9.4 Iniciar la infraestructura</h3>
                 <p>Ejecutamos lo siguiente:</p>
 <pre><code>docker-compose up -d</code></pre>
 
-                <p>Ya en este punto se descargan nuevamente las imágenes y se construyen los contenedores con la información que ya tenian por lo que tendriamos en minutos la infraestructura operativa nuevamente. Si no falla el proceso, podemos comprobar con el siguiente comando:</p>
+                <p>En este punto se descargan nuevamente las imágenes y se construyen los contenedores con la información que ya tenían, por lo que tendríamos la infraestructura operativa en minutos. Si no falla el proceso, podemos comprobarlo con el siguiente comando:</p>
 <pre><code>docker ps
 CONTAINER ID   IMAGE                                              COMMAND                  CREATED         STATUS                  PORTS                                                                                                                                       NAMES
 c0ec55b00d9c   lnbits/lnbits:v1.5.3                               "sh -c 'uv run lnbit…"   30 seconds ago   Up 30 seconds            5000/tcp                                                                                                                                    app_lnbits
