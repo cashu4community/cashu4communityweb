@@ -65,16 +65,17 @@
         <section class="tutorial-content">
             <div class="container">
 
-                <p>En la guía de primeros pasos creamos y configuramos la contraseña necesaria para desbloquear la billetera del servicio LND, la cual se guardó en el archivo <code>walletunlock</code>. Ahora vamos a crear la billetera.</p>
+                <h2>2. Lightning Network Daemon (LND)</h2>
+                <p>En el capítulo anterior configuramos la contraseña de la billetera y la guardamos en el archivo <code>walletunlock</code>. En este capítulo inicializamos el nodo LND creando la billetera, anotando la frase semilla y habilitando el desbloqueo automático. Al finalizar, el nodo estará listo para adquirir liquidez y comenzar a recibir pagos.</p>
 
                 <h3>2.1 Creando la billetera</h3>
                 <p>Ejecutamos lo siguiente:</p>
 <pre><code>cat app-data/lnd/walletunlock</code></pre>
-                <p>Esto devuelve la contraseña creada con anterior</p>
+                <p>Esto devuelve la contraseña creada en el paso anterior.</p>
 <pre><code>+6Mn31qVwLC-</code></pre>
                 <p>La copiamos y ejecutamos:</p>
 <pre><code>docker exec -it node_lnd lncli create</code></pre>
-                <p>Esto nos lleva al asistente de creación de la billetera</p>
+                <p>Esto nos lleva al asistente de creación de la billetera.</p>
 
                 <p><em>Imagen 1: Clave de cifrado de la billetera.</em></p>
                 <img src="img/lnd-wallet-input-passwd.png" alt="Clave de cifrado de la billetera">
@@ -94,39 +95,41 @@
                 <img src="img/lnd-wallet-passphrase.png" alt="Crear passphrase">
 
                 <ol start="3">
-                    <li>Presionamos <code>Enter</code> para obviar la passphrase.</li>
+                    <li>Presionamos <code>Enter</code> para omitir la passphrase.</li>
                 </ol>
 
                 <p><em>Imagen 4: Frase semilla de la billetera LND</em></p>
                 <img src="img/lnd-seed-phrase.png" alt="Frase semilla">
 
                 <ol start="4">
-                    <li>Copie la frase semilla en un lugar seguro y alejado de internet.</li>
+                    <li>Copiamos la frase semilla en un lugar seguro y alejado de internet.</li>
                 </ol>
 
                 <div class="tutorial-tip">
-                    <strong>Nota</strong>: Esta semilla no cumple con el estándar BIP39 por lo que si intentan restaurarla en una billetera como Sparrow, Electrum u otra no verán los fondos en cadena.
+                    <strong>Nota</strong>: Esta semilla no cumple con el estándar BIP39 por lo que si se intenta restaurar en una billetera como Sparrow, Electrum u otra, no se verán los fondos en cadena.
                 </div>
 
-                <p>Ahora vamos a editar el archivo <code>lnd.conf</code> y buscar la línea <code>wallet-unlock-file</code></p>
+                <p>Ahora vamos a editar el archivo <code>lnd.conf</code> y buscar la línea <code>wallet-unlock-file</code>.</p>
 <pre><code>nano app-data/lnd/lnd.conf</code></pre>
 
                 <p><em>Imagen 5: Archivo lnd.conf parámetro wallet-unlock-file</em></p>
                 <img src="img/lnd-wallet-unlock-file.png" alt="Archivo lnd.conf">
 
                 <ol start="5">
-                    <li>Quitamos el símbolo # de delante de la línea <code>wallet-unlock-file</code></li>
+                    <li>Eliminamos el símbolo <code>#</code> al inicio de la línea <code>wallet-unlock-file</code>.</li>
                 </ol>
 
-                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
+                <p>Guardamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code>.</p>
 
                 <h3>2.2 Adquisición de Liquidez (Canales de Entrada)</h3>
-                <p>Para recibir pagos en su Mint o LNbits, su nodo necesita liquidez de entrada (Inbound Liquidity). Al ser un nodo nuevo, no tiene canales abiertos, por lo que debe "alquilar" o comprar liquidez inicial a través de mercados especializados.</p>
+                <p>Para recibir pagos en el Mint o LNbits, el nodo necesita liquidez de entrada (Inbound Liquidity). Al ser un nodo nuevo, no tiene canales abiertos, por lo que debemos "alquilar" o comprar liquidez inicial a través de mercados especializados.</p>
+
+                <p>Si ya contamos con Bitcoin podemos abrir canales directamente desde el nodo, lo que nos da capacidad para enviar pagos. Sin embargo, para recibir pagos necesitamos liquidez de entrada específicamente, y obtenerla a través de los servicios que se listan a continuación suele ser más práctico y económico, especialmente al inicio.</p>
 
                 <h4>2.2.1 Servicios de liquidez recomendados</h4>
                 <ul>
-                    <li><strong><a href="https://lnbig.com" target="_blank">LNBig</a></strong>: Permite solicitar la apertura de canales directos hacia su nodo. Ideal para liquidez rápida y de alta capacidad.</li>
-                    <li><strong><a href="https://magma.amboss.tech/buy" target="_blank">Amboss Magma</a></strong>: Mercado donde puede comprar canales de liquidez de entrada. Permite filtrar por reputación, duración y costo.</li>
+                    <li><strong><a href="https://lnbig.com" target="_blank">LNBig</a></strong>: Permite solicitar la apertura de canales directos hacia el nodo. Ideal para liquidez rápida y de alta capacidad.</li>
+                    <li><strong><a href="https://magma.amboss.tech/buy" target="_blank">Amboss Magma</a></strong>: Mercado donde se pueden comprar canales de liquidez de entrada. Permite filtrar por reputación, duración y costo.</li>
                     <li><strong><a href="https://zeuslsp.com" target="_blank">Zeus LSP</a></strong>: Proveedor de liquidez integrado con la wallet Zeus, permite abrir canales de forma sencilla.</li>
                     <li><strong><a href="https://lnserver.com" target="_blank">LN Server</a></strong>: Servicio de apertura de canales Lightning con distintas opciones de capacidad.</li>
                 </ul>
@@ -141,12 +144,9 @@
                 <p><em>Imagen 6: Resultado del comando <code>lncli getinfo</code>.</em></p>
                 <img src="img/lnd-lncli-getinfo-command.png" alt="Comando lncli getinfo">
 
-                <ol>
-                 <ol start="6">
+                <ol start="6">
                     <li>Clave Pública del nodo LND.</li>
-                 </ol>
-                 <ol start="7">
-                    <li>Dirección URI del nodo tanto en la red Clearnet como Tor, cualquiera de las dos es valida para los proveedores de liquidez.</li>
+                    <li>Dirección URI del nodo tanto en la red Clearnet como Tor; cualquiera de las dos es válida para los proveedores de liquidez.</li>
                 </ol>
 
                 <div class="tutorial-nav">
