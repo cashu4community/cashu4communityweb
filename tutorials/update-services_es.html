@@ -58,38 +58,39 @@
     <main>
         <section class="tutorial-hero">
             <div class="container">
-                <h1 class="tutorial-title">8 Actualización de los servicios de la Infraestructura</h1>
+                <h1 class="tutorial-title">Actualización de los servicios de la Infraestructura</h1>
             </div>
         </section>
 
-        <section class="tutorial-content">
+        <section class="tutorial-content" data-copy-enabled>
             <div class="container">
 
-                <p>En este apartado recogeremos la actualización de los servicios que componen la infraestructura cashu4community.</p>
+                <h2>8. Actualización de los servicios de la Infraestructura</h2>
+                <p>Con la infraestructura en producción, en este capítulo describimos el proceso de actualización de cada servicio. Recomendamos siempre revisar las notas de lanzamiento antes de actualizar y realizar un respaldo previo.</p>
 
-                <h2>8.1 Lightning Network Daemon (LND)</h2>
-                <p>Para realizar cualquier actualización sobre el servicio LND, debe saber que de no tener la frase semilla y el último backup del estado de los canales corre el riesgo de que si falla la actualización por algún error no tendrá forma de restaurar el nodo.</p>
+                <h3>8.1 Lightning Network Daemon (LND)</h3>
+                <p>Para realizar cualquier actualización sobre el servicio LND, debemos saber que de no tener la frase semilla y el último respaldo del estado de los canales, corremos el riesgo de que si falla la actualización por algún error no tendremos forma de restaurar el nodo.</p>
 
-                <p><strong>¿Dónde encontramos la frase semilla?</strong> La frase semilla la obtuvimos en el tutorial <code>Primeros pasos</code>, y la semilla solo se puede obtener una vez, así que no hay manera de obtenerla nuevamente.</p>
+                <p><strong>¿Dónde encontramos la frase semilla?</strong> La frase semilla la obtuvimos en el capítulo de Primeros Pasos, y solo se puede obtener una vez, así que no hay manera de recuperarla nuevamente.</p>
 
                 <p><strong>¿Dónde encontramos el respaldo de los canales?</strong> Este se guarda por defecto dentro del directorio data del nodo, en nuestra infraestructura se localiza en <code>app-data/lnd/data/chain/bitcoin/mainnet/chan-backup-archives/</code></p>
 
-                <p>listamos el directorio <code>chan-backup-archives/</code>:</p>
+                <p>Listamos el directorio <code>chan-backup-archives/</code>:</p>
 <pre><code>ls app-data/lnd/data/chain/bitcoin/mainnet/chan-backup-archives/</code></pre>
 
                 <p><em>Imagen 1: Directorio de respaldo de canales en un LND.</em></p>
                 <img src="img/lnd-channel-backup-files.png" alt="Directorio de respaldo de canales LND">
 
                 <div class="tutorial-tip">
-                    <strong>Nota:</strong> En caso de una falla grave en el nodo solo necesitaremos el último archivo de backup. Pueden encontrar más información de cómo recuperar un nodo a partir de la frase semilla y el último estado de los canales <a href="#" target="_blank">aquí</a>.
+                    <strong>Nota:</strong> En caso de una falla grave en el nodo, solo necesitaremos el último archivo de respaldo. Podemos encontrar más información sobre cómo recuperar un nodo a partir de la frase semilla y el último estado de los canales <a href="#" target="_blank">aquí</a>.
                 </div>
 
-                <p>Es importante añadir que deben revisar las notas de lanzamiento de la nueva versión del nodo antes de actualizar, ya que en ocasiones hay que realizar cambios en las configuraciones del nodo para evitar fallas. Ahora sí vamos a ver cómo actualizar.</p>
+                <p>Es importante que debemos revisar las notas de lanzamiento de la nueva versión del nodo antes de actualizar, ya que en ocasiones hay que realizar cambios en la configuración para evitar fallas.</p>
 
                 <p>Nuestro nodo tiene la versión v0.19.3-beta y la vamos actualizar con la última versión v0.20.1-beta, tras revisar las notas de lanzamiento no hay nada que destacar por lo que solo necesitamos modificar el archivo <code>docker-compose.yml</code></p>
 
                 <div class="tutorial-tip">
-                    <strong>Nota:</strong> Tras la versión v0.19.3-beta se lanzó la v0.20.0-beta y luego la v0.20.1-beta, en este caso no hay cambios que obliguen a ir saltando de versión en versión. Si quiere sentirse cómodo vaya escalando poco a poco.
+                    <strong>Nota:</strong> Tras la versión v0.19.3-beta se lanzó la v0.20.0-beta y luego la v0.20.1-beta; en este caso no hay cambios que obliguen a ir saltando de versión en versión. Si queremos sentirnos cómodos, podemos ir escalando poco a poco.
                 </div>
 
                 <p>Para actualizar la versión editamos el archivo <code>docker-compose.yml</code> y nos desplazamos hasta el servicio <code>lnd</code>:</p>
@@ -129,15 +130,29 @@
   depends_on:
     - tor</code></pre>
 
-                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
+                <p>Guardamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code>.</p>
 
                 <p>Recreamos el contenedor con el siguiente comando:</p>
 <pre><code>docker-compose up --force-recreate lnd -d</code></pre>
 
-                <p>Este comando descargará la nueva versión de la imagen, eliminará el contenedor con la versión anterior y lo creará a partir de la nueva imagen descargada.</p>
+                <p>Este comando descarga la nueva imagen, elimina el contenedor anterior y lo recrea con la nueva imagen.</p>
 
-                <h2>8.2 Actualizando LNbits</h2>
-                <p>Antes de realizar cambios en la versión de LNbits se recomienda realizar un backup de la base de datos, esto se puede hacer desde la cuenta super usuario de LNbits si no sabes cuál es puedes volver al tutorial de LNbits para saber cuál es.</p>
+                <h3>8.2 Actualizando LNbits</h3>
+
+                <div class="tutorial-tip">
+                    <strong>Advertencia:</strong> Antes de actualizar LNbits debemos detener primero el Mint de Cashu y luego LNbits. LND debe seguir corriendo para liquidar cualquier pago en vuelo. Si detenemos LNbits con una operación pendiente entre el Mint y LNbits (por ejemplo, un melt en proceso) y la migración falla, restaurar un respaldo anterior podría permitir a un usuario realizar un doble gasto con tokens que ya habían sido redimidos.<br><br>
+                    Orden recomendado antes de actualizar:
+                    <ol>
+                        <li><code>docker-compose stop cashu</code></li>
+                        <li><code>docker-compose stop lnbits</code></li>
+                        <li>Esperar ~1 minuto para que los pagos en vuelo se liquiden.</li>
+                        <li>Realizar el respaldo (ver sección 8.2.1).</li>
+                        <li>Actualizar y recrear el contenedor. No interrumpir la migración de base de datos.</li>
+                        <li>Si la migración falla, restaurar el respaldo y recrear con la versión anterior.</li>
+                    </ol>
+                </div>
+
+                <p>Antes de realizar cambios en la versión de LNbits se recomienda realizar un respaldo de la base de datos. Esto se puede hacer desde la cuenta de superusuario de LNbits; si no la recordamos, podemos volver al capítulo de LNbits.</p>
 
                 <p>Tras iniciar sesión en LNbits vamos a los <code>Settings</code> y damos clic en el botón <code>DOWNLOAD DATABASE BACKUP</code> que nos aparece al lado del botón <code>RESTART SERVER</code></p>
 
@@ -145,13 +160,13 @@
 
                 <p>El archivo zip descargado contiene un volcado de la base de datos, además una copia del directorio data de LNbits que incluye las extensiones y los log de la aplicación.</p>
 
-                <h3>8.2.1 Respaldando la base de datos desde la cli</h3>
-                <p>Podemos realizar una salva de la base de datos de manera fácil basta con ejecutar el comando:</p>
+                <h4>8.2.1 Respaldando la base de datos desde la CLI</h4>
+                <p>Podemos respaldar la base de datos fácilmente ejecutando el siguiente comando:</p>
 <pre><code>docker exec -t postgres_lnbits pg_dump -U lnbits_user lnbits_db | gzip > lnbits_backup_$(date +%Y%m%d_%H%M%S).sql.gz</code></pre>
 
                 <p>Esto creará el archivo en el directorio actual desde donde se ejecutó el comando.</p>
 
-                <p>Ya tenemos la salva, vamos nuevamente al archivo <code>docker-compose.yml</code> y buscamos el servicio <code>lnbits</code>.</p>
+                <p>Ya tenemos el respaldo. Vamos nuevamente al archivo <code>docker-compose.yml</code> y buscamos el servicio <code>lnbits</code>.</p>
 <pre><code>nano docker-compose.yml</code></pre>
 <pre><code>lnbits:
   image: lnbits/lnbits:v1.4.0
@@ -174,15 +189,28 @@
     - ./app-data/lnbits/data/:/app/data
     - ./app-data/lnbits/.env:/app/.env</code></pre>
 
-                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
+                <p>Guardamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code>.</p>
 
                 <p>Recreamos el contenedor con el siguiente comando:</p>
 <pre><code>docker-compose up --force-recreate lnbits -d</code></pre>
 
-                <p>Este comando descargará la nueva versión de la imagen, eliminará el contenedor con la versión anterior y lo creará a partir de la nueva imagen descargada.</p>
+                <p>Este comando descarga la nueva imagen, elimina el contenedor anterior y lo recrea con la nueva imagen.</p>
 
-                <h2>8.3 Actualizando el Mint de Cashu</h2>
-                <p>Antes de actualizar de versión el mint de cashu debemos realizar una salva de la base de datos de cashu, como es una base de datos sqlite el proceso es más simple solo debemos hacer una copia del archivo <code>mint.sqlite3</code>.</p>
+                <h3>8.3 Actualizando el Mint de Cashu</h3>
+
+                <div class="tutorial-tip">
+                    <strong>Advertencia:</strong> Antes de actualizar el Mint de Cashu debemos detener el servicio <code>cashu</code>. LND y LNbits deben seguir corriendo. Si hay un melt en vuelo (el usuario ya quemó los tokens pero el pago Lightning aún no confirmó) y la migración falla, restaurar un respaldo anterior podría permitir un doble gasto.<br><br>
+                    Orden recomendado antes de actualizar:
+                    <ol>
+                        <li><code>docker-compose stop cashu</code></li>
+                        <li>Esperar ~1 minuto para que los pagos en vuelo se liquiden.</li>
+                        <li>Realizar el respaldo (ver a continuación).</li>
+                        <li>Actualizar y recrear el contenedor. No interrumpir la migración de base de datos.</li>
+                        <li>Si la migración falla, restaurar el respaldo y recrear con la versión anterior.</li>
+                    </ol>
+                </div>
+
+                <p>Antes de actualizar el Mint de Cashu debemos respaldar su base de datos. Al ser SQLite, el proceso es simple: solo copiamos el archivo <code>mint.sqlite3</code>.</p>
 
                 <p>Nos movemos hacia el directorio de cashu localizado en <code>app-data/cashu/</code></p>
 <pre><code>cd app-data/cashu</code></pre>
@@ -193,7 +221,7 @@
                 <p>Copiamos la base de datos del mint.</p>
 <pre><code>cp data/mint/mint.sqlite3 backup/</code></pre>
 
-                <p>Luego de salvar la base de datos vamos al archivo <code>docker-compose.yml</code>:</p>
+                <p>Luego de respaldar la base de datos vamos al archivo <code>docker-compose.yml</code>:</p>
 <pre><code>nano docker-compose.yml</code></pre>
 <pre><code>cashu:
   image: cashubtc/nutshell:0.19.2
@@ -232,9 +260,9 @@
   depends_on:
     - lnbits</code></pre>
 
-                <p>Salvamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code></p>
+                <p>Guardamos y salimos del archivo <code>ctrl+s</code> y <code>ctrl+x</code>.</p>
 
-                <p>No olviden realizar un backup de la base de datos consulten las notas de la versión la imagen siguiente muestra un mensaje de aviso informando que hay cambios en la estructura de la base de datos tras la actualización y es necesario realizar una salva para evitar corrupción de datos tras una actualización fallida.</p>
+                <p>No olvidemos realizar el respaldo antes de continuar. Consultemos las notas de la versión: la imagen siguiente muestra un mensaje de aviso informando que hay cambios en la estructura de la base de datos tras la actualización, y que es necesario respaldarla para evitar corrupción de datos ante una actualización fallida.</p>
 
                 <p><em>Imagen 3: Mensaje de aviso sobre cambios en la estructura de la base de datos.</em></p>
                 <img src="img/cashu-backup-database-info.png" alt="Cashu Backup Database Info">
@@ -242,12 +270,12 @@
                 <p>Solo nos queda ejecutar el comando:</p>
 <pre><code>docker-compose up --force-recreate cashu -d</code></pre>
 
-                <p>Que ya sabemos que hace descargar la nueva imagen eliminar el contenedor viejo y crearlo nuevamente con la nueva imagen.</p>
+                <p>Este comando descarga la nueva imagen, elimina el contenedor anterior y lo recrea con la nueva imagen.</p>
 
-                <h2>8.4 Resto de los servicios de la infraestructura</h2>
-                <p>Quizás te preguntes por qué no cubrimos el resto de los servicios. La razón es que todos ellos (Tor, Lightning Terminal, Nginx Proxy Manager, Redis, Postgres y Orchard) son soporte de la infraestructura: añaden funcionalidades o permiten gestionar los demás servicios. El procedimiento es siempre el mismo: editar <code>docker-compose.yml</code> y cambiar la versión.</p>
+                <h3>8.4 Resto de los servicios de la infraestructura</h3>
+                <p>Es posible que nos preguntemos por qué no cubrimos el resto de los servicios. La razón es que todos ellos (Tor, Lightning Terminal, Nginx Proxy Manager, Redis, Postgres y Orchard) son soporte de la infraestructura: añaden funcionalidades o permiten gestionar los demás servicios. El procedimiento es siempre el mismo: editar <code>docker-compose.yml</code> y cambiar la versión.</p>
 
-                <h2>8.5 Solución de problemas</h2>
+                <h3>8.5 Solución de problemas</h3>
                 <p>Se irán añadiendo en la medida que la comunidad los vaya reportando.</p>
 
                 <div class="tutorial-nav">
