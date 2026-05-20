@@ -62,24 +62,27 @@
             </div>
         </section>
 
-        <section class="tutorial-content">
+        <section class="tutorial-content" data-copy-enabled>
             <div class="container">
 
-                <p>Lightning Terminal is a graphical interface and management tool designed for the Bitcoin Lightning Network. Developed by Lightning Labs, it allows node operators to manage payment channels more efficiently thanks to advanced functions like Pool (liquidity marketplace), Loop (on-chain/off-chain swap), and Faraday (risk and performance analysis). With this tool, you can buy and sell inbound liquidity, optimize channel management, and receive recommendations to maximize node profitability. It is the ideal option for those who want to actively participate in the Lightning Network without needing to use complex terminal commands.</p>
+                <h2>4. Lightning Terminal (LIT)</h2>
+                <p>With the LND node initialized and services accessible through NPM, in this chapter we explore Lightning Terminal, the node management interface. We will review its main features and how to connect remotely to the node via Lightning Node Connect.</p>
+
+                <p>Lightning Terminal is a graphical interface and management tool designed for the Bitcoin Lightning Network. Developed by Lightning Labs, it allows node operators to manage payment channels more efficiently thanks to advanced functions like Pool (liquidity marketplace), Loop (on-chain/off-chain swap), and Faraday (risk and performance analysis). With this tool, we can buy and sell inbound liquidity, optimize channel management, and receive recommendations to maximize node profitability. It is the ideal option for those who want to actively participate in the Lightning Network without needing to use complex terminal commands.</p>
 
                 <h3>4.1 Key Lightning Terminal Features</h3>
-                <p>We begin by accessing the Lightning Terminal interface (from now on LIT) via the following address: <code>https://lit.cashu4cscommunity.xyz</code>.</p>
+                <p>We begin by accessing the Lightning Terminal interface (from now on LIT) via the following address: <code>https://lit.cashu4community.xyz</code>.</p>
 
                 <div class="tutorial-tip">
-                    <strong>Note:</strong> Remember that the access address for the LIT service was configured in the Nginx Proxy Manager tutorial.
+                    <strong>Note:</strong> The access address for the LIT service was configured in the Nginx Proxy Manager chapter.
                 </div>
 
                 <p><em>Image 1: LIT login page.</em></p>
                 <img src="img/lit-login-page.png" alt="Login LIT">
 
                 <ol>
-                    <li>Enter the password generated in the <code>First Steps</code> tutorial, which is located in the <code>app-data/lit/lit.conf</code> file, parameter <code>uipassword</code>.</li>
-                    <li>Click the <code>Submit</code> button to access.</li>
+                    <li>We enter the password generated in the <code>First Steps</code> chapter, which is located in the <code>app-data/lit/lit.conf</code> file, parameter <code>uipassword</code>.</li>
+                    <li>We click the <code>Submit</code> button to access.</li>
                 </ol>
 
                 <h3>Home</h3>
@@ -89,7 +92,7 @@
                 <ol start="3">
                     <li>Node Bitcoin On-chain / Lightning balance.</li>
                     <li>Quick access to the Lightning Terminal Service.</li>
-                    <li>Access to Lightning Labs YouTube channel.</li>
+                    <li>Access to the Lightning Labs YouTube channel.</li>
                 </ol>
 
                 <h3>Settings</h3>
@@ -98,17 +101,17 @@
 
                 <ol start="6">
                     <li>Select Bitcoin unit (BTC, Bits, Sats).</li>
-                    <li>Set channel optimization mechanisms (Receiving, Sending, or Routing).</li>
+                    <li>Channel optimization mechanisms (Receiving, Sending, or Routing).</li>
                     <li>Block explorers.</li>
-                    <li>Public key and node URI useful for opening channels or buying liquidity.</li>
+                    <li>Public key and node URI, useful for opening channels or buying liquidity.</li>
                     <li>Node alias.</li>
                 </ol>
 
                 <h3>Lightning Loop</h3>
                 <p><strong>Loop</strong> is a non-custodial service offered by Lightning Labs that acts as a bidirectional bridge (on/off-ramp) between the Lightning Network and the Bitcoin blockchain. Its main function is to allow users to move funds from one side to the other without needing to open or close channels, thus solving liquidity problems in the network.</p>
 
-                <p><em>Image 4: Lightning Pool.</em></p>
-                <img src="img/lit-loop-page.png" alt="Lightning Pool">
+                <p><em>Image 4: Lightning Loop.</em></p>
+                <img src="img/lit-loop-page.png" alt="Lightning Loop">
 
                 <ol start="11">
                     <li>Inbound / Outbound Capacity.</li>
@@ -128,90 +131,90 @@
                 <img src="img/lit-loop-in-confirm.png" alt="Loop In Confirm">
 
                 <ul>
-                    <li><strong>Loop In</strong> (to receive more inbound liquidity on a channel): You need a balance in your on-chain wallet.</li>
-                    <li><strong>Loop Out</strong> (to send funds from Lightning to the on-chain network): You need available balance within a payment channel.</li>
+                    <li><strong>Loop In</strong> (to receive more inbound liquidity on a channel): we need a balance in the on-chain wallet.</li>
+                    <li><strong>Loop Out</strong> (to send funds from Lightning to the on-chain network): we need available balance within a payment channel.</li>
                 </ul>
 
-                <p>You can watch Loop in action in this <a href="https://www.youtube.com/watch?v=kYlfHqQnpVM" target="_blank">video</a>.</p>
+                <p>We can watch Loop in action in this <a href="https://www.youtube.com/watch?v=kYlfHqQnpVM" target="_blank">video</a>.</p>
 
                 <h3>Lightning Node Connect</h3>
-                <p>The Lightning Node Connect (LNC) function in Lightning Terminal is a mechanism that allows you to connect to your Lightning node remotely, securely and privately through a web browser or mobile application, without needing to configure port forwarding or use Tor.</p>
+                <p>The Lightning Node Connect (LNC) function in Lightning Terminal is a mechanism that allows connecting to the Lightning node remotely, securely, and privately through a web browser or mobile application, without needing to configure port forwarding or use Tor.</p>
 
-                <p>Think of it as "remote access" designed specifically for Lightning nodes, solving connectivity problems like NAT (Network Address Translation) or firewalls that usually block incoming connections.</p>
+                <p>We can think of it as "remote access" designed specifically for Lightning nodes, solving connectivity problems like NAT (Network Address Translation) or firewalls that usually block incoming connections.</p>
 
                 <p><em>Image 8: Lightning Node Connect Page.</em></p>
                 <img src="img/lit-node-connection.png" alt="Lightning Node Connect">
 
                 <ol start="14">
-                    <li>Click to create a session to the Lightning Terminal Service.</li>
+                    <li>We click to create a session to the Lightning Terminal Service.</li>
                 </ol>
 
                 <p><em>Image 9: Creating a new Lightning Terminal Service session.</em></p>
                 <img src="img/lit-lts-new-session-parameters.png" alt="New LTS Session">
 
                 <ol start="15">
-                    <li>Set the session name.</li>
-                    <li>Select privileges <code>Admin</code> from the available privileges (Admin, Read-only, and Custom).</li>
-                    <li>Click <code>Submit</code> to create the session.</li>
+                    <li>We set the session name.</li>
+                    <li>We select the <code>Admin</code> privileges from the available options (Admin, Read-only, and Custom).</li>
+                    <li>We click <code>Submit</code> to create the session.</li>
                 </ol>
 
                 <p><em>Image 10: New Lightning Terminal Service session options.</em></p>
                 <img src="img/lit-lnc-connection-record.png" alt="LTS Session Options">
 
                 <ol start="18">
-                    <li>If we click, it redirects us to the Lightning Terminal Services website to enter the 12-word phrase that establishes the connection to the node.</li>
-                    <li>If we click, we copy the 12 words.</li>
+                    <li>If we click here, it redirects us to the Lightning Terminal Services website to enter the 12-word phrase that establishes the connection to the node.</li>
+                    <li>If we click here, we copy the 12 words.</li>
                     <li>Shows a QR useful if we want to connect to the node from <a href="https://play.google.com/store/apps/details?id=app.zeusln.zeus&hl=en" target="_blank">Zeus</a> or <a href="https://albyhub.com/" target="_blank">Alby Hub</a>.</li>
                 </ol>
 
-                <p>You can watch the following video about LIT <a href="https://www.youtube.com/watch?v=G1rv9dZQO5o" target="_blank">here</a>.</p>
+                <p>We can watch the following video about LIT <a href="https://www.youtube.com/watch?v=G1rv9dZQO5o" target="_blank">here</a>.</p>
 
                 <h3>4.2 Accessing Lightning Terminal Service</h3>
-                <p>At this point we can access this service from step 18 above, or by accessing directly from <a href="https://terminal.lightning.engineering/dashboard" target="_blank">here</a>.</p>
+                <p>At this point we can access this service from step 18 above, or by going directly to <a href="https://terminal.lightning.engineering/dashboard" target="_blank">terminal.lightning.engineering</a>.</p>
 
                 <p><em>Image 11: Lightning Terminal Services Main Page.</em></p>
                 <img src="img/lit-services-home.png" alt="Lightning Terminal Services Home">
 
                 <ol>
-                    <li>Click "Connect to my node".</li>
+                    <li>We click on Connect to my node.</li>
                 </ol>
 
                 <p><em>Image 12: Connecting to the node via 12 words generated by LIT.</em></p>
                 <img src="img/lit-services-pairing-phrase.png" alt="Pairing Phrase">
 
                 <ol start="2">
-                    <li>Paste the 12-word phrase obtained in LIT when creating the new session.</li>
-                    <li>Click Connect.</li>
+                    <li>We paste the 12-word phrase obtained in LIT when creating the new session.</li>
+                    <li>We click Connect.</li>
                 </ol>
 
                 <p><em>Image 13: Setting the connection password.</em></p>
                 <img src="img/lit-services-set-passwd.png" alt="Set Password">
 
                 <ol start="4">
-                    <li>Insert a password for the session (this is not the same password we used for LIT; they are different services).</li>
-                    <li>Click Next.</li>
+                    <li>We enter a password for the session (this is not the same password used for LIT; they are different services).</li>
+                    <li>We click Next.</li>
                 </ol>
 
                 <p><em>Image 14: Confirming the session password.</em></p>
                 <img src="img/lit-services-confirm-passwd.png" alt="Confirm Password">
 
                 <ol start="6">
-                    <li>Confirm the session password.</li>
-                    <li>Click the Ready button.</li>
+                    <li>We confirm the session password.</li>
+                    <li>We click the Ready button.</li>
                 </ol>
 
                 <p><em>Image 15: Lightning Terminal Services Main Dashboard.</em></p>
                 <img src="img/lit-services-dashboard.png" alt="LTS Dashboard">
 
                 <ol start="8">
-                    <li>Navigation menu: Allows us to navigate between the Lightning network explorer, Autopilot (function that automates on-demand tasks on the node), Loop (the same functions we saw in LIT but with an improved interface), and Asset for those who want to issue tokens on the Lightning network.</li>
-                    <li>Action buttons: Allows sending, receiving both on Lightning and on-chain, plus opening channels.</li>
-                    <li>Node statistics area: Shows node statistics over a time period like earnings and losses from routing, among other things.</li>
-                    <li>Routing and channel information: We can interact with routings and channels; in the latter we can obtain information, change fees, close, and force close if it's offline for a long time.</li>
-                    <li>Node information menu: Shows Lightning and on-chain balance, node version, operation history among other options.</li>
+                    <li>Navigation menu: allows navigating between the Lightning network explorer, Autopilot (function that automates on-demand tasks on the node), Loop (the same functions we saw in LIT but with an improved interface), and Asset (for those who want to issue tokens on the Lightning network).</li>
+                    <li>Action buttons: allows sending and receiving both on Lightning and on-chain, plus opening channels.</li>
+                    <li>Node statistics area: shows node statistics over a time period, such as earnings and losses from routing, among other things.</li>
+                    <li>Routing and channel information: we can interact with routings and channels; in the latter we can obtain information, change fees, close, and force close if a channel has been offline for a long time.</li>
+                    <li>Node information menu: shows Lightning and on-chain balance, node version, operation history, and other options.</li>
                 </ol>
 
-                <p>If you want to deepen your knowledge of these tools, visit this <a href="https://www.youtube.com/@LightningLabs/videos" target="_blank">link</a>.</p>
+                <p>If we want to learn more about these tools, we can visit the following <a href="https://www.youtube.com/@LightningLabs/videos" target="_blank">link</a>.</p>
 
                 <div class="tutorial-nav">
                     <a href="nginx-proxy-manager_en.html" class="nav-prev">
