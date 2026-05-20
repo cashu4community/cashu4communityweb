@@ -3782,6 +3782,28 @@ html {
     font-weight: 600;
 }
 
+/* Tutorial blockquotes */
+.tutorial-content blockquote {
+    border-left: 4px solid var(--bitcoin-orange);
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    background: rgba(247, 147, 26, 0.04);
+    border-radius: 0 8px 8px 0;
+}
+
+.tutorial-content blockquote p {
+    color: #d1d5db;
+    font-style: italic;
+    line-height: 1.8;
+    margin: 0 0 0.5rem;
+}
+
+.tutorial-content blockquote footer {
+    color: var(--bitcoin-orange);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
 /* Tutorial images */
 .tutorial-content img {
     max-width: 100%;
