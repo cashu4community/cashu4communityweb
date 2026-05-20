@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction | Cashu4Community</title>
+    <meta name="description" content="Introduction to the Cashu4Community infrastructure: what it is for, how each service is used, and what you need to get started">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link" data-lang-es="Inicio" data-lang-en="Home">Home</a></li>
+                    <li><a href="../index.html#problem" class="nav-link" data-lang-es="Problemas" data-lang-en="Problems">Problems</a></li>
+                    <li><a href="../index.html#solution" class="nav-link" data-lang-es="Infraestructura" data-lang-en="Infrastructure">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link" data-lang-es="Impacto" data-lang-en="Impact">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link" data-lang-es="Comunidades" data-lang-en="Communities">Communities</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link" data-lang-es="Hoja de Ruta" data-lang-en="Roadmap">Roadmap</a></li>
+                    <li><a href="../index.html#faq" class="nav-link" data-lang-es="FAQ" data-lang-en="FAQ">FAQ</a></li>
+                    <li><a href="../tutorials_en.html" class="nav-link" data-lang-es="Tutoriales" data-lang-en="Tutorials">Tutorials</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇬🇧</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Introduction</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content" data-copy-enabled>
+            <div class="container">
+
+                <h2>0. Introduction</h2>
+
+                <h3>What are these tutorials for?</h3>
+                <p>This tutorial series guides activist communities and organizations under authoritarian pressure through the deployment of a complete private and censorship-resistant payment infrastructure, based on Bitcoin, Lightning Network, and Cashu.</p>
+                <p>Once all tutorials are completed, your community will have a sovereign payment system: no custodians, no financial surveillance, and capable of operating even under adverse network conditions.</p>
+
+                <h3>How the Infrastructure is Used</h3>
+                <p>The infrastructure is made up of several services that work together. Below is a description of each service's role and its place in daily use:</p>
+
+                <h3>Lightning Network Daemon (LND)</h3>
+                <p>This is the core node of the infrastructure. It connects to the Lightning network and manages payment channels. All sat payments entering and leaving the infrastructure pass through LND. Community members do not interact with it directly, but it is the engine that powers most of the other services.</p>
+
+                <h3>LNbits</h3>
+                <p>This is the funds management layer. It allows creating multiple wallets on top of the LND node balance, segmenting funds by purpose (fees, reserves, service payments). The community administrator uses it to control who has access to which funds and to monitor payments.</p>
+
+                <h3>Cashu Mint (Nutshell)</h3>
+                <p>This is the heart of the privacy system. The Mint issues Cashu tokens (ecash) backed by Lightning sats. Community members send and receive these tokens without leaving a trace on the blockchain. Transactions between members are completely private, even from the Mint operator.</p>
+
+                <h3>Lightning Terminal (LIT)</h3>
+                <p>This is the Lightning node control panel. The administrator uses it to manage channel liquidity (Loop In/Out), review the node status, and connect remotely and securely via Lightning Node Connect.</p>
+
+                <h3>Nginx Proxy Manager (NPM)</h3>
+                <p>This is the secure gateway to all services. It manages SSL certificates and allows accessing each tool through its own subdomain (for example: <code>lnbits.yourdomain.com</code>, <code>mint.yourdomain.com</code>). Without it, the services would not be securely accessible from the Internet.</p>
+
+                <h3>Orchard</h3>
+                <p>This is the Cashu Mint administration panel. It allows the administrator to configure the Mint, review the database status, manage keysets, and monitor activity without needing to access the command line.</p>
+
+                <h3>Tor</h3>
+                <p>This adds an extra layer of privacy by routing the LND node connections through the Tor network. This hides the server's real IP and makes surveillance or blocking of the infrastructure more difficult.</p>
+
+                <h3>Prerequisites</h3>
+                <p>Before starting with Chapter 1, make sure you have the following:</p>
+
+                <h3>Internet Domain</h3>
+                <p>You need a valid DNS domain (for example: <code>yourdomain.com</code>) that supports creating subdomains. Each service in the infrastructure is published under its own subdomain:</p>
+                <ul>
+                    <li><code>lnbits.yourdomain.com</code></li>
+                    <li><code>mint.yourdomain.com</code></li>
+                    <li><code>orchard.yourdomain.com</code></li>
+                    <li><code>npm.yourdomain.com</code></li>
+                    <li><code>lit.yourdomain.com</code></li>
+                </ul>
+                <p>You can get a domain at <a href="https://www.namecheap.com/" target="_blank">Namecheap</a> or <a href="https://www.godaddy.com/" target="_blank">GoDaddy</a>. The Nginx Proxy Manager (Chapter 3) will handle SSL certificate management automatically.</p>
+
+                <h3>VPS Server</h3>
+                <p>You need a virtual private server (VPS) running Debian or Ubuntu. The following Hostinger plans are recommended (with a discount through the project links):</p>
+                <ul>
+                    <li><a href="https://www.hostinger.com/cart?product=vps%3Avps_kvm_1&period=12&referral_type=cart_link&REFERRALCODE=AZZBITALIWJG&referral_id=0196eb9e-b289-72c1-a31f-6beb4bb541d3" target="_blank">VPS KVM1</a> — for basic use</li>
+                    <li><a href="https://www.hostinger.com/cart?product=vps%3Avps_kvm_2&period=12&referral_type=cart_link&REFERRALCODE=AZZBITALIWJG&referral_id=0196eb9c-e577-7149-a65b-11d78c901dd2" target="_blank">VPS KVM2</a> — recommended for production</li>
+                </ul>
+
+                <h3>Basic Knowledge</h3>
+                <p>The tutorials are designed to be followed step by step, but it is helpful to have basic familiarity with:</p>
+                <ul>
+                    <li>Linux terminal (basic commands: <code>ls</code>, <code>cd</code>, <code>nano</code>)</li>
+                    <li>DNS management (creating A records for subdomains)</li>
+                    <li>Docker (useful but not required; all commands are explained step by step)</li>
+                </ul>
+
+                <div class="tutorial-tip">
+                    <strong>Important</strong>: The tutorials must be followed in order. Each service depends on the previous ones to function correctly.
+                </div>
+
+                <h2>Video Tutorial</h2>
+                <p>This video shows the infrastructure in operation and practical use cases for communities:</p>
+
+                <div class="tutorial-video">
+                    <iframe
+                        src="https://www.youtube.com/embed/m1IVHYBXFfg"
+                        title="Cashu4Community - Infrastructure Tutorial"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+                <div class="tutorial-nav">
+                    <a href="../tutorials_en.html" class="nav-prev">
+                        <span class="nav-label">Index</span>
+                        <span class="nav-title">← Tutorials</span>
+                    </a>
+                    <a href="first-steps_en.html" class="nav-next">
+                        <span class="nav-label">Next</span>
+                        <span class="nav-title">First Steps →</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Project</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline">Roadmap</a></li>
+                        <li><a href="../tutorials_en.html">Tutorials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Apply</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Sponsor</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Open source under MIT + CC BY-SA license.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
