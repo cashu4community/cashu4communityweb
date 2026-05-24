@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nginx Proxy Manager | Cashu4Community</title>
+    <meta name="description" content="Tutoriel : Configuration de l'accès avec Nginx Proxy Manager">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link">Accueil</a></li>
+                    <li><a href="../index.html#problem" class="nav-link">Problèmes</a></li>
+                    <li><a href="../index.html#solution" class="nav-link">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link">Communautés</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link">Feuille de Route</a></li>
+                    <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+                    <li><a href="../tutorials_fr.html" class="nav-link">Tutoriels</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇫🇷</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                        <div class="language-option" data-lang="fr">
+                            <span class="flag">🇫🇷</span>
+                            <span class="lang-text">Français</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Configuration de Nginx Proxy Manager (NPM)</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content" data-copy-enabled>
+            <div class="container">
+
+                <h2>3. Nginx Proxy Manager (NPM)</h2>
+                <p>Dans ce chapitre, nous allons configurer l'accès externe aux services (Lightning Terminal, LNbits, Cashu et Orchard) en utilisant Nginx Proxy Manager, qui agit comme proxy inverse et gestionnaire de certificats SSL.</p>
+
+                <h3>Accès initial</h3>
+                <p>L'accès initial au conteneur Nginx Proxy Manager (NPM) se fait via HTTP en utilisant le port 81. Dans notre exemple, nous y accéderons via l'URL <code>http://npm.cashu4community.xyz:81</code>. À l'étape suivante, nous modifierons cette configuration pour éviter les risques de sécurité.</p>
+                <p>Le conteneur est déjà préconfiguré, donc aucune création d'utilisateur n'est requise lors du premier démarrage.</p>
+
+                <p><em>Image 1 : Page de connexion Nginx Proxy Manager.</em></p>
+                <img src="img/npm-login-page.png" alt="Login NPM">
+
+                <ol>
+                    <li>Utilisateur <code>changeme@domain.com</code></li>
+                    <li>Mot de passe <code>ch4ng3m3*-</code></li>
+                    <li>Nous appuyons sur <code>Entrée</code> ou cliquons sur <code>Sign in</code>.</li>
+                </ol>
+
+                <p>Après la connexion, nous accédons au tableau de bord du service NPM.</p>
+
+                <p><em>Image 2 : Tableau de bord NPM.</em></p>
+                <img src="img/npm-dashboard.png" alt="Dashboard NPM">
+
+                <ol start="4">
+                    <li>Nous accédons au panneau Proxy Host.</li>
+                </ol>
+
+                <h3>3.1 Création d'un proxy host pour NPM</h3>
+                <p>Comme nous avons pu l'observer, l'accès à NPM se fait via HTTP (protocole non sécurisé) et par le port 81, ce qui rend notre service vulnérable aux attaques. Pour résoudre ce problème, nous allons créer un Proxy Host pour NPM lui-même afin de pouvoir opérer sur HTTPS.</p>
+
+                <p><em>Image 3 : Ajouter un Proxy Host.</em></p>
+                <img src="img/npm-add-proxy-host.png" alt="Add Proxy Host">
+
+                <ol start="5">
+                    <li>Nous ajoutons un Proxy Host.</li>
+                </ol>
+
+                <p><em>Image 4 : Options du Proxy Host.</em></p>
+                <img src="img/npm-add-proxy-host-details.png" alt="Options Proxy Host">
+
+                <ol start="6">
+                    <li><code>Domain Names</code> : dans ce champ, on saisit le nom de domaine que l'application aura sur Internet. Comme nous configurons l'accès à NPM, nous utiliserons le domaine <code>npm.cashu4community.xyz</code>.</li>
+                    <li><code>Scheme</code> : le schéma est le protocole utilisé par NPM pour communiquer avec l'application qui tourne dans le conteneur ; il peut être http ou https. Pour NPM, nous le laissons en http.</li>
+                    <li><code>Forward Hostname / IP</code> : c'est simplement le nom d'hôte. Comme il s'agit d'un conteneur Docker, il est préférable d'utiliser le nom du service. Comme nous configurons NPM, nous utiliserons npm. La liste complète des services se trouve à la fin de la section Premiers Pas.</li>
+                    <li><code>Forward Port</code> : c'est le port sur lequel l'application tourne en interne dans le conteneur Docker. NPM utilise le port 81. La liste des ports se trouve à la fin de ce chapitre.</li>
+                    <li><code>Options</code> : nous activons toutes les options pour améliorer la sécurité et la fonctionnalité de l'application.</li>
+                </ol>
+
+                <p><em>Image 5 : Options SSL du Proxy Host.</em></p>
+                <img src="img/npm-add-proxy-host-ssl-options.png" alt="Options SSL">
+
+                <ol start="11">
+                    <li>Nous nous positionnons dans l'onglet SSL.</li>
+                    <li>Nous sélectionnons dans le menu déroulant l'option <code>Request a new Certificate</code>.</li>
+                    <li>Nous activons les options <code>Force SSL</code>, <code>HTTP/2 Support</code> et <code>HSTS Enabled</code>.</li>
+                    <li>Nous sauvegardons les modifications.</li>
+                </ol>
+
+                <p>Après avoir sauvegardé les modifications, nous pouvons voir l'enregistrement NPM dans le panneau de la section Proxy Host.</p>
+
+                <p><em>Image 6 : Enregistrement du service NPM dans le panneau Proxy Host.</em></p>
+                <img src="img/npm-proxy-host-record.png" alt="Proxy Host Record">
+
+                <div class="tutorial-tip">
+                    <strong>Important :</strong> Pour créer le certificat numérique, NPM vérifie que le domaine DNS existe. S'il n'existe pas, le processus échouera.
+                </div>
+
+                <p><em>Image 7 : Proxy Host correctement configuré.</em></p>
+                <img src="img/npm-proxy-host-status.png" alt="Proxy Host Status">
+
+                <p>Avec NPM déjà configuré pour un accès sécurisé via HTTPS, nous nous déconnectons et nous reconnectons pour continuer avec les autres configurations.</p>
+
+                <p><em>Image 8 : Déconnexion — Menu utilisateur.</em></p>
+                <img src="img/npm-proxy-logout.png" alt="Logout">
+
+                <ol start="15">
+                    <li>Nous nous déconnectons.</li>
+                </ol>
+
+                <h3>3.2 Liste des services à configurer dans NPM</h3>
+                <p>Le tableau suivant présente les services à configurer dans NPM ainsi que tous les paramètres nécessaires. Nous utiliserons le domaine <code>cashu4community.xyz</code> comme référence ; chacun devra l'adapter à son propre domaine.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom de Domaine</th>
+                            <th>Schéma</th>
+                            <th>Service Docker</th>
+                            <th>Port</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>npm.cashu4community.xyz</td>
+                            <td>http</td>
+                            <td>npm</td>
+                            <td>81</td>
+                        </tr>
+                        <tr>
+                            <td>lit.cashu4community.xyz</td>
+                            <td>https</td>
+                            <td>lit</td>
+                            <td>8443</td>
+                        </tr>
+                        <tr>
+                            <td>lnbits.cashu4community.xyz</td>
+                            <td>http</td>
+                            <td>lnbits</td>
+                            <td>5000</td>
+                        </tr>
+                        <tr>
+                            <td>mint.cashu4community.xyz</td>
+                            <td>http</td>
+                            <td>cashu</td>
+                            <td>3336</td>
+                        </tr>
+                        <tr>
+                            <td>orchard.cashu4community.xyz</td>
+                            <td>http</td>
+                            <td>orchard</td>
+                            <td>3326</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Une fois tous les Proxy Hosts enregistrés, nous obtiendrons quelque chose comme ceci :</p>
+
+                <p><em>Image 9 : Liste des services de l'infrastructure dans NPM.</em></p>
+                <img src="img/npm-proxy-host-list.png" alt="Proxy Host List">
+
+                <h3>3.3 Mise à jour des données du compte d'accès</h3>
+                <p>Comme mentionné au début de ce chapitre, le service NPM est livré préconfiguré avec un compte utilisateur générique. Pour éviter les accès non désirés à notre infrastructure, il est obligatoire de changer ce compte. Pour ce faire, nous accédons au menu utilisateur.</p>
+
+                <p><em>Image 10 : Menu utilisateur — Édition du profil.</em></p>
+                <img src="img/npm-user-menu-edit-profile.png" alt="User Menu Edit Profile">
+
+                <ol>
+                    <li>Nous cliquons sur <code>Edit Profile</code> pour modifier l'adresse e-mail que nous utilisons pour nous connecter.</li>
+                </ol>
+
+                <p><em>Image 11 : Modification du nom d'utilisateur et de l'adresse e-mail.</em></p>
+                <img src="img/npm-change-email.png" alt="Change Email">
+
+                <ol start="2">
+                    <li>Nous mettons à jour le champ <code>Email address</code> avec notre adresse e-mail.</li>
+                    <li>Nous sauvegardons les modifications.</li>
+                </ol>
+
+                <p><em>Image 12 : Menu utilisateur — Changement de mot de passe.</em></p>
+                <img src="img/npm-user-menu-change-passwd.png" alt="User Menu Change Password">
+
+                <ol start="4">
+                    <li>Nous cliquons sur <code>Change Password</code> pour modifier le mot de passe actuel.</li>
+                </ol>
+
+                <p><em>Image 13 : Changement du mot de passe de l'utilisateur actuel.</em></p>
+                <img src="img/npm-change-password.png" alt="Change Password">
+
+                <ol start="5">
+                    <li>Nous saisissons le mot de passe actuel.</li>
+                    <li>Nous saisissons le nouveau mot de passe et le confirmons.</li>
+                    <li>Nous sauvegardons les modifications.</li>
+                </ol>
+
+                <p><em>Image 14 : Menu utilisateur — Authentification à deux facteurs.</em></p>
+                <img src="img/npm-user-menu-2fa.png" alt="User Menu 2FA">
+
+                <ol start="8">
+                    <li>Nous cliquons sur <code>Two-Factor Auth</code> (recommandé pour une couche de sécurité supplémentaire).</li>
+                </ol>
+
+                <p><em>Image 15 : Activation du 2FA dans NPM.</em></p>
+                <img src="img/npm-2fa-enable.png" alt="Enable 2FA">
+
+                <ol start="9">
+                    <li>Nous cliquons sur le bouton pour activer l'authentification à deux facteurs.</li>
+                </ol>
+
+                <p><em>Image 16 : Activation du 2FA via QR avec code de vérification.</em></p>
+                <img src="img/npm-qr-code-2fa.png" alt="QR Code 2FA">
+
+                <ol start="10">
+                    <li>Nous scannons le QR avec l'application <a href="https://play.google.com/store/apps/details?id=com.twofasapp&hl=fr" target="_blank">2FA Authenticator</a> ; nous pouvons également utiliser d'autres applications comme <a href="https://play.google.com/store/search?q=authy&c=apps&hl=fr" target="_blank">Authy</a>.</li>
+                    <li>Si le scan du QR n'est pas possible, nous copions le code directement dans l'application 2FA.</li>
+                    <li>Nous collons le code à 6 chiffres généré par l'application 2FA.</li>
+                    <li>Nous vérifions.</li>
+                </ol>
+
+                <p>Si la vérification échoue, c'est peut-être parce que le code à 6 chiffres a expiré ; nous pouvons réessayer. L'étape suivante nous affichera les codes de récupération nécessaires au cas où nous perdrions le code 2FA ou si l'application est désinstallée.</p>
+
+                <p><em>Image 17 : Codes de récupération 2FA.</em></p>
+                <img src="img/npm-2fa-recovery-code.png" alt="Recovery Code">
+
+                <ol start="14">
+                    <li>Nous copions les codes de récupération et confirmons.</li>
+                </ol>
+
+                <p><em>Image 18 : Options 2FA.</em></p>
+                <img src="img/npm-2fa-options.png" alt="2FA Options">
+
+                <ol start="15">
+                    <li>Nous cliquons ici si nous voulons désactiver le 2FA.</li>
+                    <li>Nous cliquons ici si nous voulons de nouveaux codes de récupération.</li>
+                </ol>
+
+                <h3>3.4 Suppression de l'accès à NPM via le port 81</h3>
+                <p>Nous avons confirmé l'accès sécurisé à NPM et mis à jour les identifiants du compte administrateur. Nous allons maintenant désactiver l'accès à NPM via le port 81. Pour cela, nous éditons le fichier <code>docker-compose.yml</code> situé dans <code>cashu4cs-deploy</code>.</p>
+<pre><code>nano docker-compose.yml</code></pre>
+
+                <p>Nous recherchons le service NPM qui commence par la ligne <code>npm:</code> et supprimons la ligne <code>- '81:81'</code> de <code>ports:</code></p>
+<pre><code> npm:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx_proxy_manager
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+      - '81:81'
+    environment:
+      - DB_SQLITE_FILE:"/data/database.sqlite"
+      - DISABLE_IPV6:'true'
+    volumes:
+      - ./app-data/npm/data:/data
+      - ./app-data/npm/letsencrypt:/etc/letsencrypt</code></pre>
+
+                <p>Service NPM sans le port 81 :</p>
+<pre><code> npm:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx_proxy_manager
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      - DB_SQLITE_FILE:"/data/database.sqlite"
+      - DISABLE_IPV6:'true'
+    volumes:
+      - ./app-data/npm/data:/data
+      - ./app-data/npm/letsencrypt:/etc/letsencrypt</code></pre>
+
+                <p>Nous sauvegardons et quittons le fichier <code>ctrl+s</code> et <code>ctrl+x</code>.</p>
+
+                <p>Enfin, nous recréons le conteneur du service NPM pour que les modifications prennent effet :</p>
+<pre><code>docker-compose up --force-recreate npm -d</code></pre>
+
+                <div class="tutorial-nav">
+                    <a href="lightning-network-daemon_fr.html" class="nav-prev">
+                        <span class="nav-label">Précédent</span>
+                        <span class="nav-title">← Lightning Network Daemon</span>
+                    </a>
+                    <a href="lightning-terminal_fr.html" class="nav-next">
+                        <span class="nav-label">Suivant</span>
+                        <span class="nav-title">Lightning Terminal →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Projet</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline">Feuille de Route</a></li>
+                        <li><a href="../tutorials_fr.html">Tutoriels</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Communauté</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Postuler</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Parrain</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Code ouvert sous licence MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
