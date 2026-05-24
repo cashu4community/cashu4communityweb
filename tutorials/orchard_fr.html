@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orchard | Cashu4Community</title>
+    <meta name="description" content="Tutoriel : Administration du Mint Cashu avec Orchard">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link">Accueil</a></li>
+                    <li><a href="../index.html#problem" class="nav-link">Problèmes</a></li>
+                    <li><a href="../index.html#solution" class="nav-link">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link">Communautés</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link">Feuille de Route</a></li>
+                    <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+                    <li><a href="../tutorials_fr.html" class="nav-link">Tutoriels</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇫🇷</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                        <div class="language-option" data-lang="fr">
+                            <span class="flag">🇫🇷</span>
+                            <span class="lang-text">Français</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Administration du Mint Cashu avec Orchard</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content" data-copy-enabled>
+            <div class="container">
+
+                <h2>7. Orchard</h2>
+                <p>Avec le Mint Cashu opérationnel, ce chapitre configure Orchard, l'outil web qui nous permet d'administrer le Mint de façon visuelle. Orchard est en développement actif, c'est pourquoi nous recommandons d'être prudents dans son utilisation.</p>
+
+                <h3>7.1 Initialisation d'Orchard</h3>
+                <p>Nous accédons à Orchard via <code>https://orchard.cashu4community.xyz</code> (chaque communauté y accédera via son propre domaine). La première chose que nous voyons est l'écran d'initialisation, qui nous demande la <code>SETUP_KEY</code>. Cette clé a été générée lors de la configuration de l'infrastructure et nous avons dû la sauvegarder. Si nous ne la trouvons pas, nous pouvons la consulter dans le fichier <code>app-data/orchard/.env</code>.</p>
+
+                <img src="img/orchard-initial-setup.png" alt="Orchard Initial Setup">
+
+                <ol>
+                    <li>Nous saisissons la clé <code>SETUP_KEY</code> générée lors de la configuration de l'infrastructure. Si nous ne l'avons pas sauvegardée, nous pouvons la trouver dans le fichier <code>.env</code> à l'emplacement <code>app-data/orchard/.env</code>.</li>
+                    <li>Nous saisissons le nom d'utilisateur (peut être admin, orchard ou selon notre préférence).</li>
+                    <li>Nous saisissons un mot de passe et le confirmons.</li>
+                    <li>Nous cliquons sur le bouton <code>Start</code> pour enregistrer les modifications.</li>
+                </ol>
+
+                <h3>7.2 Tableau de bord</h3>
+                <p>Orchard permet d'afficher des informations sur le nœud Bitcoin si nous en avons un installé, sur le nœud Lightning et sur le Mint Cashu. Les sections nœud Bitcoin et nœud Lightning sont uniquement informatives, il n'y a pas grand-chose à faire là-dedans, c'est pourquoi nous nous concentrerons sur le Mint Cashu.</p>
+
+                <img src="img/orchard-mint-dashboard.png" alt="Orchard Mint Dashboard">
+
+                <ol start="5">
+                    <li>Les informations du Mint sont affichées : son nom, son URL, sa description et d'autres données.</li>
+                    <li>Les NUTs actifs dans le Mint Cashu sont affichés.</li>
+                    <li>Les données liées aux Keysets sont affichées.</li>
+                    <li>Dans la vue Activités sont affichés le nombre d'opérations, le nombre d'opérations Melt et Mint, le pourcentage d'opérations complétées, entre autres données.</li>
+                </ol>
+
+                <h3>7.3 Section Info</h3>
+                <p>Dans la section Info, nous pouvons mettre à jour toutes les informations du Mint concernant les coordonnées de contact. Tout peut être mis à jour depuis cette vue.</p>
+
+                <img src="img/orchard-info-section.png" alt="Orchard Info Section">
+
+                <ol start="9">
+                    <li>Après avoir mis à jour les données du Mint, nous procédons à leur enregistrement.</li>
+                </ol>
+
+                <p>Toutes ces informations peuvent également être éditées dans le fichier <code>app-data/cashu/.env</code> dans la section <code>Mint Information</code> :</p>
+<pre><code># Mint information
+MINT_INFO_NAME="Cashu4CS"
+MINT_INFO_DESCRIPTION="The short mint description"
+MINT_INFO_DESCRIPTION_LONG="A Cashu4Community Mint for educational purpose"
+MINT_INFO_CONTACT=[["email","contact@cashu4community.xyz"], ["twitter","@cashu4community"]]
+MINT_INFO_MOTD="Message to users"
+MINT_INFO_ICON_URL="https://cashu4community.xyz/images/icons/cashu4community_logo_transparente.png"
+MINT_INFO_URLS=["https://mint.cashu4community.xyz"]
+MINT_INFO_TOS_URL="https://mint.host/tos"</code></pre>
+
+                <h3>7.4 Section Config</h3>
+                <p>Actuellement, la section Config n'est pas fonctionnelle, et tout ce qui s'y affiche est informatif : le maximum et le minimum d'une opération de mint ou melt, activer ou désactiver Redis, entre autres options. Ces options sont également présentes dans le fichier <code>.env</code>. Selon le développeur, ces fonctions via RPC ne sont pas encore implémentées.</p>
+
+                <img src="img/orchard-config-section.png" alt="Orchard Config Section">
+
+                <h3>7.5 Section Keysets</h3>
+                <p>Depuis cette section, nous pouvons configurer un nouveau keyset sans avoir à interagir avec la ligne de commande. Elle n'a qu'une limitation : pour le moment, elle ne fonctionne qu'avec les keysets version v1 ; la dernière mise à jour de Nutshell incorpore la version v2.</p>
+
+                <img src="img/orchard-keysets-section.png" alt="Orchard Keysets Section">
+
+                <ol start="10">
+                    <li>Si nous voulons ajouter un nouveau Keyset, nous pouvons le faire ici.</li>
+                    <li>Liste des Keysets existants dans le Mint.</li>
+                    <li>Après avoir sélectionné la commission à utiliser, nous sélectionnons la version du keyset. Pour le moment, Orchard ne supporte que la v1.</li>
+                </ol>
+
+                <div class="tutorial-tip">
+                    <strong>Note :</strong> Si vous utilisez la version 0.20 de Nutshell, il est recommandé de générer les nouveaux Keysets via mint-cli (cela est visible dans la documentation du Mint Cashu).
+                </div>
+
+                <img src="img/orchard-new-keyset.png" alt="Orchard New Keyset">
+
+                <h3>7.6 Section Database</h3>
+                <p>Cette section affiche les informations stockées dans la base de données, comme les opérations de Mint et Melt. Des sauvegardes de la base de données peuvent être effectuées, parmi d'autres options de visualisation.</p>
+
+                <img src="img/orchard-database-section.png" alt="Orchard Database Section">
+
+                <ol start="13">
+                    <li>En cliquant sur le bouton <code>Create Backup</code>, nous pouvons effectuer une sauvegarde de la base de données.</li>
+                </ol>
+
+                <div class="tutorial-nav">
+                    <a href="cashu-mint-nutshell_fr.html" class="nav-prev">
+                        <span class="nav-label">Précédent</span>
+                        <span class="nav-title">← Mint Cashu</span>
+                    </a>
+                    <a href="update-services_fr.html" class="nav-next">
+                        <span class="nav-label">Suivant</span>
+                        <span class="nav-title">Mise à jour des Services →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Projet</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline">Feuille de Route</a></li>
+                        <li><a href="../tutorials_fr.html">Tutoriels</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Communauté</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Postuler</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Parrain</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Code ouvert sous licence MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
