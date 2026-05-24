@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premiers Pas | Cashu4Community</title>
+    <meta name="description" content="Tutoriel : Préparation de l'environnement et configuration initiale de l'infrastructure Cashu4Community">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link">Accueil</a></li>
+                    <li><a href="../index.html#problem" class="nav-link">Problèmes</a></li>
+                    <li><a href="../index.html#solution" class="nav-link">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link">Communautés</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link">Feuille de Route</a></li>
+                    <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+                    <li><a href="../tutorials_fr.html" class="nav-link">Tutoriels</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇫🇷</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                        <div class="language-option" data-lang="fr">
+                            <span class="flag">🇫🇷</span>
+                            <span class="lang-text">Français</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Premiers Pas</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content" data-copy-enabled>
+            <div class="container">
+
+                <h2>1. Premiers Pas</h2>
+                <p>Dans ce chapitre, nous préparons l'environnement de base sur lequel toute l'infrastructure sera construite. Avant d'exécuter toute commande, nous vérifions que nous disposons des prérequis suivants :</p>
+
+                <h3>1.1 Prérequis</h3>
+                <ul>
+                    <li>Serveur VPS avec système d'exploitation Debian/Ubuntu (disponibles avec réduction via les liens Hostinger suivants : <a href="https://www.hostinger.com/cart?product=vps%3Avps_kvm_1&period=12&referral_type=cart_link&REFERRALCODE=AZZBITALIWJG&referral_id=0196eb9e-b289-72c1-a31f-6beb4bb541d3" target="_blank">VPS KVM1</a> et <a href="https://www.hostinger.com/cart?product=vps%3Avps_kvm_2&period=12&referral_type=cart_link&REFERRALCODE=AZZBITALIWJG&referral_id=0196eb9c-e577-7149-a65b-11d78c901dd2" target="_blank">VPS KVM2</a>, nous recommandons le KVM2 pour la production).</li>
+                    <li>Docker 26.0+.</li>
+                    <li>Docker Compose 2.0+.</li>
+                    <li>Nom de domaine DNS valide pour publier les services sur Internet (disponible sur <a href="https://www.namecheap.com/" target="_blank">Namecheap</a>, <a href="https://www.hostinger.com/" target="_blank">Hostinger</a> ou <a href="https://www.godaddy.com/" target="_blank">GoDaddy</a> ; Namecheap et Hostinger acceptent les paiements en Bitcoin).</li>
+                </ul>
+
+                <h3>1.2 Schéma de l'infrastructure</h3>
+                <p><em>Image 1 : Architecture de l'infrastructure Docker.</em></p>
+                <img src="img/esquema-infraestructura.png" alt="Architecture de l'infrastructure Docker">
+                <p><em>Description : Le schéma montre les conteneurs Docker (Tor, Lightning Network Daemon, Lightning Terminal, LNbits, Postgres, Cashu, Orchard et Nginx Proxy Manager). Les flèches indiquent la communication entre les services.</em></p>
+
+                <h3>1.3 Installation des prérequis</h3>
+
+                <h4>1.3.1 Installation de Docker et Docker Compose</h4>
+                <p>La plupart des VPS fournissent un accès direct en tant qu'utilisateur root par défaut. Dans ce cas, nous omettons l'utilisation de sudo dans toutes les commandes. Pour confirmer l'utilisateur actuel, nous exécutons :</p>
+<pre><code>whoami</code></pre>
+                <p>Si la sortie de la commande est <code>root</code>, sudo n'est pas requis avant les commandes suivantes :</p>
+<pre><code>sudo apt update && sudo apt upgrade
+# Debian 12+
+sudo apt install docker.io docker-compose
+# Ubuntu 24.04+
+sudo apt install docker.io docker-compose-v2</code></pre>
+
+                <h4>1.3.2 Ajout de notre utilisateur au groupe Docker</h4>
+                <p>Si la sortie de la commande <code>whoami</code> exécutée précédemment était <code>root</code>, nous ignorons cette étape ; sinon, nous exécutons la commande suivante :</p>
+<pre><code>sudo usermod -aG docker $(whoami)</code></pre>
+                <p>Cela nous permettra d'exécuter la commande docker sans privilèges.</p>
+
+                <h4>1.3.3 Clonage du dépôt du projet</h4>
+<pre><code>git clone https://github.com/cashu4community/cashu4cs-deploy.git
+cd cashu4cs-deploy</code></pre>
+
+                <div class="tutorial-tip">
+                    <strong>Important</strong> : À partir de maintenant, toutes les commandes seront exécutées depuis le répertoire <code>cashu4cs-deploy</code>.
+                </div>
+
+                <h3>1.4 Configuration initiale</h3>
+                <p>Pour pouvoir démarrer l'infrastructure, plusieurs paramètres doivent être configurés. Il est recommandé de les conserver dans un document, car ils seront nécessaires dans les sections suivantes de ce chapitre.</p>
+
+                <h4>1.4.1 Configuration des paramètres de Lightning Network Daemon</h4>
+
+                <h5>Modification de l'IP publique du nœud Lightning</h5>
+                <p>Pour obtenir l'IP publique, nous utiliserons le script <code>get_public_ip.sh</code> situé à la racine du répertoire <code>cashu4cs-deploy</code>.</p>
+<pre><code>./get_public_ip.sh</code></pre>
+                <p>Cela renvoie une sortie comme la suivante :</p>
+<pre><code>72.61.27.142</code></pre>
+                <p>Connaissant cette IP, nous allons éditer le fichier <code>lnd.conf</code>.</p>
+<pre><code>nano app-data/lnd/lnd.conf</code></pre>
+                <p>Nous recherchons la ligne <code>externalip=</code> et ajoutons l'IP obtenue <strong>72.61.27.142</strong>.</p>
+                <p><em>Image 2 : Fichier lnd.conf, paramètre externalip=.</em></p>
+                <img src="img/lnd-public-ip.png" alt="Fichier lnd.conf paramètre externalip">
+                <p>Nous sauvegardons et quittons le fichier <code>ctrl+s</code> et <code>ctrl+x</code>.</p>
+
+                <h5>Modification de l'alias du nœud LND</h5>
+                <p>L'alias est utile pour retrouver le nœud dans les explorateurs du réseau Lightning comme <a href="https://mempool.space" target="_blank">mempool.space</a> ou <a href="https://amber.space" target="_blank">amber.space</a>. Pour le modifier, nous éditons à nouveau le fichier <code>lnd.conf</code> et recherchons la ligne <code>alias=</code>. Pour ce chapitre, nous utiliserons <strong>Cashu4CS</strong> comme alias du nœud LND.</p>
+                <p><em>Image 3 : Fichier lnd.conf, paramètre alias=.</em></p>
+                <img src="img/lnd-alias.png" alt="Fichier lnd.conf paramètre alias">
+
+                <h5>Création du mot de passe pour le portefeuille du nœud LND</h5>
+                <p>Le processus de création du portefeuille du nœud LND que nous verrons plus tard nous demande un mot de passe utilisé pour chiffrer le portefeuille et le déverrouiller à chaque redémarrage du service. Il doit comporter au moins 12 caractères, combinant majuscules, minuscules, chiffres et caractères spéciaux (par exemple : <em>*-+</em>). Une fois le mot de passe créé, nous le saisissons dans le fichier <code>walletunlock</code> situé dans <code>app-data/lnd/</code>.</p>
+                <p>Pour ce tutoriel, nous utiliserons <code>+6Mn31qVwLC-</code> comme mot de passe du portefeuille.</p>
+<pre><code>nano app-data/lnd/walletunlock</code></pre>
+                <p><em>Image 4 : Fichier walletunlock avec le mot de passe créé précédemment.</em></p>
+                <img src="img/lnd-walletunlock-file.png" alt="Fichier walletunlock avec le mot de passe">
+                <p>Nous sauvegardons et quittons le fichier <code>ctrl+s</code> et <code>ctrl+x</code>.</p>
+
+                <div class="tutorial-tip">
+                    <strong>Note</strong> : Le fichier <code>walletunlock</code> nous permettra de déverrouiller automatiquement le portefeuille du nœud après un redémarrage du conteneur Docker. C'est pourquoi il contient le mot de passe.
+                </div>
+
+                <h4>1.4.2 Création du mot de passe pour l'accès à Lightning Terminal</h4>
+                <p>Pour accéder au service Lightning Terminal (désormais appelé LIT), un mot de passe est nécessaire. Il doit avoir les mêmes exigences de complexité que celui utilisé pour le portefeuille LND. Une fois généré, nous le sauvegardons dans le fichier <code>lit.conf</code> situé dans <code>app-data/lit/</code>.</p>
+                <p>Une fois le mot de passe créé, nous éditons le fichier <code>lit.conf</code>.</p>
+<pre><code>nano app-data/lit/lit.conf</code></pre>
+                <p>Nous recherchons la ligne <code>uipassword=</code> et saisissons le mot de passe. Nous utiliserons <code>+dFskhU8d35*</code> comme exemple pour ce tutoriel :</p>
+                <p><em>Image 5 : Fichier lit.conf avec le mot de passe créé pour accéder à l'interface LIT.</em></p>
+                <img src="img/lit-uipassword.png" alt="Fichier lit.conf avec le mot de passe">
+                <p>Nous sauvegardons et quittons le fichier <code>ctrl+s</code> et <code>ctrl+x</code>.</p>
+
+                <h4>1.4.3 Configuration des paramètres de LNbits</h4>
+                <p>Le service LNbits nécessite la clé <code>AUTH_SECRET_KEY</code> définie dans le fichier <code>.env</code> et le mot de passe de la base de données PostgreSQL pour fonctionner.</p>
+
+                <h5>Génération de la clé <code>AUTH_SECRET_KEY</code></h5>
+<pre><code>openssl rand -hex 32</code></pre>
+                <p>Cela nous retourne quelque chose comme ceci :</p>
+<pre><code>f92a03c2e12362f092b6589bde08b0433cd08f4ffe9ef894fe8e01660d18054f</code></pre>
+                <p>Nous copions la clé et éditons le fichier <code>.env</code> situé dans <code>app-data/lnbits/</code>.</p>
+<pre><code>nano app-data/lnbits/.env</code></pre>
+                <p>Nous recherchons la ligne <code>AUTH_SECRET_KEY</code> et collons la clé générée à l'étape précédente.</p>
+                <p><em>Image 6 : Fichier .env avec la clé AUTH_SECRET_KEY créée précédemment.</em></p>
+                <img src="img/lnbits-auth-secret-key.png" alt="Fichier .env avec la clé AUTH_SECRET_KEY">
+                <p>Nous sauvegardons et quittons le fichier <code>ctrl+s</code> et <code>ctrl+x</code>.</p>
+
+                <h5>Création du mot de passe de la base de données PostgreSQL</h5>
+                <p>Nous devons maintenant créer le mot de passe que LNbits utilisera pour se connecter à la base de données PostgreSQL. Nous le saisirons dans le fichier <code>.env</code> édité précédemment et dans le fichier <code>docker-compose.yml</code> situé à la racine du répertoire <code>cashu4cs-deploy</code>.</p>
+                <p>Nous éditons le fichier <code>.env</code>.</p>
+<pre><code>nano app-data/lnbits/.env</code></pre>
+                <p>Nous recherchons la ligne <code>LNBITS_DATABASE_URL="postgres://lnbits_user:dbpassword_@db:5432/lnbits_db"</code> et remplaçons <code>dbpassword_</code> par notre mot de passe. Nous utiliserons <code>3Edf56gh.*FU</code> comme exemple.</p>
+                <p><em>Image 7 : Variable <code>LNBITS_DATABASE_URL</code> de connexion à la base de données avec le mot de passe généré précédemment.</em></p>
+                <img src="img/lnbits-postgres-uri.png" alt="Variable LNBITS_DATABASE_URL">
+                <p>Nous sauvegardons et quittons le fichier <code>ctrl+s</code> et <code>ctrl+x</code>.</p>
+                <p>Nous éditons maintenant le fichier <code>docker-compose.yml</code>.</p>
+<pre><code>nano docker-compose.yml</code></pre>
+                <p>Nous recherchons le service docker <code>db:</code> et éditons dans la section <code>environment:</code> la variable <code>POSTGRES_PASSWORD</code> :</p>
+                <p><em>Image 8 : Variable POSTGRES_PASSWORD mise à jour avec le mot de passe généré.</em></p>
+                <img src="img/lnbits-docker-compose-pgsql-passwd.png" alt="Variable POSTGRES_PASSWORD">
+                <p>Nous sauvegardons et quittons le fichier <code>ctrl+s</code> et <code>ctrl+x</code>.</p>
+
+                <h4>1.4.4 Configuration des paramètres du Mint Cashu</h4>
+                <p>Pour le bon fonctionnement du Mint Cashu, nous devons générer la variable <code>MINT_PRIVATE_KEY=</code> et les certificats SSL utilisés pour chiffrer la connexion RPC depuis le service Orchard vers le Mint.</p>
+
+                <h5>Création de la variable <code>MINT_PRIVATE_KEY</code></h5>
+<pre><code>openssl rand -hex 32</code></pre>
+                <p>Cela nous retourne quelque chose comme ceci :</p>
+<pre><code>cf33ffb9af447b1210e052548f911ba62639a6a653f7066809bacecb7436ea4b</code></pre>
+                <p>Comme nous l'avons fait avec <code>AUTH_SECRET_KEY</code> de LNbits, nous copions la clé et éditons le fichier <code>.env</code> situé dans <code>app-data/cashu/</code>.</p>
+<pre><code>nano app-data/cashu/.env</code></pre>
+                <p>Nous recherchons la ligne <code>MINT_PRIVATE_KEY=</code> et collons la clé générée à l'étape précédente :</p>
+                <p><em>Image 9 : Variable MINT_PRIVATE_KEY mise à jour dans le fichier .env.</em></p>
+                <img src="img/cashu-mint-private-key.png" alt="Variable MINT_PRIVATE_KEY">
+                <p>Nous sauvegardons et quittons le fichier <code>ctrl+s</code> et <code>ctrl+x</code>.</p>
+
+                <h5>Génération des certificats SSL pour la connexion RPC</h5>
+                <p>Nous allons dans le répertoire <code>certs</code> situé dans <code>app-data/cashu/</code>.</p>
+<pre><code>cd app-data/cashu/certs</code></pre>
+                <p>Nous exécutons le script <code>generate_certificates.sh</code>.</p>
+<pre><code>./generate_certificates.sh</code></pre>
+                <p>Ce script génère tous les certificats nécessaires pour la connexion RPC. Si aucune erreur ne se produit, les certificats seront dans ce répertoire.</p>
+<pre><code>ls .
+ca_cert.pem  ca_private.pem  client_cert.pem  client_private.pem  generate_certificates.sh  server_cert.pem  server_private.pem</code></pre>
+
+                <h4>1.4.5 Configuration des paramètres d'Orchard</h4>
+                <p>Nous devons générer la clé <code>SETUP_KEY</code> utilisée lors de l'initialisation d'Orchard.</p>
+<pre><code>openssl rand -hex 16</code></pre>
+                <p>Le résultat serait :</p>
+<pre><code>d5c454540c045373b5bac4a58b0b52e8</code></pre>
+                <p>Nous copions la clé et éditons le fichier <code>.env</code> situé dans <code>app-data/orchard/</code>.</p>
+<pre><code>nano app-data/orchard/.env</code></pre>
+                <p>Nous recherchons la ligne <code>SETUP_KEY=</code> et collons la clé générée à l'étape précédente.</p>
+                <p><em>Image 10 : Variable SETUP_KEY mise à jour dans le fichier .env.</em></p>
+                <img src="img/orchard-setup-key.png" alt="Variable SETUP_KEY">
+                <p>Nous sauvegardons et quittons le fichier <code>ctrl+s</code> et <code>ctrl+x</code>.</p>
+
+                <h3>1.5 Gestion des Services</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Commande</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>docker-compose up -d</code></td>
+                            <td>Démarre l'infrastructure complète ; télécharge les images lors de la première exécution.</td>
+                        </tr>
+                        <tr>
+                            <td><code>docker-compose down</code></td>
+                            <td>Arrête tous les services de manière contrôlée et supprime les conteneurs.</td>
+                        </tr>
+                        <tr>
+                            <td><code>docker-compose up --force-recreate [service] -d</code></td>
+                            <td>Reconstruit un conteneur spécifique après avoir effectué des modifications dans sa configuration.</td>
+                        </tr>
+                        <tr>
+                            <td><code>docker-compose start [service]</code></td>
+                            <td>Démarre le conteneur.</td>
+                        </tr>
+                        <tr>
+                            <td><code>docker-compose stop [service]</code></td>
+                            <td>Arrête un conteneur.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>1.5.1 Noms des services</h4>
+                <p>Voici les noms des services de l'infrastructure, informations utiles pour exécuter les commandes de démarrage, d'arrêt ou de reconstruction du tableau précédent.</p>
+                <ul>
+                    <li><strong>Financiers :</strong> <code>lnd</code>, <code>cashu</code> (Mint), <code>lnbits</code>.</li>
+                    <li><strong>Gestion et Réseau :</strong> <code>lit</code> (Lightning Terminal), <code>npm</code> (Proxy Manager), <code>tor</code>, <code>orchard</code>.</li>
+                    <li><strong>Persistance :</strong> <code>db</code> (PostgreSQL), <code>redis</code>.</li>
+                </ul>
+
+                <h3>1.6 Démarrage de l'Infrastructure</h3>
+                <p>Pour démarrer l'infrastructure, nous exécutons :</p>
+<pre><code>docker-compose up -d</code></pre>
+                <p>La première fois que cette commande est exécutée, les images Docker des services sont téléchargées.</p>
+                <p><em>Image 11 : Téléchargement des images lors du processus de démarrage.</em></p>
+                <img src="img/docker-pulling-images.png" alt="Téléchargement des images">
+                <p>Si l'étape précédente s'est terminée sans problème, nous vérifions l'état des conteneurs en exécutant :</p>
+<pre><code>docker ps</code></pre>
+                <p>Cela affichera les conteneurs en cours d'exécution.</p>
+                <p><em>Image 12 : Liste des conteneurs en cours d'exécution.</em></p>
+                <img src="img/docker-ps-command.png" alt="Liste des conteneurs">
+
+                <div class="tutorial-nav">
+                    <a href="../tutorials_fr.html" class="nav-prev">
+                        <span class="nav-label">Index</span>
+                        <span class="nav-title">← Tutoriels</span>
+                    </a>
+                    <a href="lightning-network-daemon_fr.html" class="nav-next">
+                        <span class="nav-label">Suivant</span>
+                        <span class="nav-title">Lightning Network Daemon →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Projet</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline">Feuille de Route</a></li>
+                        <li><a href="../tutorials_fr.html">Tutoriels</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Communauté</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Postuler</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Parrain</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Code ouvert sous licence MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
