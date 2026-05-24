@@ -62,12 +62,13 @@
             </div>
         </section>
 
-        <section class="tutorial-content">
+        <section class="tutorial-content" data-copy-enabled>
             <div class="container">
 
-                <p>Orchard is a web tool that allows us to have greater control over operations performed in the Cashu Mint, as well as perform some operations on it. It is a tool under development, so we may encounter some bugs. Be prudent.</p>
+                <h2>7. Orchard</h2>
+                <p>With the Cashu Mint operational, in this chapter we configure Orchard, the web tool that allows us to manage the Mint visually. Orchard is under active development, so we recommend being prudent with its use.</p>
 
-                <h2>Initializing Orchard</h2>
+                <h3>7.1 Initializing Orchard</h3>
                 <p>Access Orchard via <code>https://orchard.cashu4community.xyz</code> (you will do so through your respective domains). The first thing we find is the Orchard initialization screen that asks for the <code>SETUP_KEY</code>. Remember that we generated this in the Infrastructure Configuration step and should have copied it. If you cannot find this key, you can view it in the file <code>app-data/orchard/.env</code>.</p>
 
                 <img src="img/orchard-initial-setup.png" alt="Orchard Initial Setup">
@@ -79,7 +80,7 @@
                     <li>Click the <code>Start</code> button to save the changes.</li>
                 </ol>
 
-                <h2>Orchard Mint Dashboard</h2>
+                <h3>7.2 Dashboard</h3>
                 <p>Orchard allows displaying information from the Bitcoin node (if we have one installed), Lightning node, and the Cashu Mint. The Bitcoin node and Lightning node sections are informational only; there is not much to do there, so we will focus on the Cashu Mint.</p>
 
                 <img src="img/orchard-mint-dashboard.png" alt="Orchard Mint Dashboard">
@@ -91,7 +92,7 @@
                     <li>In the Activities view, it shows number of operations, Mint and Melt operations count, % of completed operations, among other data.</li>
                 </ol>
 
-                <h2>Orchard Info Section</h2>
+                <h3>7.3 Info Section</h3>
                 <p>In the Info section we can update all Mint information regarding contact details. All can be updated from this view.</p>
 
                 <img src="img/orchard-info-section.png" alt="Orchard Info Section">
@@ -111,12 +112,12 @@ MINT_INFO_ICON_URL="https://cashu4community.xyz/images/icons/cashu4community_log
 MINT_INFO_URLS=["https://mint.cashu4community.xyz"]
 MINT_INFO_TOS_URL="https://mint.host/tos"</code></pre>
 
-                <h2>Orchard Config Section</h2>
+                <h3>7.4 Config Section</h3>
                 <p>Currently the Config section is not functional, and everything shown here is informational, such as the maximum and minimum in a mint or melt operation, enabling or disabling Redis, among other options. By the way, these options are present in the <code>.env</code> file. According to the developer, these functions via RPC are not implemented.</p>
 
                 <img src="img/orchard-config-section.png" alt="Orchard Config Section">
 
-                <h2>Orchard Keysets Section</h2>
+                <h3>7.5 Keysets Section</h3>
                 <p>From this section we can configure a new keyset without having to use the command line. It has one limitation at the moment: it only works with version v1 keysets; the latest Nutshell update incorporates version v2.</p>
 
                 <img src="img/orchard-keysets-section.png" alt="Orchard Keysets Section">
@@ -133,7 +134,7 @@ MINT_INFO_TOS_URL="https://mint.host/tos"</code></pre>
 
                 <img src="img/orchard-new-keyset.png" alt="Orchard New Keyset">
 
-                <h2>Orchard Database Section</h2>
+                <h3>7.6 Database Section</h3>
                 <p>This section displays information stored in the database such as Mint and Melt operations. You can perform database backups among other display options.</p>
 
                 <img src="img/orchard-database-section.png" alt="Orchard Database Section">
