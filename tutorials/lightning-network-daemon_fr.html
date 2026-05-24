@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightning Network Daemon (LND) | Cashu4Community</title>
+    <meta name="description" content="Tutoriel : Initialisation du nœud Lightning Network Daemon">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link">Accueil</a></li>
+                    <li><a href="../index.html#problem" class="nav-link">Problèmes</a></li>
+                    <li><a href="../index.html#solution" class="nav-link">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link">Communautés</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link">Feuille de Route</a></li>
+                    <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+                    <li><a href="../tutorials_fr.html" class="nav-link">Tutoriels</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇫🇷</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                        <div class="language-option" data-lang="fr">
+                            <span class="flag">🇫🇷</span>
+                            <span class="lang-text">Français</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Initialisation du Lightning Network Daemon (LND)</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content" data-copy-enabled>
+            <div class="container">
+
+                <h2>2. Lightning Network Daemon (LND)</h2>
+                <p>Dans le chapitre précédent, nous avons configuré le mot de passe du portefeuille et l'avons sauvegardé dans le fichier <code>walletunlock</code>. Dans ce chapitre, nous initialisons le nœud LND en créant le portefeuille, en notant la phrase de récupération et en activant le déverrouillage automatique. À la fin, le nœud sera prêt à acquérir de la liquidité et à commencer à recevoir des paiements.</p>
+
+                <h3>2.1 Création du portefeuille</h3>
+                <p>Nous exécutons ce qui suit :</p>
+<pre><code>cat app-data/lnd/walletunlock</code></pre>
+                <p>Cela renvoie le mot de passe créé à l'étape précédente.</p>
+<pre><code>+6Mn31qVwLC-</code></pre>
+                <p>Nous le copions et exécutons :</p>
+<pre><code>docker exec -it node_lnd lncli create</code></pre>
+                <p>Cela nous amène à l'assistant de création du portefeuille.</p>
+
+                <p><em>Image 1 : Clé de chiffrement du portefeuille.</em></p>
+                <img src="img/lnd-wallet-input-passwd.png" alt="Clé de chiffrement du portefeuille">
+
+                <ol>
+                    <li>Nous saisissons la clé du fichier <code>walletunlock</code> deux fois.</li>
+                </ol>
+
+                <p><em>Image 2 : Créer un nouveau portefeuille.</em></p>
+                <img src="img/lnd-new-wallet-creation.png" alt="Créer un nouveau portefeuille">
+
+                <ol start="2">
+                    <li>Nous saisissons <code>n</code> pour créer un nouveau portefeuille.</li>
+                </ol>
+
+                <p><em>Image 3 : Créer une passphrase pour le portefeuille.</em></p>
+                <img src="img/lnd-wallet-passphrase.png" alt="Créer une passphrase">
+
+                <ol start="3">
+                    <li>Nous appuyons sur <code>Entrée</code> pour ignorer la passphrase.</li>
+                </ol>
+
+                <p><em>Image 4 : Phrase de récupération du portefeuille LND.</em></p>
+                <img src="img/lnd-seed-phrase.png" alt="Phrase de récupération">
+
+                <ol start="4">
+                    <li>Nous copions la phrase de récupération dans un endroit sûr et hors ligne.</li>
+                </ol>
+
+                <div class="tutorial-tip">
+                    <strong>Note</strong> : Cette phrase de récupération n'est pas conforme au standard BIP39. Si vous essayez de la restaurer dans un portefeuille comme Sparrow, Electrum ou un autre, les fonds on-chain ne seront pas visibles.
+                </div>
+
+                <p>Nous allons maintenant éditer le fichier <code>lnd.conf</code> et rechercher la ligne <code>wallet-unlock-file</code>.</p>
+<pre><code>nano app-data/lnd/lnd.conf</code></pre>
+
+                <p><em>Image 5 : Fichier lnd.conf, paramètre wallet-unlock-file.</em></p>
+                <img src="img/lnd-wallet-unlock-file.png" alt="Fichier lnd.conf">
+
+                <ol start="5">
+                    <li>Nous supprimons le symbole <code>#</code> au début de la ligne <code>wallet-unlock-file</code>.</li>
+                </ol>
+
+                <p>Nous sauvegardons et quittons le fichier <code>ctrl+s</code> et <code>ctrl+x</code>.</p>
+
+                <h3>2.2 Acquisition de Liquidité (Canaux entrants)</h3>
+                <p>Pour recevoir des paiements dans le Mint ou LNbits, le nœud a besoin de liquidité entrante (Inbound Liquidity). Étant un nouveau nœud, il n'a pas de canaux ouverts. Nous devons donc « louer » ou acheter de la liquidité initiale via des marchés spécialisés.</p>
+
+                <p>Si nous disposons déjà de Bitcoin, nous pouvons ouvrir des canaux directement depuis le nœud, ce qui nous donne la capacité d'envoyer des paiements. Cependant, pour recevoir des paiements, nous avons besoin de liquidité entrante spécifiquement. L'obtenir via les services listés ci-dessous est généralement plus pratique et économique, surtout au début.</p>
+
+                <h4>2.2.1 Services de liquidité recommandés</h4>
+                <ul>
+                    <li><strong><a href="https://lnbig.com" target="_blank">LNBig</a></strong> : Permet de demander l'ouverture de canaux directs vers le nœud. Idéal pour une liquidité rapide et de haute capacité.</li>
+                    <li><strong><a href="https://magma.amboss.tech/buy" target="_blank">Amboss Magma</a></strong> : Marché où l'on peut acheter des canaux de liquidité entrante. Permet de filtrer par réputation, durée et coût.</li>
+                    <li><strong><a href="https://zeuslsp.com" target="_blank">Zeus LSP</a></strong> : Fournisseur de liquidité intégré au portefeuille Zeus, permettant d'ouvrir des canaux facilement.</li>
+                    <li><strong><a href="https://lnserver.com" target="_blank">LN Server</a></strong> : Service d'ouverture de canaux Lightning avec différentes options de capacité.</li>
+                </ul>
+
+                <p>Pour utiliser ces services, vous aurez besoin de l'URI du nœud, qui a le format suivant :</p>
+                <p><code>pubkey@ip:9735</code> ou <code>pubkey@adresse.onion:9735</code></p>
+
+                <h4>2.2.2 Obtention de l'adresse URI du nœud LND</h4>
+                <p>Nous exécutons :</p>
+<pre><code>docker exec -it node_lnd lncli getinfo</code></pre>
+
+                <p><em>Image 6 : Résultat de la commande <code>lncli getinfo</code>.</em></p>
+                <img src="img/lnd-lncli-getinfo-command.png" alt="Commande lncli getinfo">
+
+                <ol start="6">
+                    <li>Clé publique du nœud LND.</li>
+                    <li>Adresse URI du nœud sur le réseau Clearnet et Tor ; l'une ou l'autre est valide pour les fournisseurs de liquidité.</li>
+                </ol>
+
+                <div class="tutorial-nav">
+                    <a href="first-steps_fr.html" class="nav-prev">
+                        <span class="nav-label">Précédent</span>
+                        <span class="nav-title">← Premiers Pas</span>
+                    </a>
+                    <a href="nginx-proxy-manager_fr.html" class="nav-next">
+                        <span class="nav-label">Suivant</span>
+                        <span class="nav-title">Nginx Proxy Manager →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Projet</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline">Feuille de Route</a></li>
+                        <li><a href="../tutorials_fr.html">Tutoriels</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Communauté</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Postuler</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Parrain</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Code ouvert sous licence MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
