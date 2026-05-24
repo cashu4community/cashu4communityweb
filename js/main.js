@@ -626,34 +626,24 @@ function changeLanguage(lang) {
     const currentPage = window.location.pathname;
     const fileName = currentPage.substring(currentPage.lastIndexOf('/') + 1);
 
-    // Redirigir páginas individuales de tutorial
-    const isIndividualTutorial = currentPage.includes('/tutorials/') &&
-        (fileName.includes('_es.html') || fileName.includes('_en.html') || fileName.includes('_fr.html'));
-    if (isIndividualTutorial) {
-        let newPage = null;
-        if (fileName.includes('_es.html') && lang !== 'es') {
-            newPage = currentPage.replace('_es.html', `_${lang}.html`);
-        } else if (fileName.includes('_en.html') && lang !== 'en') {
-            newPage = currentPage.replace('_en.html', `_${lang}.html`);
-        } else if (fileName.includes('_fr.html') && lang !== 'fr') {
-            newPage = currentPage.replace('_fr.html', `_${lang}.html`);
-        }
-        if (newPage) {
-            window.location.href = newPage;
+    // Redirigir páginas individuales de tutorial (URL relativa, funciona en file:// y http://)
+    const tutorialSuffixes = ['_es.html', '_en.html', '_fr.html'];
+    const matchedSuffix = tutorialSuffixes.find(s => fileName.endsWith(s));
+    if (matchedSuffix) {
+        const currentLang = matchedSuffix.replace('_', '').replace('.html', '');
+        if (currentLang !== lang) {
+            window.location.href = fileName.replace(matchedSuffix, `_${lang}.html`);
             return;
         }
     }
 
     // Redirigir páginas índice de tutoriales
-    if (fileName === 'tutorials_es.html' && lang !== 'es') {
-        window.location.href = `tutorials_${lang}.html`;
-        return;
-    } else if (fileName === 'tutorials_en.html' && lang !== 'en') {
-        window.location.href = `tutorials_${lang}.html`;
-        return;
-    } else if (fileName === 'tutorials_fr.html' && lang !== 'fr') {
-        window.location.href = `tutorials_${lang}.html`;
-        return;
+    if (fileName.startsWith('tutorials_') && fileName.endsWith('.html')) {
+        const currentLang = fileName.replace('tutorials_', '').replace('.html', '');
+        if (currentLang !== lang) {
+            window.location.href = `tutorials_${lang}.html`;
+            return;
+        }
     }
 
     // Actualizar el título del hero con formato HTML (solo para página principal)
