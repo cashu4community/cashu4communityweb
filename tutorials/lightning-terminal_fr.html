@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightning Terminal (LIT) | Cashu4Community</title>
+    <meta name="description" content="Tutoriel : Gestion du nœud avec Lightning Terminal">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link">Accueil</a></li>
+                    <li><a href="../index.html#problem" class="nav-link">Problèmes</a></li>
+                    <li><a href="../index.html#solution" class="nav-link">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link">Communautés</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link">Feuille de Route</a></li>
+                    <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+                    <li><a href="../tutorials_fr.html" class="nav-link">Tutoriels</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇫🇷</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                        <div class="language-option" data-lang="fr">
+                            <span class="flag">🇫🇷</span>
+                            <span class="lang-text">Français</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Gérez votre nœud avec Lightning Terminal (LIT)</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content" data-copy-enabled>
+            <div class="container">
+
+                <h2>4. Lightning Terminal (LIT)</h2>
+                <p>Avec le nœud LND initialisé et les services accessibles via NPM, ce chapitre explore Lightning Terminal, l'interface de gestion du nœud. Nous verrons ses principales fonctionnalités et comment se connecter à distance au nœud via Lightning Node Connect.</p>
+
+                <p>Lightning Terminal est une interface graphique et un outil de gestion conçus pour le réseau Lightning Network de Bitcoin. Développé par Lightning Labs, il permet aux opérateurs de nœuds de gérer les canaux de paiement plus efficacement grâce à des fonctionnalités avancées comme Pool (marché de liquidité), Loop (échange entre on-chain et off-chain) et Faraday (analyse des risques et des performances). Avec cet outil, il est possible d'acheter et de vendre de la liquidité entrante, d'optimiser la gestion des canaux et de recevoir des recommandations pour maximiser la rentabilité du nœud. C'est la solution idéale pour ceux qui souhaitent participer activement au réseau Lightning sans avoir à utiliser des commandes complexes en ligne de commande.</p>
+
+                <h3>4.1 Fonctionnalités clés de Lightning Terminal</h3>
+                <p>Nous commençons en accédant à l'interface de Lightning Terminal (désormais appelée LIT) via l'adresse <code>https://lit.cashu4community.xyz</code>.</p>
+
+                <div class="tutorial-tip">
+                    <strong>Note :</strong> L'adresse d'accès au service LIT a été configurée dans le chapitre Nginx Proxy Manager.
+                </div>
+
+                <p><em>Image 1 : Page de connexion de LIT.</em></p>
+                <img src="img/lit-login-page.png" alt="Login LIT">
+
+                <ol>
+                    <li>Nous saisissons le mot de passe généré dans le chapitre <code>Premiers Pas</code>, qui se trouve dans le fichier <code>app-data/lit/lit.conf</code> au paramètre <code>uipassword</code>.</li>
+                    <li>Nous cliquons sur le bouton <code>Submit</code> pour accéder.</li>
+                </ol>
+
+                <h3>Accueil</h3>
+                <p><em>Image 2 : Page d'accueil.</em></p>
+                <img src="img/lit-home-page.png" alt="Page d'accueil">
+
+                <ol start="3">
+                    <li>Solde du nœud Bitcoin On-chain / Lightning.</li>
+                    <li>Accès rapide au service Lightning Terminal Service.</li>
+                    <li>Accès à la chaîne YouTube de Lightning Labs.</li>
+                </ol>
+
+                <h3>Paramètres</h3>
+                <p><em>Image 3 : Page de paramètres.</em></p>
+                <img src="img/lit-setting-page.png" alt="Page de paramètres">
+
+                <ol start="6">
+                    <li>Sélection de l'unité Bitcoin (BTC, Bits, Sats).</li>
+                    <li>Mécanismes d'optimisation des canaux (Réception, Envoi ou Routage).</li>
+                    <li>Explorateurs de blocs.</li>
+                    <li>Clé publique et adresse URI du nœud, utiles pour ouvrir des canaux ou acheter de la liquidité.</li>
+                    <li>Alias du nœud.</li>
+                </ol>
+
+                <h3>Lightning Loop</h3>
+                <p><strong>Loop</strong> est un service non-custodial proposé par Lightning Labs qui agit comme un pont bidirectionnel (on/off-ramp) entre le réseau Lightning et la blockchain Bitcoin. Sa fonction principale est de permettre aux utilisateurs de déplacer des fonds d'un côté à l'autre sans avoir besoin d'ouvrir ou de fermer des canaux, résolvant ainsi les problèmes de liquidité sur le réseau.</p>
+
+                <p><em>Image 4 : Lightning Loop.</em></p>
+                <img src="img/lit-loop-page.png" alt="Lightning Loop">
+
+                <ol start="11">
+                    <li>Capacité d'entrée / sortie.</li>
+                    <li>Accès au service Loop.</li>
+                    <li>Canaux actifs sur le nœud.</li>
+                </ol>
+
+                <p>Les images suivantes montrent le flux pour effectuer une opération de Loop In, c'est-à-dire ajouter de la liquidité depuis le solde on-chain du portefeuille du nœud.</p>
+
+                <p><em>Image 5 : Lightning Loop In.</em></p>
+                <img src="img/lit-loop-in-action.png" alt="Loop In">
+
+                <p><em>Image 6 : Sélection du montant on-chain à ajouter dans le canal sélectionné.</em></p>
+                <img src="img/lit-loop-in-fixed-fund.png" alt="Loop In Fixed Fund">
+
+                <p><em>Image 7 : Confirmer l'opération de Loop In après le calcul des frais.</em></p>
+                <img src="img/lit-loop-in-confirm.png" alt="Loop In Confirm">
+
+                <ul>
+                    <li><strong>Loop In</strong> (pour recevoir plus de liquidité entrante dans un canal) : nécessite un solde dans le portefeuille on-chain.</li>
+                    <li><strong>Loop Out</strong> (pour envoyer des fonds de Lightning vers le réseau on-chain) : nécessite un solde disponible dans un canal de paiement.</li>
+                </ul>
+
+                <p>Nous pouvons voir Loop en action dans le <a href="https://www.youtube.com/watch?v=kYlfHqQnpVM" target="_blank">lien suivant</a>.</p>
+
+                <h3>Lightning Node Connect</h3>
+                <p>La fonction Lightning Node Connect (LNC) dans Lightning Terminal est un mécanisme qui permet de se connecter au nœud Lightning à distance, de manière sécurisée et privée, via un navigateur web ou une application mobile, sans avoir besoin de configurer la redirection de ports ou d'utiliser Tor.</p>
+
+                <p>Nous pouvons le considérer comme un « accès à distance » conçu spécifiquement pour les nœuds Lightning, qui résout les problèmes de connectivité tels que le NAT (traduction d'adresses réseau) ou les pare-feux qui bloquent généralement les connexions entrantes.</p>
+
+                <p><em>Image 8 : Page de Lightning Node Connect.</em></p>
+                <img src="img/lit-node-connection.png" alt="Lightning Node Connect">
+
+                <ol start="14">
+                    <li>Nous cliquons pour créer une session vers le service Lightning Terminal Service.</li>
+                </ol>
+
+                <p><em>Image 9 : Création de la nouvelle session Lightning Terminal Service.</em></p>
+                <img src="img/lit-lts-new-session-parameters.png" alt="Nouvelle Session LTS">
+
+                <ol start="15">
+                    <li>Nous définissons le nom de la session.</li>
+                    <li>Nous sélectionnons les privilèges <code>Admin</code> parmi les privilèges disponibles (Admin, Lecture seule et Personnalisé).</li>
+                    <li>Nous cliquons sur <code>Submit</code> pour créer la session.</li>
+                </ol>
+
+                <p><em>Image 10 : Options de la nouvelle session Lightning Terminal Service.</em></p>
+                <img src="img/lit-lnc-connection-record.png" alt="Options Session LTS">
+
+                <ol start="18">
+                    <li>En cliquant, nous sommes redirigés vers le site web de Lightning Terminal Services pour saisir la phrase de 12 mots qui établit la connexion avec le nœud.</li>
+                    <li>En cliquant, nous copions les 12 mots.</li>
+                    <li>Affiche un QR code utile si nous souhaitons nous connecter au nœud depuis <a href="https://play.google.com/store/apps/details?id=app.zeusln.zeus&hl=fr" target="_blank">Zeus</a> ou <a href="https://albyhub.com/" target="_blank">Alby Hub</a>.</li>
+                </ol>
+
+                <p>Nous pouvons regarder la vidéo suivante sur LIT <a href="https://www.youtube.com/watch?v=G1rv9dZQO5o" target="_blank">ici</a>.</p>
+
+                <h3>4.2 Accès à Lightning Terminal Service</h3>
+                <p>À ce stade, nous pouvons accéder à ce service depuis l'étape précédente au point 18, ou en accédant directement <a href="https://terminal.lightning.engineering/dashboard" target="_blank">ici</a>.</p>
+
+                <p><em>Image 11 : Page principale de Lightning Terminal Services.</em></p>
+                <img src="img/lit-services-home.png" alt="Lightning Terminal Services Home">
+
+                <ol>
+                    <li>Nous cliquons sur Connecter à mon nœud.</li>
+                </ol>
+
+                <p><em>Image 12 : Connexion au nœud via les 12 mots générés par LIT.</em></p>
+                <img src="img/lit-services-pairing-phrase.png" alt="Pairing Phrase">
+
+                <ol start="2">
+                    <li>Nous collons la phrase de 12 mots obtenue dans LIT lors de la création de la nouvelle session.</li>
+                    <li>Nous cliquons sur Connecter.</li>
+                </ol>
+
+                <p><em>Image 13 : Configuration du mot de passe de la connexion.</em></p>
+                <img src="img/lit-services-set-passwd.png" alt="Set Password">
+
+                <ol start="4">
+                    <li>Nous saisissons un mot de passe pour la session (ce n'est pas le mot de passe utilisé pour LIT, ce sont des services différents).</li>
+                    <li>Nous cliquons sur Suivant.</li>
+                </ol>
+
+                <p><em>Image 14 : Confirmation du mot de passe de la session.</em></p>
+                <img src="img/lit-services-confirm-passwd.png" alt="Confirm Password">
+
+                <ol start="6">
+                    <li>Nous confirmons le mot de passe de la session.</li>
+                    <li>Nous cliquons sur le bouton Terminé.</li>
+                </ol>
+
+                <p><em>Image 15 : Tableau de bord principal de Lightning Terminal Services.</em></p>
+                <img src="img/lit-services-dashboard.png" alt="LTS Dashboard">
+
+                <ol start="8">
+                    <li>Menu de navigation : permet de naviguer entre l'explorateur du réseau Lightning, Autopilot (fonction qui automatise des tâches à la demande sur le nœud), Loop (les mêmes fonctions que dans LIT mais avec une interface améliorée) et Asset (pour ceux qui souhaitent émettre des tokens sur le réseau Lightning).</li>
+                    <li>Boutons d'action : permet d'envoyer et de recevoir aussi bien sur le réseau Lightning que sur la chaîne, ainsi que d'ouvrir des canaux.</li>
+                    <li>Zone de statistiques du nœud : affiche les statistiques du nœud sur une période donnée, comme les gains et pertes de routage, entre autres.</li>
+                    <li>Informations sur le routage et les canaux : nous pouvons interagir avec les routages et les canaux ; pour ces derniers, nous pouvons obtenir des informations, modifier les frais, fermer et forcer la fermeture s'ils sont hors ligne depuis trop longtemps.</li>
+                    <li>Menu d'informations du nœud : affiche le solde Lightning et on-chain, la version du nœud, l'historique des opérations, entre autres options.</li>
+                </ol>
+
+                <p>Pour approfondir ces outils, nous pouvons consulter le <a href="https://www.youtube.com/@LightningLabs/videos" target="_blank">lien suivant</a>.</p>
+
+                <div class="tutorial-nav">
+                    <a href="nginx-proxy-manager_fr.html" class="nav-prev">
+                        <span class="nav-label">Précédent</span>
+                        <span class="nav-title">← Nginx Proxy Manager</span>
+                    </a>
+                    <a href="lnbits-wallet_fr.html" class="nav-next">
+                        <span class="nav-label">Suivant</span>
+                        <span class="nav-title">LNbits →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Projet</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline">Feuille de Route</a></li>
+                        <li><a href="../tutorials_fr.html">Tutoriels</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Communauté</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Postuler</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Parrain</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Code ouvert sous licence MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
