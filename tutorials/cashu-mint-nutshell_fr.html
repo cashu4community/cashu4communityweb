@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mint Cashu (Nutshell) | Cashu4Community</title>
+    <meta name="description" content="Tutoriel : Configuration du Mint Cashu avec Nutshell">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/icons/cashu4community_logo_transparente.png">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <span class="project-name">Cashu4Community</span>
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="../index.html#home" class="nav-link">Accueil</a></li>
+                    <li><a href="../index.html#problem" class="nav-link">Problèmes</a></li>
+                    <li><a href="../index.html#solution" class="nav-link">Infrastructure</a></li>
+                    <li><a href="../index.html#impact" class="nav-link">Impact</a></li>
+                    <li><a href="../index.html#communities" class="nav-link">Communautés</a></li>
+                    <li><a href="../index.html#timeline" class="nav-link">Feuille de Route</a></li>
+                    <li><a href="../index.html#faq" class="nav-link">FAQ</a></li>
+                    <li><a href="../tutorials_fr.html" class="nav-link">Tutoriels</a></li>
+                </ul>
+                <div class="language-selector">
+                    <div class="selected-language" id="selected-language">
+                        <span class="flag">🇫🇷</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="language-dropdown" id="language-dropdown">
+                        <div class="language-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span class="lang-text">Español</span>
+                        </div>
+                        <div class="language-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span class="lang-text">English</span>
+                        </div>
+                        <div class="language-option" data-lang="fr">
+                            <span class="flag">🇫🇷</span>
+                            <span class="lang-text">Français</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tutorial-hero">
+            <div class="container">
+                <h1 class="tutorial-title">Mint Cashu (Nutshell)</h1>
+            </div>
+        </section>
+
+        <section class="tutorial-content" data-copy-enabled>
+            <div class="container">
+
+                <h2>6. Mint Cashu (Nutshell)</h2>
+                <p>Avec LNbits configuré comme backend de paiements, ce chapitre configure le Mint Cashu. Le Mint est le composant principal de l'infrastructure Cashu : il garde en dépôt les bitcoins des utilisateurs et, en échange, émet des tokens (« coupons numériques ») représentant cette valeur. À la fin, le Mint sera prêt à recevoir des dépôts et à émettre des tokens aussi bien en sats qu'en USD.</p>
+
+                <h3>6.1 Configuration du backend Lightning (LNbits)</h3>
+                <p>Nous allons configurer un nouveau portefeuille dans LNbits qui servira de dépôt principal pour les fonds des utilisateurs du Mint. Ce portefeuille sera chargé de recevoir les sats lorsqu'un utilisateur souhaite déposer des fonds dans le Mint, et d'envoyer les sats lorsqu'un utilisateur souhaite les retirer.</p>
+
+                <p>Nous allons sur le compte créé dans le chapitre LNbits, nous nous connectons et créons le portefeuille. L'image suivante montre le processus.</p>
+
+                <p><em>Image 1 : Création du portefeuille pour les dépôts du Mint.</em></p>
+                <img src="img/lnbits-cashu-mint-wallet.png" alt="LNbits Cashu Mint Wallet">
+
+                <ol>
+                    <li>Nous cliquons sur <code>Add a new wallet</code>.</li>
+                    <li>Une fenêtre apparaît où nous saisissons le nom du portefeuille ; nous mettons Cashu Mint. Ce peut être n'importe quel nom, l'important est de savoir à quoi ce portefeuille sera destiné.</li>
+                    <li>Nous ajoutons le portefeuille.</li>
+                </ol>
+
+                <p>Après sa création, nous devons obtenir la clé API qui nous permettra de recevoir des paiements et de payer des factures.</p>
+
+                <p>De la même manière qu'au chapitre précédent (LNbits) où nous avons cherché l'ID du portefeuille pour les commissions de transaction, nous cherchons ici la clé <code>Admin key</code>.</p>
+
+                <p><em>Image 2 : Clé <code>Admin key</code> pour effectuer et recevoir des paiements dans le Mint Cashu.</em></p>
+                <img src="img/lnbits-cashu-wallet-admin-key.png" alt="LNbits Cashu Wallet Admin Key">
+
+                <ol start="4">
+                    <li>Nous sélectionnons la clé <code>Admin key</code>.</li>
+                    <li>Nous copions la clé.</li>
+                </ol>
+
+                <p>Depuis le terminal, nous nous déplaçons vers le répertoire <code>app-data/cashu/</code> :</p>
+<pre><code>cd app-data/cashu</code></pre>
+
+                <p>Nous éditons le fichier <code>.env</code> :</p>
+<pre><code>nano .env</code></pre>
+
+                <p>Ensuite, nous cherchons les paramètres suivants :</p>
+<pre><code># Use with LNbitsWallet
+MINT_LNBITS_ENDPOINT=https://yourlnbits.com
+MINT_LNBITS_KEY=gds87dskdsjhds71dsdsds2e</code></pre>
+
+                <p>Là où il est écrit <code>https://yourlnbits.com</code>, nous mettons <code>https://lnbits.cashu4community.xyz</code>, et là où il est écrit <code>MINT_LNBITS_KEY</code>, nous remplaçons <code>gds87dskdsjhds71dsdsds2e</code> par la clé copiée précédemment <code>55739ee04e53437aba54fa8c9e4175b8</code>. Le résultat est le suivant :</p>
+<pre><code># Use with LNbitsWallet
+MINT_LNBITS_ENDPOINT=https://lnbits.cashu4community.xyz
+MINT_LNBITS_KEY=55739ee04e53437aba54fa8c9e4175b8</code></pre>
+
+                <p>Nous sauvegardons et quittons le fichier avec <code>ctrl+s</code> et <code>ctrl+x</code>.</p>
+
+                <p>Nous redémarrons le conteneur <code>docker-compose restart cashu</code> et les modifications sont appliquées.</p>
+
+                <h3>6.2 Génération des certificats RPC</h3>
+                <p>Les certificats SSL sont nécessaires pour se connecter au Mint via RPC et exécuter des commandes à distance, utile si nous voulons utiliser Orchard pour administrer le Mint. Pour les générer, nous nous déplaçons dans le répertoire <code>certs</code> de la manière suivante :</p>
+<pre><code>cd app-data/cashu/certs</code></pre>
+
+                <p>Nous exécutons le script <code>generate_certificates.sh</code> :</p>
+<pre><code>./generate_certificates.sh</code></pre>
+
+                <p>Ce script générera tous les certificats nécessaires ; nous pouvons le vérifier en exécutant la commande suivante :</p>
+<pre><code>ls .
+ca_cert.pem  ca_private.pem  client_cert.pem  client_private.pem  generate_certificates.sh  server_cert.pem  server_private.pem</code></pre>
+
+                <p><em>Image 3 : Liste des fichiers dans le répertoire certs.</em></p>
+                <img src="img/cashu-certs-files.png" alt="Cashu Certs Files">
+
+                <p>Après ces modifications, nous redémarrons le conteneur Docker :</p>
+<pre><code>docker-compose restart cashu</code></pre>
+
+                <h3>6.3 Création d'un nouveau keyset depuis la CLI</h3>
+                <p>Nous utiliserons mint-cli pour faire tourner les keysets et définir la commission. Nous procéderons ainsi pour chacune des unités présentes dans le Mint, que ce soit en sats ou en USD.</p>
+
+                <p>Pour connaître les unités actives dans le Mint, nous interrogeons le point de terminaison <code>/v1/keysets</code>. Nous le faisons de la manière suivante ; cela peut aussi être fait depuis un navigateur en saisissant l'URL :</p>
+<pre><code>curl https://mint.cashu4community.xyz/v1/keysets</code></pre>
+
+                <p>La commande curl renvoie ceci :</p>
+<pre><code>{
+  "keysets": [
+    {
+      "id": "0145ee812683eaf8ce3859f2601c160d0c8f0d4139447848d0d6745350f3c4fb44",
+      "unit": "sat",
+      "active": true,
+      "input_fee_ppk": 100,
+      "final_expiry": null
+    }
+  ]
+}</code></pre>
+
+                <p>Ex. : si nous voulions changer le fee de 100 ppk (per-proof-of-knowledge) par sat (Bitcoin) à 50 ppk, nous exécuterions ce qui suit à l'intérieur du conteneur cashu :</p>
+<pre><code>docker exec -it app_cashu bash</code></pre>
+                <p>Une fois dans le conteneur, nous exécutons :</p>
+<pre><code>poetry run mint-cli -h cashu next-keyset sat 50</code></pre>
+
+                <div class="tutorial-tip">
+                    <strong>Note :</strong> L'argument -h qui accompagne la commande mint-cli est nécessaire car dans un environnement Docker il n'est pas possible d'accéder directement à 127.0.0.1 ; c'est pourquoi nous utilisons cashu, qui est le nom du service déclaré dans le docker compose.
+                </div>
+
+                <p>Ce qui renverrait quelque chose comme ceci :</p>
+<pre><code>final_expiry = None
+New keyset successfully created:
+keyset.id = '01e5bac64190f22f2959558b15cbab9f06798958f253a59fbe4687a9d875e3c720'
+keyset.unit = 'sat'
+keyset.max_order = 64
+keyset.input_fee_ppk = 50
+0</code></pre>
+
+                <p>Si nous exécutons à nouveau la commande :</p>
+<pre><code>curl https://mint.cashu4community.xyz/v1/keysets</code></pre>
+
+                <p>Elle renvoie la paire de keysets, l'ancien et le nouveau.</p>
+<pre><code>{
+  "keysets": [
+    {
+      "id": "0145ee812683eaf8ce3859f2601c160d0c8f0d4139447848d0d6745350f3c4fb44",
+      "unit": "sat",
+      "active": false,
+      "input_fee_ppk": 100,
+      "final_expiry": null
+    },
+    {
+      "id": "01e5bac64190f22f2959558b15cbab9f06798958f253a59fbe4687a9d875e3c720",
+      "unit": "sat",
+      "active": true,
+      "input_fee_ppk": 50,
+      "final_expiry": null
+    }
+  ]
+}</code></pre>
+
+                <h3>6.4 Support USD stable avec Blink dans le Mint</h3>
+                <p>La version 0.20.0 de Nutshell a ajouté le support USD via Blink comme source de financement. Les étapes suivantes expliquent ce que nous devons faire aussi bien dans Blink que dans le Mint Cashu.</p>
+
+                <p>Comme prérequis, nous devons avoir un compte Blink ; nous pouvons en créer un directement sur <a href="https://dashboard.blink.sv">https://dashboard.blink.sv</a> sans avoir besoin d'installer l'application. Elle est également disponible pour <a href="https://play.google.com/store/apps/details?id=com.galoyapp">Android</a> et <a href="https://apps.apple.com/ng/app/blink-bitcoin-wallet/id1531383905">iOS</a>. Une fois le compte créé, nous accédons au panneau d'administration à la même adresse.</p>
+
+                <p>Après la connexion, le panneau d'administration du compte s'affiche, où nous voyons les deux portefeuilles disponibles : un en sats et l'autre en USD, ainsi que plusieurs autres options. Celle qui nous intéresse est API Keys.</p>
+
+                <p><em>Image 4 : Panneau d'administration Blink - API Keys.</em></p>
+                <img src="img/cashu-blink-apikey-selection.png" alt="Cashu Blink API Key Selection">
+
+                <ol start="9">
+                    <li>Après avoir sélectionné <code>API Keys</code> dans le menu d'options, l'écran suivant apparaît, où nous pourrons créer une nouvelle clé API.</li>
+                </ol>
+
+                <p><em>Image 5 : Création d'une nouvelle clé API.</em></p>
+                <img src="img/cashu-apikey-parameters.png" alt="Cashu New API Key">
+
+                <ol start="10">
+                    <li>Nous cliquons sur le bouton avec le symbole +.</li>
+                </ol>
+
+                <p>Une fenêtre apparaît où nous saisirons un nom pour identifier l'utilisation de la clé, la durée de vie de la clé API et les opérations que nous autoriserons avec elle.</p>
+
+                <p><em>Image 6 : Paramètres de la clé API.</em></p>
+                <img src="img/cashu-apikey-parameters.png" alt="Cashu API Key Parameters">
+
+                <ol start="11">
+                    <li>Nous saisissons le nom de la clé API, quelque chose qui suggère l'usage qui en sera fait.</li>
+                    <li>Pour la durée d'expiration de la clé, nous sélectionnons <code>Never</code>.</li>
+                    <li>Pour les opérations autorisées avec l'API, nous les sélectionnons toutes.</li>
+                    <li>Nous cliquons sur le bouton <code>Create</code> pour créer la clé.</li>
+                </ol>
+
+                <p>Après la création de la clé, une fenêtre apparaît une seule fois pour copier les clés API ; il est recommandé de les sauvegarder dans un endroit sûr. Dans notre cas, seule celle liée à l'USD nous intéresse, mais si nous souhaitons utiliser Blink comme compte de financement du Mint aussi bien en USD qu'en BTC, les deux clés seront nécessaires.</p>
+
+                <p><em>Image 7 : Clés API pour se connecter aux comptes BTC et USD de Blink.</em></p>
+                <img src="img/cashu-copy-apikey.png" alt="Cashu Copy API Key for USD">
+
+                <ol start="15">
+                    <li>Nous copions la clé dans un endroit sûr (c'est celle que nous utiliserons pour connecter le Mint Cashu à Blink).</li>
+                    <li>Nous cliquons sur le bouton <code>Close</code>.</li>
+                </ol>
+
+                <p>Nous avons ainsi créé la clé qui sera utilisée dans le Mint. Nous revenons au terminal de notre VPS ; nous nous trouvons dans le répertoire <code>cashu4cs-deploy</code> et éditons le fichier <code>.env</code> :</p>
+
+                <pre><code>nano app-data/cashu/.env</code></pre>
+
+                <p>Dans le fichier, nous cherchons la ligne contenant <code>MINT_DERIVATION_PATH=</code> :</p>
+
+                <pre><code>MINT_DERIVATION_PATH="m/0'/0'/0"</code></pre>
+
+                <p>Nous nous plaçons au début de la ligne et ajoutons le symbole <strong>#</strong>, ce qui donne :</p>
+
+                <pre><code># MINT_DERIVATION_PATH="m/0'/0'/0"</code></pre>
+
+                <p>Ensuite, nous cherchons la ligne <code>MINT_DERIVATION_PATH_LIST=</code> :</p>
+
+                <pre><code># MINT_DERIVATION_PATH_LIST=["m/0'/0'/0'", "m/0'/0'/1'", "m/0'/1'/0'", "m/0'/2'/0'"]</code></pre>
+
+                <p>Nous supprimons le symbole <strong>#</strong> et les valeurs entre guillemets doubles m/0'/0'/1' et m/0'/1'/0', ce qui donne :</p>
+
+                <pre><code>MINT_DERIVATION_PATH_LIST=["m/0'/0'/0'", "m/0'/2'/0'"]</code></pre>
+
+                <div class="tutorial-tip">
+                    <strong>Note :</strong> Nous devons faire attention à ne pas supprimer une virgule ni effacer un guillemet, car cela provoquerait une erreur au redémarrage du service Mint.
+                </div>
+
+                <p>Maintenant, nous cherchons la ligne <code>MINT_BACKEND_BOLT11_USD=FakeWallet</code>, nous supprimons le symbole <strong>#</strong> et remplaçons <code>FakeWallet</code> par <code>BlinkWallet</code>, ce qui donne :</p>
+
+                <pre><code>MINT_BACKEND_BOLT11_USD=BlinkWallet</code></pre>
+
+                <p>Enfin, nous cherchons la connexion à Blink :</p>
+
+                <pre><code># MINT_BLINK_KEY=blink_abcdefgh</code></pre>
+
+                <p>Nous supprimons le symbole <strong>#</strong> et collons la clé créée dans le panneau Blink précédemment. Le résultat ressemble à ceci :</p>
+
+                <pre><code>MINT_BLINK_KEY=blink_7Sz978fgdFGjhhT6u8g1tDvruhdeiuyidfdZ1fnDFcPSXKag5uHuip2S1yPP2wHG</code></pre>
+
+                <p>Nous sauvegardons et quittons le fichier avec <code>ctrl+s</code> et <code>ctrl+x</code>.</p>
+
+                <p>Nous redémarrons le conteneur Docker du Mint Cashu :</p>
+                <pre><code>docker-compose restart cashu</code></pre>
+
+                <p>À partir de ce moment, le Mint est prêt à fonctionner. Nous pourrons envoyer et recevoir des paiements aussi bien en sats qu'en USD depuis des portefeuilles compatibles comme <a href="https://cashu.me">cashu.me</a>, <a href="https://elcaju.me">El Caju</a> ou <a href="https://minibits.cash">Minibits</a>.</p>
+
+                <div class="tutorial-nav">
+                    <a href="lnbits-wallet_fr.html" class="nav-prev">
+                        <span class="nav-label">Précédent</span>
+                        <span class="nav-title">← LNbits</span>
+                    </a>
+                    <a href="orchard_fr.html" class="nav-next">
+                        <span class="nav-label">Suivant</span>
+                        <span class="nav-title">Orchard →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Projet</h4>
+                    <ul>
+                        <li><a href="../index.html#solution">Infrastructure</a></li>
+                        <li><a href="../index.html#timeline">Feuille de Route</a></li>
+                        <li><a href="../tutorials_fr.html">Tutoriels</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Communauté</h4>
+                    <ul>
+                        <li><a href="https://forms.gle/U2W3pnDp8gFv8xiA9">Postuler</a></li>
+                        <li><a href="https://t.me/Forte11" target="_blank">Telegram</a></li>
+                        <li><a href="https://github.com/cashu4community" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="https://x.com/cashu4community" target="_blank">X</a></li>
+                        <li><a href="https://primal.net/p/npub1ufv7srkzhyzmxkru6dyvfj42gpug2l3khx8txp34rudez7n5v99s9yxx3y" target="_blank">Nostr</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Parrain</h4>
+                    <div class="sponsor">
+                        <a href="https://hrf.org" target="_blank" class="sponsor-link">
+                            <img src="../images/HRF-Logo-1.png" alt="Human Rights Foundation" class="sponsor-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Cashu for Community Sovereignty. Code ouvert sous licence MIT + CC BY-SA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
