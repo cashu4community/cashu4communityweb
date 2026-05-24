@@ -597,10 +597,10 @@ document.addEventListener('DOMContentLoaded', function() {
 function changeLanguage(lang) {
     // Guardar idioma seleccionado en localStorage
     localStorage.setItem('selectedLanguage', lang);
-    
+
     // Obtener todos los elementos con atributos de idioma
-    const elementsWithLang = document.querySelectorAll('[data-lang-es], [data-lang-en]');
-    
+    const elementsWithLang = document.querySelectorAll('[data-lang-es], [data-lang-en], [data-lang-fr]');
+
     elementsWithLang.forEach(element => {
         const translation = element.getAttribute(`data-lang-${lang}`);
         if (translation) {
@@ -612,43 +612,50 @@ function changeLanguage(lang) {
             }
         }
     });
-    
+
     // Actualizar URLs para páginas específicas de idioma
-    const elementsWithUrlLang = document.querySelectorAll('[data-url-es], [data-url-en]');
+    const elementsWithUrlLang = document.querySelectorAll('[data-url-es], [data-url-en], [data-url-fr]');
     elementsWithUrlLang.forEach(element => {
         const url = element.getAttribute(`data-url-${lang}`);
         if (url) {
             element.href = url;
         }
     });
-    
+
     // Detectar página actual y redirigir si es necesario
     const currentPage = window.location.pathname;
     const fileName = currentPage.substring(currentPage.lastIndexOf('/') + 1);
-    
+
     // Redirigir páginas individuales de tutorial
-    const isIndividualTutorial = currentPage.includes('/tutorials/') && (fileName.includes('_es.html') || fileName.includes('_en.html'));
+    const isIndividualTutorial = currentPage.includes('/tutorials/') &&
+        (fileName.includes('_es.html') || fileName.includes('_en.html') || fileName.includes('_fr.html'));
     if (isIndividualTutorial) {
-        if (fileName.includes('_es.html') && lang === 'en') {
-            const newPage = currentPage.replace('_es.html', '_en.html');
-            window.location.href = newPage;
-            return;
-        } else if (fileName.includes('_en.html') && lang === 'es') {
-            const newPage = currentPage.replace('_en.html', '_es.html');
+        let newPage = null;
+        if (fileName.includes('_es.html') && lang !== 'es') {
+            newPage = currentPage.replace('_es.html', `_${lang}.html`);
+        } else if (fileName.includes('_en.html') && lang !== 'en') {
+            newPage = currentPage.replace('_en.html', `_${lang}.html`);
+        } else if (fileName.includes('_fr.html') && lang !== 'fr') {
+            newPage = currentPage.replace('_fr.html', `_${lang}.html`);
+        }
+        if (newPage) {
             window.location.href = newPage;
             return;
         }
     }
-    
+
     // Redirigir páginas índice de tutoriales
-    if (fileName === 'tutorials_es.html' && lang === 'en') {
-        window.location.href = 'tutorials_en.html';
+    if (fileName === 'tutorials_es.html' && lang !== 'es') {
+        window.location.href = `tutorials_${lang}.html`;
         return;
-    } else if (fileName === 'tutorials_en.html' && lang === 'es') {
-        window.location.href = 'tutorials_es.html';
+    } else if (fileName === 'tutorials_en.html' && lang !== 'en') {
+        window.location.href = `tutorials_${lang}.html`;
+        return;
+    } else if (fileName === 'tutorials_fr.html' && lang !== 'fr') {
+        window.location.href = `tutorials_${lang}.html`;
         return;
     }
-    
+
     // Actualizar el título del hero con formato HTML (solo para página principal)
     const heroTitle = document.querySelector('.hero-title');
     if (heroTitle && lang === 'en') {
@@ -663,11 +670,17 @@ function changeLanguage(lang) {
             para<br>
             <span>Soberanía Comunitaria</span>
         `;
+    } else if (heroTitle && lang === 'fr') {
+        heroTitle.innerHTML = `
+            <span class="highlight">Cashu</span><br>
+            pour la<br>
+            <span>Souveraineté Communautaire</span>
+        `;
     }
-    
+
     // Aplicar saltos de línea según el dispositivo después del cambio de idioma
     applyCarouselLineBreaks();
-    
+
     console.log(`Idioma cambiado a: ${lang}`);
 }
 
@@ -676,20 +689,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const selectedLanguage = document.getElementById('selected-language');
     const currentPage = window.location.pathname;
     const fileName = currentPage.substring(currentPage.lastIndexOf('/') + 1);
-    
-    // Detectar idioma de la página actual basado en la URL y el atributo lang del html
-    const isEnglishPage = document.documentElement.lang === 'en' || 
-                          fileName.includes('_en.html') || 
-                          fileName.includes('tutorials_en.html');
-    
-    // Establecer bandera según la página actual (sin redirigir ni aplicar traducciones)
-    if (isEnglishPage) {
-        selectedLanguage.querySelector('.flag').textContent = '🇬🇧';
-        localStorage.setItem('selectedLanguage', 'en');
-    } else {
-        selectedLanguage.querySelector('.flag').textContent = '🇪🇸';
-        localStorage.setItem('selectedLanguage', 'es');
-    }
+
+    // Detectar idioma de la página actual basado en el atributo lang del html
+    const pageLang = document.documentElement.lang || 'es';
+
+    const flagMap = { es: '🇪🇸', en: '🇬🇧', fr: '🇫🇷' };
+    selectedLanguage.querySelector('.flag').textContent = flagMap[pageLang] || '🇪🇸';
+    localStorage.setItem('selectedLanguage', pageLang);
 });
 
 // Responsive utilities and device detection
@@ -720,8 +726,8 @@ function applyCarouselLineBreaks() {
                 en: "Each community will have<br>its own customized and<br>sovereign LNbits instance"
             },
             {
-                es: "Mints Cashu con implementación<br>Mintd para transacciones<br>privadas, seguras y<br>resistentes a censura",
-                en: "Cashu mints with Mintd<br>implementation for private, secure<br>and censorship-resistant transactions"
+                es: "Mints Cashu con implementación<br>Nutshell para transacciones<br>privadas, seguras y<br>resistentes a censura",
+                en: "Cashu mints with Nutshell<br>implementation for private, secure<br>and censorship-resistant transactions"
             },
             {
                 es: "Acceso móvil optimizado<br>a LNbits desde cualquier<br>dispositivo utilizando LaChispa",
@@ -751,8 +757,8 @@ function applyCarouselLineBreaks() {
                 en: "Each community will have its own customized and sovereign LNbits instance"
             },
             {
-                es: "Mints Cashu con implementación Mintd para transacciones privadas, seguras y resistentes a censura",
-                en: "Cashu mints with Mintd implementation for private, secure and censorship-resistant transactions"
+                es: "Mints Cashu con implementación Nutshell para transacciones privadas, seguras y resistentes a censura",
+                en: "Cashu mints with Nutshell implementation for private, secure and censorship-resistant transactions"
             },
             {
                 es: "Acceso móvil optimizado a LNbits desde cualquier dispositivo utilizando LaChispa",
