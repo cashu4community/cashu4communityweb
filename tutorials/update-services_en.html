@@ -58,16 +58,17 @@
     <main>
         <section class="tutorial-hero">
             <div class="container">
-                <h1 class="tutorial-title">8. Updating Infrastructure Services</h1>
+                <h1 class="tutorial-title">Updating Infrastructure Services</h1>
             </div>
         </section>
 
-        <section class="tutorial-content">
+        <section class="tutorial-content" data-copy-enabled>
             <div class="container">
 
-                <p>In this section we will cover the update of the services that make up the Cashu4Community infrastructure.</p>
+                <h2>8. Updating Infrastructure Services</h2>
+                <p>With the infrastructure in production, in this chapter we describe the update process for each service. We always recommend reviewing the release notes before updating and making a backup beforehand.</p>
 
-                <h2>8.1 Lightning Network Daemon (LND)</h2>
+                <h3>8.1 Lightning Network Daemon (LND)</h3>
                 <p>To perform any update on the LND service, you should know that if you don't have the seed phrase and the latest backup of the channel state, you run the risk that if the update fails due to some error, you will have no way to restore the node.</p>
 
                 <p><strong>Where do we find the seed phrase?</strong> The seed phrase was obtained in the <code>First Steps</code> tutorial, and the seed can only be obtained once, so there is no way to obtain it again.</p>
@@ -136,7 +137,21 @@
 
                 <p>This command will download the new version of the image, delete the container with the previous version, and create it from the newly downloaded image.</p>
 
-                <h2>8.2 Updating LNbits</h2>
+                <h3>8.2 Updating LNbits</h3>
+
+                <div class="tutorial-tip">
+                    <strong>Warning:</strong> Before updating LNbits, we must first stop the Cashu Mint and then LNbits. LND must keep running to settle any in-flight payments. If we stop LNbits with a pending operation between the Mint and LNbits (for example, a melt in progress) and the migration fails, restoring a previous backup could allow a user to double-spend tokens that had already been redeemed.<br><br>
+                    Recommended order before updating:
+                    <ol>
+                        <li><code>docker-compose stop cashu</code></li>
+                        <li><code>docker-compose stop lnbits</code></li>
+                        <li>Wait ~1 minute for in-flight payments to settle.</li>
+                        <li>Make the backup (see section 8.2.1).</li>
+                        <li>Update and recreate the container. Do not interrupt the database migration.</li>
+                        <li>If the migration fails, restore the backup and recreate with the previous version.</li>
+                    </ol>
+                </div>
+
                 <p>Before making changes to the LNbits version, it is recommended to make a database backup. This can be done from the LNbits superuser account. If you don't know which one it is, you can go back to the LNbits tutorial to find out.</p>
 
                 <p>After logging into LNbits, go to <code>Settings</code> and click the <code>DOWNLOAD DATABASE BACKUP</code> button that appears next to the <code>RESTART SERVER</code> button.</p>
@@ -145,7 +160,7 @@
 
                 <p>The downloaded zip file contains a dump of the database, plus a copy of the LNbits data directory that includes extensions and application logs.</p>
 
-                <h3>8.2.1 Backing up the database from the CLI</h3>
+                <h4>8.2.1 Backing up the database from the CLI</h4>
                 <p>We can perform a database backup easily; just execute the command:</p>
 <pre><code>docker exec -t postgres_lnbits pg_dump -U lnbits_user lnbits_db | gzip > lnbits_backup_$(date +%Y%m%d_%H%M%S).sql.gz</code></pre>
 
@@ -181,7 +196,20 @@
 
                 <p>This command will download the new version of the image, delete the container with the previous version, and create it from the newly downloaded image.</p>
 
-                <h2>8.3 Updating the Cashu Mint</h2>
+                <h3>8.3 Updating the Cashu Mint</h3>
+
+                <div class="tutorial-tip">
+                    <strong>Warning:</strong> Before updating the Cashu Mint, we must stop the <code>cashu</code> service. LND and LNbits must keep running. If there is a melt in flight (the user already burned the tokens but the Lightning payment has not yet confirmed) and the migration fails, restoring a previous backup could allow a double spend.<br><br>
+                    Recommended order before updating:
+                    <ol>
+                        <li><code>docker-compose stop cashu</code></li>
+                        <li>Wait ~1 minute for in-flight payments to settle.</li>
+                        <li>Make the backup (see below).</li>
+                        <li>Update and recreate the container. Do not interrupt the database migration.</li>
+                        <li>If the migration fails, restore the backup and recreate with the previous version.</li>
+                    </ol>
+                </div>
+
                 <p>Before updating the Cashu mint version, we must make a backup of the Cashu database. Since it is an SQLite database, the process is simpler; we just need to make a copy of the <code>mint.sqlite3</code> file.</p>
 
                 <p>Move to the Cashu directory located in <code>app-data/cashu/</code></p>
@@ -244,10 +272,10 @@
 
                 <p>Which we already know does: download the new image, delete the old container, and recreate it with the new image.</p>
 
-                <h2>8.4 Rest of the Infrastructure Services</h2>
+                <h3>8.4 Rest of the Infrastructure Services</h3>
                 <p>You might ask why we didn't cover the rest of the services. The reason is that all of them (Tor, Lightning Terminal, Nginx Proxy Manager, Redis, Postgres, and Orchard) are infrastructure support: they add functionalities or allow managing other services. The procedure is always the same: edit <code>docker-compose.yml</code> and change the version.</p>
 
-                <h2>8.5 Troubleshooting</h2>
+                <h3>8.5 Troubleshooting</h3>
                 <p>Items will be added as the community reports them.</p>
 
                 <div class="tutorial-nav">
