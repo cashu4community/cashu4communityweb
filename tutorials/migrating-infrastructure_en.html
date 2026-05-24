@@ -62,18 +62,21 @@
             </div>
         </section>
 
-        <section class="tutorial-content">
+        <section class="tutorial-content" data-copy-enabled>
             <div class="container">
 
-                <p>You may need to move the infrastructure to another service provider at some point, or simply the contracted VPS is about to expire and it is preferable to acquire a new one. When the time comes, the migration process is very easy.</p>
+                <h2>9. Migrating the Infrastructure to Another VPS</h2>
+                <p>In this chapter we describe the process to migrate the complete infrastructure to a new VPS. The process is simple: we stop the services, compress the data directory, copy it to the new server, and bring it back up.</p>
 
-                <h2>1. Stop the Infrastructure</h2>
+                <p>You may need to move the infrastructure to another service provider at some point, or simply the contracted VPS is about to expire and it is preferable to acquire a new one.</p>
+
+                <h3>9.1 Stopping the Infrastructure</h3>
                 <p>We should always warn in advance when performing tasks of this type to avoid users being left mid-operation.</p>
 <pre><code>cd cashu4cs-deploy/
 docker-compose stop</code></pre>
                 <p>At this point, the infrastructure is stopped and no one will be able to use the services.</p>
 
-                <h2>2. Backup cashu4cs-deploy Directory</h2>
+                <h3>9.2 Backing Up the cashu4cs-deploy Directory</h3>
                 <p>We will use the <code>tar zcvf</code> command to perform a compressed backup.</p>
 <pre><code>tar zcvf cashu4cs-deploy.tar.gz cashu4cs-deploy/
 cashu4cs-deploy/
@@ -113,7 +116,7 @@ cashu4cs-deploy cashu4cs-deploy.tar.gz</code></pre>
                     <strong>Important:</strong> You cannot forget that the destination VPS must have the necessary requirements for the infrastructure as seen in the first steps.
                 </div>
 
-                <h2>3. Copy and Extract cashu4cs-deploy.tar.gz on the New VPS</h2>
+                <h3>9.3 Copying and Extracting cashu4cs-deploy.tar.gz on the New VPS</h3>
                 <p>Execute the following command:</p>
 <pre><code>scp cashu4cs-deploy.tar.gz root@&lt;new vps ip&gt;:/root/</code></pre>
 
@@ -132,7 +135,7 @@ cd cashu4cs-deploy/</code></pre>
 
                 <p>In the example, the obtained IP is <code>12.45.128.56</code>; this is the one we must update in the <code>externalip</code> parameter and in the DNS records. Now we can proceed to the next step.</p>
 
-                <h2>4. Start the Infrastructure</h2>
+                <h3>9.4 Starting the Infrastructure</h3>
                 <p>Execute the following:</p>
 <pre><code>docker-compose up -d</code></pre>
 
@@ -154,9 +157,9 @@ e20eecdc0df8   redis:8.4.0                                        "docker-entryp
                         <span class="nav-label" data-lang-es="Anterior" data-lang-en="Previous">Previous</span>
                         <span class="nav-title" data-lang-es="← Service Updates" data-lang-en="← Service Updates">← Service Updates</span>
                     </a>
-                    <a href="../tutorials_en.html" class="nav-next">
-                        <span class="nav-label" data-lang-es="Índice" data-lang-en="Index">Index</span>
-                        <span class="nav-title" data-lang-es="Tutorials →" data-lang-en="Tutorials →">Tutorials →</span>
+                    <a href="conclusion_en.html" class="nav-next">
+                        <span class="nav-label" data-lang-es="Siguiente" data-lang-en="Next">Next</span>
+                        <span class="nav-title">Conclusion →</span>
                     </a>
                 </div>
             </div>
